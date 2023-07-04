@@ -5,17 +5,17 @@ date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 documentclass: book
 # bibliography: [book.bib, packages.bib]
-# url: your book url like https://bookdown.org/yihui/bookdown
+url: https://datahurdler.github.io/Econ-ML-Book/
 # cover-image: path to the social sharing image like images/cover.jpg
 # description: |
 #   This is a minimal example of using the bookdown package to write a book.
 #   The HTML output format for this example is bookdown::gitbook,
 #   set in the _output.yml file.
 # link-citations: yes
-# github-repo: rstudio/bookdown-demo
+github-repo: DataHurdler/Econ-ML
 ---
 
-# Introduction {-}
+# Preface {-}
 
 The primary purpose of these articles, which I started to write in May 2023, is to review, summarize, and organize what I have learned in Machine Learning as a PhD economist. I have taken several Machine Learning related courses on Coursera and Udemy. In 2022, I also worked, briefly, as a data scientist in an AdTech start-up.
 
