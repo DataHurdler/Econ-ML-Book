@@ -1,0 +1,14 @@
+h1:randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms Randomized Controlled Trial, A/B/N Testing, and Multi-Armed Bandit Algorithms
+h2:introduction Introduction
+h2:the-explore-exploit-tradeoff The Explore-Exploit Tradeoff
+h2:epsilon-greedy Epsilon Greedy
+h2:optimistic-initial-values Optimistic Initial Values
+h2:upper-confidence-bound-ucb Upper Confidence Bound (UCB)
+h2:gradient-bandit-algorithm Gradient Bandit Algorithm
+h2:thompson-sampling-bayesian-bandits Thompson Sampling (Bayesian Bandits)
+h2:conjugate-prior Conjugate Prior
+h2:thompson-sampling-code Thompson Sampling: Code
+h2:comparing-the-algorithms Comparing the Algorithms
+h2:summary-and-extensions Summary and Extensions
+h2:references References
+

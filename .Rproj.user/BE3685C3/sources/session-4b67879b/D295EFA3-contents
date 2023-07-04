@@ -1,0 +1,26 @@
+--- 
+title: "Machine Learning for Economics and Business"
+author: "Zijun Luo"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+documentclass: book
+# bibliography: [book.bib, packages.bib]
+# url: your book url like https://bookdown.org/yihui/bookdown
+# cover-image: path to the social sharing image like images/cover.jpg
+# description: |
+#   This is a minimal example of using the bookdown package to write a book.
+#   The HTML output format for this example is bookdown::gitbook,
+#   set in the _output.yml file.
+# link-citations: yes
+# github-repo: rstudio/bookdown-demo
+---
+
+# Introduction
+
+The primary purpose of these articles, which I started to write in May 2023, is to review, summarize, and organize what I have learned in Machine Learning as a PhD economist. I have taken several Machine Learning related courses on Coursera and Udemy. In 2022, I also worked, briefly, as a data scientist in an AdTech start-up.
+
+In my mind, I pretend that these articles are written for those who have some quantitative training but is interested in what Machine Learning can offer, particularly graduate students who have taken at least one econometrics course. My emphases are those algorithms that can provide an alternative, sometimes more useful and rigorous, approach to known problems in economics, business, and social sciences. I also provide Python scripts that I have written to implement these algorithms.
+
+Please email me if you see any errors.
+
+<!-- If you need PDF output, uncomment bookdown::pdf_book above in YAML. You will need a LaTeX installation, e.g., https://yihui.name/tinytex/ -->
