@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 3 Time Series, Forecasting, and Deep Learning Algorithms | Machine Learning for Economics and Business</title>
+  <meta name="description" content="Chapter 3 Time Series, Forecasting, and Deep Learning Algorithms | Machine Learning for Economics and Business" />
+  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 3 Time Series, Forecasting, and Deep Learning Algorithms | Machine Learning for Economics and Business" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 3 Time Series, Forecasting, and Deep Learning Algorithms | Machine Learning for Economics and Business" />
+  
+  
+  
+
+<meta name="author" content="Zijun Luo" />
+
+
+<meta name="date" content="2023-07-03" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html"/>
+<link rel="next" href="regression-reconsidered.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Machine Learning for Economics and Business</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction</a></li>
+<li class="chapter" data-level="1" data-path="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html"><i class="fa fa-check"></i><b>1</b> Randomized Controlled Trial, A/B/N Testing, and Multi-Armed Bandit Algorithms</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#introduction-1"><i class="fa fa-check"></i><b>1.1</b> Introduction</a></li>
+<li class="chapter" data-level="1.2" data-path="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#the-explore-exploit-tradeoff"><i class="fa fa-check"></i><b>1.2</b> The Explore-Exploit Tradeoff</a></li>
+<li class="chapter" data-level="1.3" data-path="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#epsilon-greedy"><i class="fa fa-check"></i><b>1.3</b> Epsilon Greedy</a></li>
+<li class="chapter" data-level="1.4" data-path="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#optimistic-initial-values"><i class="fa fa-check"></i><b>1.4</b> Optimistic Initial Values</a></li>
+<li class="chapter" data-level="1.5" data-path="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#upper-confidence-bound-ucb"><i class="fa fa-check"></i><b>1.5</b> Upper Confidence Bound (UCB)</a></li>
+<li class="chapter" data-level="1.6" data-path="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#gradient-bandit-algorithm"><i class="fa fa-check"></i><b>1.6</b> Gradient Bandit Algorithm</a></li>
+<li class="chapter" data-level="1.7" data-path="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#thompson-sampling-bayesian-bandits"><i class="fa fa-check"></i><b>1.7</b> Thompson Sampling (Bayesian Bandits)</a></li>
+<li class="chapter" data-level="1.8" data-path="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#conjugate-prior"><i class="fa fa-check"></i><b>1.8</b> Conjugate Prior</a></li>
+<li class="chapter" data-level="1.9" data-path="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#thompson-sampling-code"><i class="fa fa-check"></i><b>1.9</b> Thompson Sampling: Code</a></li>
+<li class="chapter" data-level="1.10" data-path="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#comparing-the-algorithms"><i class="fa fa-check"></i><b>1.10</b> Comparing the Algorithms</a></li>
+<li class="chapter" data-level="1.11" data-path="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#summary-and-extensions"><i class="fa fa-check"></i><b>1.11</b> Summary and Extensions</a></li>
+<li class="chapter" data-level="1.12" data-path="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#references"><i class="fa fa-check"></i><b>1.12</b> References</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="discrete-choice-classification-and-tree-based-ensemble-algorithms.html"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html"><i class="fa fa-check"></i><b>2</b> Discrete Choice, Classification, and Tree-Based Ensemble Algorithms</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="discrete-choice-classification-and-tree-based-ensemble-algorithms.html"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#introduction-2"><i class="fa fa-check"></i><b>2.1</b> Introduction</a></li>
+<li class="chapter" data-level="2.2" data-path="discrete-choice-classification-and-tree-based-ensemble-algorithms.html"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#the-bias-variance-tradeoff"><i class="fa fa-check"></i><b>2.2</b> The Bias-Variance Tradeoff</a></li>
+<li class="chapter" data-level="2.3" data-path="discrete-choice-classification-and-tree-based-ensemble-algorithms.html"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#decision-tree"><i class="fa fa-check"></i><b>2.3</b> Decision Tree</a></li>
+<li class="chapter" data-level="2.4" data-path="discrete-choice-classification-and-tree-based-ensemble-algorithms.html"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#split-criterion"><i class="fa fa-check"></i><b>2.4</b> Split Criterion</a></li>
+<li class="chapter" data-level="2.5" data-path="discrete-choice-classification-and-tree-based-ensemble-algorithms.html"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#pruning"><i class="fa fa-check"></i><b>2.5</b> Pruning</a></li>
+<li class="chapter" data-level="2.6" data-path="discrete-choice-classification-and-tree-based-ensemble-algorithms.html"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#bagging-and-random-forest"><i class="fa fa-check"></i><b>2.6</b> Bagging and Random Forest</a></li>
+<li class="chapter" data-level="2.7" data-path="discrete-choice-classification-and-tree-based-ensemble-algorithms.html"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#boosting-and-adaboost"><i class="fa fa-check"></i><b>2.7</b> Boosting and AdaBoost</a></li>
+<li class="chapter" data-level="2.8" data-path="discrete-choice-classification-and-tree-based-ensemble-algorithms.html"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#gradient-boosting-and-xgboost"><i class="fa fa-check"></i><b>2.8</b> Gradient Boosting and XGBoost</a></li>
+<li class="chapter" data-level="2.9" data-path="discrete-choice-classification-and-tree-based-ensemble-algorithms.html"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#python-implementation-with-scikit-learn"><i class="fa fa-check"></i><b>2.9</b> Python Implementation with scikit-learn</a></li>
+<li class="chapter" data-level="2.10" data-path="discrete-choice-classification-and-tree-based-ensemble-algorithms.html"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#confusion-matrix-and-other-performance-metrics"><i class="fa fa-check"></i><b>2.10</b> Confusion Matrix and other Performance Metrics</a></li>
+<li class="chapter" data-level="2.11" data-path="discrete-choice-classification-and-tree-based-ensemble-algorithms.html"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#comparison-the-algorithms"><i class="fa fa-check"></i><b>2.11</b> Comparison the Algorithms</a></li>
+<li class="chapter" data-level="2.12" data-path="discrete-choice-classification-and-tree-based-ensemble-algorithms.html"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#summary"><i class="fa fa-check"></i><b>2.12</b> Summary</a></li>
+<li class="chapter" data-level="2.13" data-path="discrete-choice-classification-and-tree-based-ensemble-algorithms.html"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#references-1"><i class="fa fa-check"></i><b>2.13</b> References</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="time-series-forecasting-and-deep-learning-algorithms.html"><a href="time-series-forecasting-and-deep-learning-algorithms.html"><i class="fa fa-check"></i><b>3</b> Time Series, Forecasting, and Deep Learning Algorithms</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="time-series-forecasting-and-deep-learning-algorithms.html"><a href="time-series-forecasting-and-deep-learning-algorithms.html#introduction-3"><i class="fa fa-check"></i><b>3.1</b> Introduction</a></li>
+<li class="chapter" data-level="3.2" data-path="time-series-forecasting-and-deep-learning-algorithms.html"><a href="time-series-forecasting-and-deep-learning-algorithms.html#time-series-implementation-in-statsmodels"><i class="fa fa-check"></i><b>3.2</b> Time Series Implementation in <code>statsmodels</code></a></li>
+<li class="chapter" data-level="3.3" data-path="time-series-forecasting-and-deep-learning-algorithms.html"><a href="time-series-forecasting-and-deep-learning-algorithms.html#artificial-neural-network-ann"><i class="fa fa-check"></i><b>3.3</b> Artificial Neural Network (ANN)</a></li>
+<li class="chapter" data-level="3.4" data-path="time-series-forecasting-and-deep-learning-algorithms.html"><a href="time-series-forecasting-and-deep-learning-algorithms.html#ann-in-tensorflowkeras"><i class="fa fa-check"></i><b>3.4</b> ANN in TensorFlow/Keras</a></li>
+<li class="chapter" data-level="3.5" data-path="time-series-forecasting-and-deep-learning-algorithms.html"><a href="time-series-forecasting-and-deep-learning-algorithms.html#recurrent-neural-network-rnn"><i class="fa fa-check"></i><b>3.5</b> Recurrent Neural Network (RNN)</a></li>
+<li class="chapter" data-level="3.6" data-path="time-series-forecasting-and-deep-learning-algorithms.html"><a href="time-series-forecasting-and-deep-learning-algorithms.html#rnn-in-tensorflowkeras"><i class="fa fa-check"></i><b>3.6</b> RNN in TensorFlow/Keras</a></li>
+<li class="chapter" data-level="3.7" data-path="time-series-forecasting-and-deep-learning-algorithms.html"><a href="time-series-forecasting-and-deep-learning-algorithms.html#convolutional-neural-network-cnn"><i class="fa fa-check"></i><b>3.7</b> Convolutional Neural Network (CNN)</a></li>
+<li class="chapter" data-level="3.8" data-path="time-series-forecasting-and-deep-learning-algorithms.html"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cnn-in-tensorflowkeras"><i class="fa fa-check"></i><b>3.8</b> CNN in TensorFlow/Keras</a></li>
+<li class="chapter" data-level="3.9" data-path="time-series-forecasting-and-deep-learning-algorithms.html"><a href="time-series-forecasting-and-deep-learning-algorithms.html#facebook-prophet"><i class="fa fa-check"></i><b>3.9</b> Facebook Prophet</a></li>
+<li class="chapter" data-level="3.10" data-path="time-series-forecasting-and-deep-learning-algorithms.html"><a href="time-series-forecasting-and-deep-learning-algorithms.html#summary-1"><i class="fa fa-check"></i><b>3.10</b> Summary</a></li>
+<li class="chapter" data-level="3.11" data-path="time-series-forecasting-and-deep-learning-algorithms.html"><a href="time-series-forecasting-and-deep-learning-algorithms.html#references-2"><i class="fa fa-check"></i><b>3.11</b> References</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="regression-reconsidered.html"><a href="regression-reconsidered.html"><i class="fa fa-check"></i><b>4</b> Regression Reconsidered</a></li>
+<li class="chapter" data-level="5" data-path="causal-inference-reconsidered.html"><a href="causal-inference-reconsidered.html"><i class="fa fa-check"></i><b>5</b> Causal Inference Reconsidered</a></li>
+<li class="chapter" data-level="6" data-path="more-than-meets-the-eye.html"><a href="more-than-meets-the-eye.html"><i class="fa fa-check"></i><b>6</b> More than Meets the Eye</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Machine Learning for Economics and Business</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="time-series-forecasting-and-deep-learning-algorithms" class="section level1 hasAnchor" number="3">
+<h1><span class="header-section-number">Chapter 3</span> Time Series, Forecasting, and Deep Learning Algorithms<a href="time-series-forecasting-and-deep-learning-algorithms.html#time-series-forecasting-and-deep-learning-algorithms" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="introduction-3" class="section level2 hasAnchor" number="3.1">
+<h2><span class="header-section-number">3.1</span> Introduction<a href="time-series-forecasting-and-deep-learning-algorithms.html#introduction-3" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>This chapter is structurally different from other chapters. In the next section, we will first look at Python implementations. We will implement time-series/forecasting models that are not based on machine learning algorithms. This mainly uses the Python library <code>statsmodels</code>. The section serves both as a review of forecasting concepts and an introduction to the <code>statsmodels</code> library, another widely used Python library for statistical/data analysis.</p>
+<p>The main emphasis of this chapter, however, is the use of <code>deep learning</code> models for forecasting tasks. We will introduce three neural network models: <code>Artificial Neural Networks</code> (ANN), <code>Reccurent Neural Networks</code> (RNN), and <code>Convolutional Neural Networks</code> (CNN). We will implement these methods in Python using <code>TensorFlow</code>. The chapter ends with the introduction to <code>Facebook</code>’s <code>Prophet</code> library, which is a widely-used library for forecasting in the industry.</p>
+<p><strong>Forecasting</strong> should need no further introduction. At its simplest form, you have a time series data set, which contains values of a single object/individual overtime, and you try to predict the “next” value into the future. In more complicated cases, you can have covariates/features, as long as these features are observable at the moment of forecasting and do not result in <strong>information leakage</strong>”**. For example, if you are doing weather forecast and your goal is to forecast whether it is going to rain tomorrow, then a time-series dataset would contain only information of whether it has rained or not in the past many days, whereas additional features such as temperature, dew point, and precipitation may be included. These additional weather variables should be from the day before your forecast, not the day of your forecast when you are training your model. A classic example of information leakage happens when forecasting with moving average (MA) values. For example, if you are doing a 3-day MA, then the value of today requires the use of the value from tomorrow, which is only possible in historic data but not with real data.</p>
+</div>
+<div id="time-series-implementation-in-statsmodels" class="section level2 hasAnchor" number="3.2">
+<h2><span class="header-section-number">3.2</span> Time Series Implementation in <code>statsmodels</code><a href="time-series-forecasting-and-deep-learning-algorithms.html#time-series-implementation-in-statsmodels" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In this section, we will implement three forecasting models: <code>Exponential Smoothing (ETS)</code>, <code>Vector Autoregression (VAR)</code>, and <code>Autoregressive Integrated Moving Average (ARIMA)</code>. ETS and ARIMA are run with a single time series, whereas VAR uses several. The data set we will use is U.S. stock exchange (close) prices from the Python library <code>yfinance</code>. For ETS, we will also implement a walk-forward validation, which is the correct form of validation for time series data, analogue to cross validation seen in the last chapters. To show the powerfulness of Auto Machine Learning, we will implement auto ARIMA from the Python library <code>pmdarima</code>. Here is the full Python script:</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb44-1"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> yfinance <span class="im">as</span> yf</span>
+<span id="cb44-2"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb44-3"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb44-4"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb44-5"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> itertools</span>
+<span id="cb44-6"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-7"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.graphics.tsaplots <span class="im">import</span> plot_acf, plot_pacf</span>
+<span id="cb44-8"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.tsa.holtwinters <span class="im">import</span> ExponentialSmoothing</span>
+<span id="cb44-9"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.tsa.api <span class="im">import</span> VAR</span>
+<span id="cb44-10"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-10" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pmdarima <span class="im">as</span> pm</span>
+<span id="cb44-11"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-12"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-12" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> mean_squared_error, r2_score</span>
+<span id="cb44-13"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-13" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
+<span id="cb44-14"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-15"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-15" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
+<span id="cb44-16"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-16" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">&quot;ignore&quot;</span>)  <span class="co"># ignore warnings</span></span>
+<span id="cb44-17"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-18"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-19"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-19" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> prepare_data(df):</span>
+<span id="cb44-20"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-20" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb44-21"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-21" aria-hidden="true" tabindex="-1"></a><span class="co">    Split the data into training and testing sets.</span></span>
+<span id="cb44-22"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-23"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-23" aria-hidden="true" tabindex="-1"></a><span class="co">    Args:</span></span>
+<span id="cb44-24"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-24" aria-hidden="true" tabindex="-1"></a><span class="co">        df (pandas.DataFrame): The input dataframe.</span></span>
+<span id="cb44-25"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-26"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-26" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
+<span id="cb44-27"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-27" aria-hidden="true" tabindex="-1"></a><span class="co">        tuple: A tuple containing the train set, test set, train index, and test index.</span></span>
+<span id="cb44-28"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-28" aria-hidden="true" tabindex="-1"></a><span class="co">    &quot;&quot;&quot;</span></span>
+<span id="cb44-29"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-29" aria-hidden="true" tabindex="-1"></a>    train <span class="op">=</span> df.iloc[:<span class="op">-</span>N_TEST]</span>
+<span id="cb44-30"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-30" aria-hidden="true" tabindex="-1"></a>    test <span class="op">=</span> df.iloc[<span class="op">-</span>N_TEST:]</span>
+<span id="cb44-31"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-31" aria-hidden="true" tabindex="-1"></a>    train_idx <span class="op">=</span> df.index <span class="op">&lt;=</span> train.index[<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb44-32"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-32" aria-hidden="true" tabindex="-1"></a>    test_idx <span class="op">=</span> df.index <span class="op">&gt;</span> train.index[<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb44-33"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-34"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> train, test, train_idx, test_idx</span>
+<span id="cb44-35"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-36"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-37"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-37" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_fitted_forecast(df, col<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb44-38"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-38" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb44-39"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-39" aria-hidden="true" tabindex="-1"></a><span class="co">    Plot the fitted and forecasted values of a time series.</span></span>
+<span id="cb44-40"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-41"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-41" aria-hidden="true" tabindex="-1"></a><span class="co">    Args:</span></span>
+<span id="cb44-42"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-42" aria-hidden="true" tabindex="-1"></a><span class="co">        df (pandas.DataFrame): The input dataframe.</span></span>
+<span id="cb44-43"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-43" aria-hidden="true" tabindex="-1"></a><span class="co">        col (str): The column name to plot. Default is None.</span></span>
+<span id="cb44-44"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-44" aria-hidden="true" tabindex="-1"></a><span class="co">    &quot;&quot;&quot;</span></span>
+<span id="cb44-45"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-45" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> df[<span class="op">-</span><span class="dv">108</span>:]  <span class="co"># only plot the last 108 days</span></span>
+<span id="cb44-46"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-47"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-47" aria-hidden="true" tabindex="-1"></a>    fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="dv">5</span>))</span>
+<span id="cb44-48"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-48" aria-hidden="true" tabindex="-1"></a>    ax.plot(df.index, df[<span class="ss">f&quot;</span><span class="sc">{</span>col<span class="sc">}</span><span class="ss">&quot;</span>], label<span class="op">=</span><span class="st">&#39;data&#39;</span>)</span>
+<span id="cb44-49"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-49" aria-hidden="true" tabindex="-1"></a>    ax.plot(df.index, df[<span class="st">&#39;fitted&#39;</span>], label<span class="op">=</span><span class="st">&#39;fitted&#39;</span>)</span>
+<span id="cb44-50"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-50" aria-hidden="true" tabindex="-1"></a>    ax.plot(df.index, df[<span class="st">&#39;forecast&#39;</span>], label<span class="op">=</span><span class="st">&#39;forecast&#39;</span>)</span>
+<span id="cb44-51"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-52"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-52" aria-hidden="true" tabindex="-1"></a>    plt.legend()</span>
+<span id="cb44-53"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-53" aria-hidden="true" tabindex="-1"></a>    plt.show()</span>
+<span id="cb44-54"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-55"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-56"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-56" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> StocksForecast:</span>
+<span id="cb44-57"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-57" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, stock_name_list<span class="op">=</span>(<span class="st">&#39;UAL&#39;</span>, <span class="st">&#39;WMT&#39;</span>, <span class="st">&#39;PFE&#39;</span>), start_date<span class="op">=</span><span class="st">&#39;2018-01-01&#39;</span>, end_date<span class="op">=</span><span class="st">&#39;2022-12-31&#39;</span>):</span>
+<span id="cb44-58"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-58" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb44-59"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-59" aria-hidden="true" tabindex="-1"></a><span class="co">        Initialize the StocksForecast class.</span></span>
+<span id="cb44-60"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-61"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-61" aria-hidden="true" tabindex="-1"></a><span class="co">        Args:</span></span>
+<span id="cb44-62"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-62" aria-hidden="true" tabindex="-1"></a><span class="co">            stock_name_list (list[str]): List of stock names. Default is (&#39;UAL&#39;, &#39;WMT&#39;, &#39;PFE&#39;).</span></span>
+<span id="cb44-63"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-63" aria-hidden="true" tabindex="-1"></a><span class="co">            start_date (str): Start date of the data. Default is &#39;2018-01-01&#39;.</span></span>
+<span id="cb44-64"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-64" aria-hidden="true" tabindex="-1"></a><span class="co">            end_date (str): End date of the data. Default is &#39;2022-12-31&#39;.</span></span>
+<span id="cb44-65"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-65" aria-hidden="true" tabindex="-1"></a><span class="co">        &quot;&quot;&quot;</span></span>
+<span id="cb44-66"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-66" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.dfs <span class="op">=</span> <span class="bu">dict</span>()</span>
+<span id="cb44-67"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-67" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> name <span class="kw">in</span> stock_name_list:</span>
+<span id="cb44-68"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-68" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.dfs[name] <span class="op">=</span> yf.download(name, start<span class="op">=</span>start_date, end<span class="op">=</span>end_date)</span>
+<span id="cb44-69"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-69" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.dfs[name][<span class="st">&#39;Diff&#39;</span>] <span class="op">=</span> <span class="va">self</span>.dfs[name][<span class="st">&#39;Close&#39;</span>].diff(<span class="dv">1</span>)</span>
+<span id="cb44-70"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-70" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.dfs[name][<span class="st">&#39;Log&#39;</span>] <span class="op">=</span> np.log(<span class="va">self</span>.dfs[name][<span class="st">&#39;Close&#39;</span>])</span>
+<span id="cb44-71"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-72"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-72" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> run_ets(<span class="va">self</span>, stock_name<span class="op">=</span><span class="st">&#39;UAL&#39;</span>, col<span class="op">=</span><span class="st">&#39;Close&#39;</span>):</span>
+<span id="cb44-73"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-73" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb44-74"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-74" aria-hidden="true" tabindex="-1"></a><span class="co">        Run the Exponential Smoothing (ETS) model on the specified stock.</span></span>
+<span id="cb44-75"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-76"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-76" aria-hidden="true" tabindex="-1"></a><span class="co">        Args:</span></span>
+<span id="cb44-77"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-77" aria-hidden="true" tabindex="-1"></a><span class="co">            stock_name (str): The name of the stock. Default is &#39;UAL&#39;.</span></span>
+<span id="cb44-78"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-78" aria-hidden="true" tabindex="-1"></a><span class="co">            col (str): The column name to use for the model. Default is &#39;Close&#39;.</span></span>
+<span id="cb44-79"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-79" aria-hidden="true" tabindex="-1"></a><span class="co">        &quot;&quot;&quot;</span></span>
+<span id="cb44-80"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-80" aria-hidden="true" tabindex="-1"></a>        df_all <span class="op">=</span> <span class="va">self</span>.dfs[stock_name]</span>
+<span id="cb44-81"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-81" aria-hidden="true" tabindex="-1"></a>        train, test, train_idx, test_idx <span class="op">=</span> prepare_data(df_all)</span>
+<span id="cb44-82"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-83"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-83" aria-hidden="true" tabindex="-1"></a>        model <span class="op">=</span> ExponentialSmoothing(train[col].dropna(), trend<span class="op">=</span><span class="st">&#39;mul&#39;</span>, seasonal<span class="op">=</span><span class="st">&#39;mul&#39;</span>, seasonal_periods<span class="op">=</span><span class="dv">252</span>)</span>
+<span id="cb44-84"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-84" aria-hidden="true" tabindex="-1"></a>        result <span class="op">=</span> model.fit()</span>
+<span id="cb44-85"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-86"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-86" aria-hidden="true" tabindex="-1"></a>        df_all.loc[train_idx, <span class="st">&#39;fitted&#39;</span>] <span class="op">=</span> result.fittedvalues</span>
+<span id="cb44-87"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-87" aria-hidden="true" tabindex="-1"></a>        df_all.loc[test_idx, <span class="st">&#39;forecast&#39;</span>] <span class="op">=</span> np.array(result.forecast(N_TEST))</span>
+<span id="cb44-88"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-89"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-89" aria-hidden="true" tabindex="-1"></a>        plot_fitted_forecast(df_all, col)</span>
+<span id="cb44-90"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-91"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-91" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> walkforward_ets(<span class="va">self</span>, h, steps, tuple_of_option_lists, stock_name<span class="op">=</span><span class="st">&#39;UAL&#39;</span>, col<span class="op">=</span><span class="st">&#39;Close&#39;</span>, debug<span class="op">=</span><span class="va">False</span>):</span>
+<span id="cb44-92"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-92" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb44-93"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-93" aria-hidden="true" tabindex="-1"></a><span class="co">        Perform walk-forward validation on the specified stock. Only supports ExponentialSmoothing</span></span>
+<span id="cb44-94"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-95"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-95" aria-hidden="true" tabindex="-1"></a><span class="co">        Args:</span></span>
+<span id="cb44-96"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-96" aria-hidden="true" tabindex="-1"></a><span class="co">            h (int): The forecast horizon.</span></span>
+<span id="cb44-97"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-97" aria-hidden="true" tabindex="-1"></a><span class="co">            steps (int): The number of steps to walk forward.</span></span>
+<span id="cb44-98"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-98" aria-hidden="true" tabindex="-1"></a><span class="co">            tuple_of_option_lists (tuple): Tuple of option lists for trend and seasonal types.</span></span>
+<span id="cb44-99"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-99" aria-hidden="true" tabindex="-1"></a><span class="co">            stock_name (str): The name of the stock. Default is &#39;UAL&#39;.</span></span>
+<span id="cb44-100"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-100" aria-hidden="true" tabindex="-1"></a><span class="co">            col (str): The column name to use for the model. Default is &#39;Close&#39;.</span></span>
+<span id="cb44-101"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-101" aria-hidden="true" tabindex="-1"></a><span class="co">            debug (bool): Whether to print debug information. Default is False.</span></span>
+<span id="cb44-102"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-103"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-103" aria-hidden="true" tabindex="-1"></a><span class="co">        Returns:</span></span>
+<span id="cb44-104"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-104" aria-hidden="true" tabindex="-1"></a><span class="co">            float: The mean of squared errors.</span></span>
+<span id="cb44-105"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-105" aria-hidden="true" tabindex="-1"></a><span class="co">        &quot;&quot;&quot;</span></span>
+<span id="cb44-106"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-106" aria-hidden="true" tabindex="-1"></a>        errors <span class="op">=</span> []</span>
+<span id="cb44-107"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-107" aria-hidden="true" tabindex="-1"></a>        seen_last <span class="op">=</span> <span class="va">False</span></span>
+<span id="cb44-108"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-108" aria-hidden="true" tabindex="-1"></a>        steps_completed <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb44-109"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-109" aria-hidden="true" tabindex="-1"></a>        df <span class="op">=</span> <span class="va">self</span>.dfs[stock_name]</span>
+<span id="cb44-110"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-110" aria-hidden="true" tabindex="-1"></a>        Ntest <span class="op">=</span> <span class="bu">len</span>(df) <span class="op">-</span> h <span class="op">-</span> steps <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb44-111"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-112"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-112" aria-hidden="true" tabindex="-1"></a>        trend_type, seasonal_type <span class="op">=</span> tuple_of_option_lists</span>
+<span id="cb44-113"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-114"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-114" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> end_of_train <span class="kw">in</span> <span class="bu">range</span>(Ntest, <span class="bu">len</span>(df) <span class="op">-</span> h <span class="op">+</span> <span class="dv">1</span>):</span>
+<span id="cb44-115"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-115" aria-hidden="true" tabindex="-1"></a>            train <span class="op">=</span> df.iloc[:end_of_train]</span>
+<span id="cb44-116"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-116" aria-hidden="true" tabindex="-1"></a>            test <span class="op">=</span> df.iloc[end_of_train:end_of_train <span class="op">+</span> h]</span>
+<span id="cb44-117"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-118"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-118" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> test.index[<span class="op">-</span><span class="dv">1</span>] <span class="op">==</span> df.index[<span class="op">-</span><span class="dv">1</span>]:</span>
+<span id="cb44-119"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-119" aria-hidden="true" tabindex="-1"></a>                seen_last <span class="op">=</span> <span class="va">True</span></span>
+<span id="cb44-120"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-120" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-121"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-121" aria-hidden="true" tabindex="-1"></a>            steps_completed <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb44-122"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-123"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-123" aria-hidden="true" tabindex="-1"></a>            hw <span class="op">=</span> ExponentialSmoothing(train[col], trend<span class="op">=</span>trend_type, seasonal<span class="op">=</span>seasonal_type, seasonal_periods<span class="op">=</span><span class="dv">40</span>)</span>
+<span id="cb44-124"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-125"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-125" aria-hidden="true" tabindex="-1"></a>            result_hw <span class="op">=</span> hw.fit()</span>
+<span id="cb44-126"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-127"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-127" aria-hidden="true" tabindex="-1"></a>            forecast <span class="op">=</span> result_hw.forecast(h)</span>
+<span id="cb44-128"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-128" aria-hidden="true" tabindex="-1"></a>            error <span class="op">=</span> mean_squared_error(test[col], np.array(forecast))</span>
+<span id="cb44-129"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-129" aria-hidden="true" tabindex="-1"></a>            errors.append(error)</span>
+<span id="cb44-130"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-131"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-131" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> debug:</span>
+<span id="cb44-132"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-132" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">&quot;seen_last:&quot;</span>, seen_last)</span>
+<span id="cb44-133"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-133" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">&quot;steps completed:&quot;</span>, steps_completed)</span>
+<span id="cb44-134"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-135"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-135" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> np.mean(errors)</span>
+<span id="cb44-136"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-137"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-137" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> run_walkforward(<span class="va">self</span>, h, steps, stock_name, col, options):</span>
+<span id="cb44-138"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-138" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb44-139"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-139" aria-hidden="true" tabindex="-1"></a><span class="co">            Perform walk-forward validation on the specified stock using Exponential Smoothing (ETS).</span></span>
+<span id="cb44-140"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-141"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-141" aria-hidden="true" tabindex="-1"></a><span class="co">            Args:</span></span>
+<span id="cb44-142"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-142" aria-hidden="true" tabindex="-1"></a><span class="co">                h (int): The forecast horizon.</span></span>
+<span id="cb44-143"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-143" aria-hidden="true" tabindex="-1"></a><span class="co">                steps (int): The number of steps to walk forward.</span></span>
+<span id="cb44-144"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-144" aria-hidden="true" tabindex="-1"></a><span class="co">                stock_name (str): The name of the stock.</span></span>
+<span id="cb44-145"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-145" aria-hidden="true" tabindex="-1"></a><span class="co">                col (str): The column name to use for the model.</span></span>
+<span id="cb44-146"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-146" aria-hidden="true" tabindex="-1"></a><span class="co">                options (tuple): Tuple of option lists for trend and seasonal types.</span></span>
+<span id="cb44-147"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-148"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-148" aria-hidden="true" tabindex="-1"></a><span class="co">            Returns:</span></span>
+<span id="cb44-149"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-149" aria-hidden="true" tabindex="-1"></a><span class="co">                float: The mean squared error (MSE) of the forecast.</span></span>
+<span id="cb44-150"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-150" aria-hidden="true" tabindex="-1"></a><span class="co">        &quot;&quot;&quot;</span></span>
+<span id="cb44-151"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-151" aria-hidden="true" tabindex="-1"></a>        best_score <span class="op">=</span> <span class="bu">float</span>(<span class="st">&#39;inf&#39;</span>)</span>
+<span id="cb44-152"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-152" aria-hidden="true" tabindex="-1"></a>        best_options <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb44-153"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-154"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-154" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> x <span class="kw">in</span> itertools.product(<span class="op">*</span>options):</span>
+<span id="cb44-155"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-155" aria-hidden="true" tabindex="-1"></a>            score <span class="op">=</span> <span class="va">self</span>.walkforward_ets(h<span class="op">=</span>h, steps<span class="op">=</span>steps, stock_name<span class="op">=</span>stock_name, col<span class="op">=</span>col, tuple_of_option_lists<span class="op">=</span>x)</span>
+<span id="cb44-156"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-157"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-157" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> score <span class="op">&lt;</span> best_score:</span>
+<span id="cb44-158"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-158" aria-hidden="true" tabindex="-1"></a>                <span class="bu">print</span>(<span class="st">&quot;Best score so far:&quot;</span>, score)</span>
+<span id="cb44-159"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-159" aria-hidden="true" tabindex="-1"></a>                best_score <span class="op">=</span> score</span>
+<span id="cb44-160"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-160" aria-hidden="true" tabindex="-1"></a>                best_options <span class="op">=</span> x</span>
+<span id="cb44-161"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-162"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-162" aria-hidden="true" tabindex="-1"></a>        trend_type, seasonal_type <span class="op">=</span> best_options</span>
+<span id="cb44-163"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-163" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f&quot;best trend type: </span><span class="sc">{</span>trend_type<span class="sc">}</span><span class="ss">&quot;</span>)</span>
+<span id="cb44-164"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-164" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f&quot;best seasonal type: </span><span class="sc">{</span>seasonal_type<span class="sc">}</span><span class="ss">&quot;</span>)</span>
+<span id="cb44-165"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-166"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-166" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> prepare_data_var(<span class="va">self</span>, stock_list, col):</span>
+<span id="cb44-167"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-167" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb44-168"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-168" aria-hidden="true" tabindex="-1"></a><span class="co">            Prepare the data for Vector Autoregression (VAR) modeling.</span></span>
+<span id="cb44-169"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-170"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-170" aria-hidden="true" tabindex="-1"></a><span class="co">            Args:</span></span>
+<span id="cb44-171"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-171" aria-hidden="true" tabindex="-1"></a><span class="co">                stock_list (list): List of stock names.</span></span>
+<span id="cb44-172"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-172" aria-hidden="true" tabindex="-1"></a><span class="co">                col (str): The column name to use for the model.</span></span>
+<span id="cb44-173"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-173" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-174"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-174" aria-hidden="true" tabindex="-1"></a><span class="co">            Returns:</span></span>
+<span id="cb44-175"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-175" aria-hidden="true" tabindex="-1"></a><span class="co">                tuple: A tuple containing the combined dataframe, train set, test set, train index,</span></span>
+<span id="cb44-176"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-176" aria-hidden="true" tabindex="-1"></a><span class="co">                       test index, stock columns, and scaled columns.</span></span>
+<span id="cb44-177"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-177" aria-hidden="true" tabindex="-1"></a><span class="co">        &quot;&quot;&quot;</span></span>
+<span id="cb44-178"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-178" aria-hidden="true" tabindex="-1"></a>        df_all <span class="op">=</span> pd.DataFrame(index<span class="op">=</span><span class="va">self</span>.dfs[stock_list[<span class="dv">0</span>]].index)</span>
+<span id="cb44-179"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-179" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> stock <span class="kw">in</span> stock_list:</span>
+<span id="cb44-180"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-180" aria-hidden="true" tabindex="-1"></a>            df_all <span class="op">=</span> df_all.join(<span class="va">self</span>.dfs[stock][col].dropna())</span>
+<span id="cb44-181"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-181" aria-hidden="true" tabindex="-1"></a>            df_all.rename(columns<span class="op">=</span>{col: <span class="ss">f&quot;</span><span class="sc">{</span>stock<span class="sc">}</span><span class="ss">_</span><span class="sc">{</span>col<span class="sc">}</span><span class="ss">&quot;</span>}, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb44-182"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-183"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-183" aria-hidden="true" tabindex="-1"></a>        train, test, train_idx, test_idx <span class="op">=</span> prepare_data(df_all)</span>
+<span id="cb44-184"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-185"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-185" aria-hidden="true" tabindex="-1"></a>        stock_cols <span class="op">=</span> df_all.columns.values</span>
+<span id="cb44-186"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-186" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-187"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-187" aria-hidden="true" tabindex="-1"></a>        <span class="co"># standardizing different stocks</span></span>
+<span id="cb44-188"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-188" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> value <span class="kw">in</span> stock_cols:</span>
+<span id="cb44-189"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-189" aria-hidden="true" tabindex="-1"></a>            scaler <span class="op">=</span> StandardScaler()</span>
+<span id="cb44-190"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-190" aria-hidden="true" tabindex="-1"></a>            train[<span class="ss">f&#39;Scaled_</span><span class="sc">{</span>value<span class="sc">}</span><span class="ss">&#39;</span>] <span class="op">=</span> scaler.fit_transform(train[[value]])</span>
+<span id="cb44-191"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-191" aria-hidden="true" tabindex="-1"></a>            test[<span class="ss">f&#39;Scaled_</span><span class="sc">{</span>value<span class="sc">}</span><span class="ss">&#39;</span>] <span class="op">=</span> scaler.transform(test[[value]])</span>
+<span id="cb44-192"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-192" aria-hidden="true" tabindex="-1"></a>            df_all.loc[train_idx, <span class="ss">f&#39;Scaled_</span><span class="sc">{</span>value<span class="sc">}</span><span class="ss">&#39;</span>] <span class="op">=</span> train[<span class="ss">f&#39;Scaled_</span><span class="sc">{</span>value<span class="sc">}</span><span class="ss">&#39;</span>]</span>
+<span id="cb44-193"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-193" aria-hidden="true" tabindex="-1"></a>            df_all.loc[test_idx, <span class="ss">f&#39;Scaled_</span><span class="sc">{</span>value<span class="sc">}</span><span class="ss">&#39;</span>] <span class="op">=</span> test[<span class="ss">f&#39;Scaled_</span><span class="sc">{</span>value<span class="sc">}</span><span class="ss">&#39;</span>]</span>
+<span id="cb44-194"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-194" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-195"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-195" aria-hidden="true" tabindex="-1"></a>        cols <span class="op">=</span> [<span class="st">&#39;Scaled_&#39;</span> <span class="op">+</span> value <span class="cf">for</span> value <span class="kw">in</span> stock_cols]</span>
+<span id="cb44-196"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-196" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-197"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-197" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> df_all, train, test, train_idx, test_idx, stock_cols, cols</span>
+<span id="cb44-198"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-198" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-199"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-199" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> run_var(<span class="va">self</span>, stock_list<span class="op">=</span>(<span class="st">&#39;UAL&#39;</span>, <span class="st">&#39;WMT&#39;</span>, <span class="st">&#39;PFE&#39;</span>), col<span class="op">=</span><span class="st">&#39;Close&#39;</span>):</span>
+<span id="cb44-200"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-200" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb44-201"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-201" aria-hidden="true" tabindex="-1"></a><span class="co">        Run the Vector Autoregression (VAR) model on the specified stocks.</span></span>
+<span id="cb44-202"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-202" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-203"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-203" aria-hidden="true" tabindex="-1"></a><span class="co">        Args:</span></span>
+<span id="cb44-204"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-204" aria-hidden="true" tabindex="-1"></a><span class="co">            stock_list (tuple): Tuple of stock names. Default is (&#39;UAL&#39;, &#39;WMT&#39;, &#39;PFE&#39;).</span></span>
+<span id="cb44-205"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-205" aria-hidden="true" tabindex="-1"></a><span class="co">            col (str): The column name to use for the model. Default is &#39;Close&#39;.</span></span>
+<span id="cb44-206"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-206" aria-hidden="true" tabindex="-1"></a><span class="co">        &quot;&quot;&quot;</span></span>
+<span id="cb44-207"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-207" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-208"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-208" aria-hidden="true" tabindex="-1"></a>        df_all, train, test, train_idx, test_idx, stock_cols, cols <span class="op">=</span> <span class="va">self</span>.prepare_data_var(stock_list, col)</span>
+<span id="cb44-209"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-210"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-210" aria-hidden="true" tabindex="-1"></a>        model <span class="op">=</span> VAR(train[cols])</span>
+<span id="cb44-211"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-211" aria-hidden="true" tabindex="-1"></a>        result <span class="op">=</span> model.fit(maxlags<span class="op">=</span><span class="dv">40</span>, method<span class="op">=</span><span class="st">&#39;mle&#39;</span>, ic<span class="op">=</span><span class="st">&#39;aic&#39;</span>)</span>
+<span id="cb44-212"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-212" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-213"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-213" aria-hidden="true" tabindex="-1"></a>        lag_order <span class="op">=</span> result.k_ar</span>
+<span id="cb44-214"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-214" aria-hidden="true" tabindex="-1"></a>        prior <span class="op">=</span> train.iloc[<span class="op">-</span>lag_order:][cols].to_numpy()</span>
+<span id="cb44-215"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-215" aria-hidden="true" tabindex="-1"></a>        forecast_df <span class="op">=</span> pd.DataFrame(result.forecast(prior, N_TEST), columns<span class="op">=</span>cols)</span>
+<span id="cb44-216"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-216" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-217"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-217" aria-hidden="true" tabindex="-1"></a>        df_all.loc[train_idx, <span class="st">&#39;fitted&#39;</span>] <span class="op">=</span> result.fittedvalues[cols[<span class="dv">0</span>]]</span>
+<span id="cb44-218"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-218" aria-hidden="true" tabindex="-1"></a>        df_all.loc[test_idx, <span class="st">&#39;forecast&#39;</span>] <span class="op">=</span> forecast_df[cols[<span class="dv">0</span>]].values</span>
+<span id="cb44-219"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-220"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-220" aria-hidden="true" tabindex="-1"></a>        col <span class="op">=</span> <span class="st">&quot;Scaled_&quot;</span> <span class="op">+</span> stock_cols[<span class="dv">0</span>]</span>
+<span id="cb44-221"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-221" aria-hidden="true" tabindex="-1"></a>        plot_fitted_forecast(df_all, col)</span>
+<span id="cb44-222"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-222" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-223"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-223" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Calculate R2</span></span>
+<span id="cb44-224"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-224" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">&quot;VAR Train R2: &quot;</span>, r2_score(df_all.loc[train_idx, cols[<span class="dv">0</span>]].iloc[lag_order:],</span>
+<span id="cb44-225"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-225" aria-hidden="true" tabindex="-1"></a>                                         df_all.loc[train_idx, <span class="st">&#39;fitted&#39;</span>].iloc[lag_order:]))</span>
+<span id="cb44-226"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-226" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">&quot;VAR Test R2: &quot;</span>, r2_score(df_all.loc[test_idx, cols[<span class="dv">0</span>]],</span>
+<span id="cb44-227"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-227" aria-hidden="true" tabindex="-1"></a>                                        df_all.loc[test_idx, <span class="st">&#39;forecast&#39;</span>]))</span>
+<span id="cb44-228"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-228" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-229"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-229" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> run_arima(<span class="va">self</span>, stock_name<span class="op">=</span><span class="st">&#39;UAL&#39;</span>, col<span class="op">=</span><span class="st">&#39;Close&#39;</span>, seasonal<span class="op">=</span><span class="va">True</span>, m<span class="op">=</span><span class="dv">12</span>):</span>
+<span id="cb44-230"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-230" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb44-231"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-231" aria-hidden="true" tabindex="-1"></a><span class="co">        Run the Auto Autoregressive Integrated Moving Average (ARIMA) model on the specified stock.</span></span>
+<span id="cb44-232"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-232" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-233"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-233" aria-hidden="true" tabindex="-1"></a><span class="co">        Args:</span></span>
+<span id="cb44-234"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-234" aria-hidden="true" tabindex="-1"></a><span class="co">            stock_name (str): The name of the stock. Default is &#39;UAL&#39;.</span></span>
+<span id="cb44-235"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-235" aria-hidden="true" tabindex="-1"></a><span class="co">            col (str): The column name to use for the model. Default is &#39;Close&#39;.</span></span>
+<span id="cb44-236"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-236" aria-hidden="true" tabindex="-1"></a><span class="co">            seasonal (bool): Whether to include seasonal components. Default is True.</span></span>
+<span id="cb44-237"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-237" aria-hidden="true" tabindex="-1"></a><span class="co">            m (int): The number of periods in each seasonal cycle. Default is 12.</span></span>
+<span id="cb44-238"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-238" aria-hidden="true" tabindex="-1"></a><span class="co">        &quot;&quot;&quot;</span></span>
+<span id="cb44-239"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-239" aria-hidden="true" tabindex="-1"></a>        df_all <span class="op">=</span> <span class="va">self</span>.dfs[stock_name]</span>
+<span id="cb44-240"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-240" aria-hidden="true" tabindex="-1"></a>        train, test, train_idx, test_idx <span class="op">=</span> prepare_data(df_all)</span>
+<span id="cb44-241"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-241" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-242"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-242" aria-hidden="true" tabindex="-1"></a>        plot_acf(train[col])</span>
+<span id="cb44-243"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-243" aria-hidden="true" tabindex="-1"></a>        plot_pacf(train[col])</span>
+<span id="cb44-244"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-244" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-245"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-245" aria-hidden="true" tabindex="-1"></a>        model <span class="op">=</span> pm.auto_arima(train[col], trace<span class="op">=</span><span class="va">True</span>, suppress_warnings<span class="op">=</span><span class="va">True</span>, seasonal<span class="op">=</span>seasonal, m<span class="op">=</span>m)</span>
+<span id="cb44-246"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-246" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-247"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-247" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(model.summary())</span>
+<span id="cb44-248"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-248" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-249"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-249" aria-hidden="true" tabindex="-1"></a>        df_all.loc[train_idx, <span class="st">&#39;fitted&#39;</span>] <span class="op">=</span> model.predict_in_sample(end<span class="op">=-</span><span class="dv">1</span>)</span>
+<span id="cb44-250"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-250" aria-hidden="true" tabindex="-1"></a>        df_all.loc[test_idx, <span class="st">&#39;forecast&#39;</span>] <span class="op">=</span> np.array(model.predict(n_periods<span class="op">=</span>N_TEST, return_conf_int<span class="op">=</span><span class="va">False</span>))</span>
+<span id="cb44-251"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-251" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-252"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-252" aria-hidden="true" tabindex="-1"></a>        plot_fitted_forecast(df_all, col)</span>
+<span id="cb44-253"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-253" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-254"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-254" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-255"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-255" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">&quot;__main__&quot;</span>:</span>
+<span id="cb44-256"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-256" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-257"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-257" aria-hidden="true" tabindex="-1"></a>    <span class="co"># parameters</span></span>
+<span id="cb44-258"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-258" aria-hidden="true" tabindex="-1"></a>    STOCK <span class="op">=</span> <span class="st">&#39;UAL&#39;</span></span>
+<span id="cb44-259"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-259" aria-hidden="true" tabindex="-1"></a>    COL <span class="op">=</span> <span class="st">&#39;Log&#39;</span></span>
+<span id="cb44-260"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-260" aria-hidden="true" tabindex="-1"></a>    N_TEST <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb44-261"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-261" aria-hidden="true" tabindex="-1"></a>    H <span class="op">=</span> <span class="dv">20</span>  <span class="co"># 4 weeks</span></span>
+<span id="cb44-262"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-262" aria-hidden="true" tabindex="-1"></a>    STEPS <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb44-263"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-263" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-264"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-264" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Hyperparameters to try in ETS walk-forward validation</span></span>
+<span id="cb44-265"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-265" aria-hidden="true" tabindex="-1"></a>    trend_type_list <span class="op">=</span> [<span class="st">&#39;add&#39;</span>, <span class="st">&#39;mul&#39;</span>]</span>
+<span id="cb44-266"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-266" aria-hidden="true" tabindex="-1"></a>    seasonal_type_list <span class="op">=</span> [<span class="st">&#39;add&#39;</span>, <span class="st">&#39;mul&#39;</span>]</span>
+<span id="cb44-267"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-267" aria-hidden="true" tabindex="-1"></a>    init_method_list <span class="op">=</span> [<span class="st">&#39;estimated&#39;</span>, <span class="st">&#39;heuristic&#39;</span>, <span class="st">&#39;legacy-heristic&#39;</span>]  <span class="co"># not used</span></span>
+<span id="cb44-268"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-268" aria-hidden="true" tabindex="-1"></a>    use_boxcox_list <span class="op">=</span> [<span class="va">True</span>, <span class="va">False</span>, <span class="dv">0</span>]  <span class="co"># not used</span></span>
+<span id="cb44-269"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-269" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-270"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-270" aria-hidden="true" tabindex="-1"></a>    ts <span class="op">=</span> StocksForecast()</span>
+<span id="cb44-271"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-271" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-272"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-272" aria-hidden="true" tabindex="-1"></a>    ts.run_ets(stock_name<span class="op">=</span>STOCK, col<span class="op">=</span>COL)</span>
+<span id="cb44-273"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-273" aria-hidden="true" tabindex="-1"></a>    ts.run_var(col<span class="op">=</span>COL)</span>
+<span id="cb44-274"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-274" aria-hidden="true" tabindex="-1"></a>    ts.run_arima(stock_name<span class="op">=</span>STOCK, col<span class="op">=</span>COL)</span>
+<span id="cb44-275"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-275" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-276"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-276" aria-hidden="true" tabindex="-1"></a>    tuple_of_option_lists <span class="op">=</span> (trend_type_list, seasonal_type_list,)</span>
+<span id="cb44-277"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-277" aria-hidden="true" tabindex="-1"></a>    ts.run_walkforward(H, STEPS, STOCK, COL, tuple_of_option_lists)</span></code></pre></div>
+<p>As in other chapters, a <code>class</code>, named <code>StocksForecast</code>, is written. In the beginning of the script, we have two static methods/functions outside of the class for data preparation and plotting. For <code>StockForecast</code>, we initiate the class with:</p>
+<ol style="list-style-type: decimal">
+<li>download the data</li>
+<li>store data into a <code>dictionary</code> with each stock in a different key</li>
+<li>calculate the log and first-differenced values of <code>close price</code>.</li>
+</ol>
+<div class="sourceCode" id="cb45"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb45-1"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb45-1" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, stock_name_list<span class="op">=</span>(<span class="st">&#39;UAL&#39;</span>, <span class="st">&#39;WMT&#39;</span>, <span class="st">&#39;PFE&#39;</span>), start_date<span class="op">=</span><span class="st">&#39;2018-01-01&#39;</span>, end_date<span class="op">=</span><span class="st">&#39;2022-12-31&#39;</span>):</span>
+<span id="cb45-2"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb45-2" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb45-3"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="co">        Initialize the StocksForecast class.</span></span>
+<span id="cb45-4"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb45-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-5"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb45-5" aria-hidden="true" tabindex="-1"></a><span class="co">        Args:</span></span>
+<span id="cb45-6"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb45-6" aria-hidden="true" tabindex="-1"></a><span class="co">            stock_name_list (list[str]): List of stock names. Default is (&#39;UAL&#39;, &#39;WMT&#39;, &#39;PFE&#39;).</span></span>
+<span id="cb45-7"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb45-7" aria-hidden="true" tabindex="-1"></a><span class="co">            start_date (str): Start date of the data. Default is &#39;2018-01-01&#39;.</span></span>
+<span id="cb45-8"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb45-8" aria-hidden="true" tabindex="-1"></a><span class="co">            end_date (str): End date of the data. Default is &#39;2022-12-31&#39;.</span></span>
+<span id="cb45-9"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb45-9" aria-hidden="true" tabindex="-1"></a><span class="co">        &quot;&quot;&quot;</span></span>
+<span id="cb45-10"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb45-10" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.dfs <span class="op">=</span> <span class="bu">dict</span>()</span>
+<span id="cb45-11"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb45-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> name <span class="kw">in</span> stock_name_list:</span>
+<span id="cb45-12"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb45-12" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.dfs[name] <span class="op">=</span> yf.download(name, start<span class="op">=</span>start_date, end<span class="op">=</span>end_date)</span>
+<span id="cb45-13"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb45-13" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.dfs[name][<span class="st">&#39;Diff&#39;</span>] <span class="op">=</span> <span class="va">self</span>.dfs[name][<span class="st">&#39;Close&#39;</span>].diff(<span class="dv">1</span>)</span>
+<span id="cb45-14"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb45-14" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.dfs[name][<span class="st">&#39;Log&#39;</span>] <span class="op">=</span> np.log(<span class="va">self</span>.dfs[name][<span class="st">&#39;Close&#39;</span>])</span></code></pre></div>
+<p>Each algorithm is implemented inside a wrapper function. For example, the ETS implementation is in <code>run_ets()</code>, which does the following:</p>
+<ol style="list-style-type: decimal">
+<li>call the <code>prepare_data()</code> function</li>
+<li>instantiate the <code>ExponentialSmoothing</code> model from <code>statsmodels</code> with hyperparameters <code>trend</code>, <code>seasonal</code>, and <code>seasonal_periods</code>. For <code>trend</code> and <code>seasonal</code>, <code>mul</code> means these trends are multiplicative. The value 252 (days) is used for <code>seasonal_periods</code> since this is about the number of trading days in half a year</li>
+<li>call <code>model.fit()</code></li>
+<li>get forecast columns and prepare the data for plotting</li>
+<li>call the <code>plot_fitted_forecast()</code> function to plot</li>
+</ol>
+<div class="sourceCode" id="cb46"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb46-1"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb46-1" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> run_ets(<span class="va">self</span>, stock_name<span class="op">=</span><span class="st">&#39;UAL&#39;</span>, col<span class="op">=</span><span class="st">&#39;Close&#39;</span>):</span>
+<span id="cb46-2"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb46-2" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb46-3"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="co">        Run the Exponential Smoothing (ETS) model on the specified stock.</span></span>
+<span id="cb46-4"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb46-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-5"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb46-5" aria-hidden="true" tabindex="-1"></a><span class="co">        Args:</span></span>
+<span id="cb46-6"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb46-6" aria-hidden="true" tabindex="-1"></a><span class="co">            stock_name (str): The name of the stock. Default is &#39;UAL&#39;.</span></span>
+<span id="cb46-7"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb46-7" aria-hidden="true" tabindex="-1"></a><span class="co">            col (str): The column name to use for the model. Default is &#39;Close&#39;.</span></span>
+<span id="cb46-8"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb46-8" aria-hidden="true" tabindex="-1"></a><span class="co">        &quot;&quot;&quot;</span></span>
+<span id="cb46-9"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb46-9" aria-hidden="true" tabindex="-1"></a>        df_all <span class="op">=</span> <span class="va">self</span>.dfs[stock_name]</span>
+<span id="cb46-10"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb46-10" aria-hidden="true" tabindex="-1"></a>        train, test, train_idx, test_idx <span class="op">=</span> prepare_data(df_all)</span>
+<span id="cb46-11"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb46-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-12"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb46-12" aria-hidden="true" tabindex="-1"></a>        model <span class="op">=</span> ExponentialSmoothing(train[col].dropna(), trend<span class="op">=</span><span class="st">&#39;mul&#39;</span>, seasonal<span class="op">=</span><span class="st">&#39;mul&#39;</span>, seasonal_periods<span class="op">=</span><span class="dv">252</span>)</span>
+<span id="cb46-13"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb46-13" aria-hidden="true" tabindex="-1"></a>        result <span class="op">=</span> model.fit()</span>
+<span id="cb46-14"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb46-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-15"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb46-15" aria-hidden="true" tabindex="-1"></a>        df_all.loc[train_idx, <span class="st">&#39;fitted&#39;</span>] <span class="op">=</span> result.fittedvalues</span>
+<span id="cb46-16"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb46-16" aria-hidden="true" tabindex="-1"></a>        df_all.loc[test_idx, <span class="st">&#39;forecast&#39;</span>] <span class="op">=</span> np.array(result.forecast(N_TEST))</span>
+<span id="cb46-17"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb46-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-18"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb46-18" aria-hidden="true" tabindex="-1"></a>        plot_fitted_forecast(df_all, col)</span></code></pre></div>
+<p>A walk-forward validation for ETS is implemented by the method <code>run_walkforward()</code> (largely from Lazy Programmer) which is a wrapper function of <code>warlkforward_ets()</code>. For time series data, we can not perform cross-validation by selecting a random subset of observations, as this can result in using future values to predict past value. Instead, a n-step walk-forward validation should be used. Suppose we have data from 1/1/2018 to 12/31/2022, a 1-step walk-forward validation using data from December 2022 would involve the following steps:</p>
+<ol style="list-style-type: decimal">
+<li>train the model with data from 1/1/2018 to 11/30/2022</li>
+<li>with model result, make prediction for 12/1/2022</li>
+<li>compare the true and predicted values and calculate the error or other desire metric(s)</li>
+<li>“walk forward” by 1 day, then go back to training the model, i.e., train the model with data from 1/1/2018 to 12/1/2022</li>
+<li>continue until data from 1/1/2018 to 12/30/2022 is used for training and 12/31/2022 is predicted</li>
+</ol>
+<p>We should try several different hyperparameter combinations since the purpose of the walk-forward validation is to choose the “best” hyperparameters. The following lines inside <code>if __name__ == "__main__":</code> calls the <code>run_walkforward()</code> method to try a combination of hyperparameters, which also prints out the “best” values for <code>trend</code> and <code>seasonal</code>:</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb47-1"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb47-1" aria-hidden="true" tabindex="-1"></a>    H <span class="op">=</span> <span class="dv">20</span>  <span class="co"># 4 weeks</span></span>
+<span id="cb47-2"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb47-2" aria-hidden="true" tabindex="-1"></a>    STEPS <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb47-3"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb47-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-4"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb47-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Hyperparameters to try in ETS walk-forward validation</span></span>
+<span id="cb47-5"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb47-5" aria-hidden="true" tabindex="-1"></a>    trend_type_list <span class="op">=</span> [<span class="st">&#39;add&#39;</span>, <span class="st">&#39;mul&#39;</span>]</span>
+<span id="cb47-6"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb47-6" aria-hidden="true" tabindex="-1"></a>    seasonal_type_list <span class="op">=</span> [<span class="st">&#39;add&#39;</span>, <span class="st">&#39;mul&#39;</span>]</span>
+<span id="cb47-7"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb47-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-8"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb47-8" aria-hidden="true" tabindex="-1"></a>    tuple_of_option_lists <span class="op">=</span> (trend_type_list, seasonal_type_list,)</span>
+<span id="cb47-9"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb47-9" aria-hidden="true" tabindex="-1"></a>    ts.run_walkforward(H, STEPS, STOCK, COL, tuple_of_option_lists)</span></code></pre></div>
+<p>The method <code>run_var()</code> runs the VAR model. Since we run VAR with several stocks, standardized/normalized should be performed. This is accomplished in the <code>prepare_data_var()</code> method with <code>StandardScaler()</code> from scikit-learn.</p>
+<p>Last but not leas, the <code>run_arima()</code> method runs the Auto ARIMA from the <code>pdmarima</code> library. Here, we also call <code>plot_acf()</code> and <code>plot_pacf()</code> from scikit-learn to examine the autocorrelation and partial autocorrelation functions. Normally, they are important for the ARIMA model. However, with Auto ARIMA, we are spared of the task of manually determine the values of AR() and MA(). Similar to <code>run_ets()</code>, there are only a few lines of code:</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb48-1"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb48-1" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> run_arima(<span class="va">self</span>, stock_name<span class="op">=</span><span class="st">&#39;UAL&#39;</span>, col<span class="op">=</span><span class="st">&#39;Close&#39;</span>, seasonal<span class="op">=</span><span class="va">True</span>, m<span class="op">=</span><span class="dv">12</span>):</span>
+<span id="cb48-2"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb48-2" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb48-3"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb48-3" aria-hidden="true" tabindex="-1"></a><span class="co">        Run the Auto Autoregressive Integrated Moving Average (ARIMA) model on the specified stock.</span></span>
+<span id="cb48-4"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb48-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-5"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb48-5" aria-hidden="true" tabindex="-1"></a><span class="co">        Args:</span></span>
+<span id="cb48-6"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb48-6" aria-hidden="true" tabindex="-1"></a><span class="co">            stock_name (str): The name of the stock. Default is &#39;UAL&#39;.</span></span>
+<span id="cb48-7"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb48-7" aria-hidden="true" tabindex="-1"></a><span class="co">            col (str): The column name to use for the model. Default is &#39;Close&#39;.</span></span>
+<span id="cb48-8"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb48-8" aria-hidden="true" tabindex="-1"></a><span class="co">            seasonal (bool): Whether to include seasonal components. Default is True.</span></span>
+<span id="cb48-9"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb48-9" aria-hidden="true" tabindex="-1"></a><span class="co">            m (int): The number of periods in each seasonal cycle. Default is 12.</span></span>
+<span id="cb48-10"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb48-10" aria-hidden="true" tabindex="-1"></a><span class="co">        &quot;&quot;&quot;</span></span>
+<span id="cb48-11"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb48-11" aria-hidden="true" tabindex="-1"></a>        df_all <span class="op">=</span> <span class="va">self</span>.dfs[stock_name]</span>
+<span id="cb48-12"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb48-12" aria-hidden="true" tabindex="-1"></a>        train, test, train_idx, test_idx <span class="op">=</span> prepare_data(df_all)</span>
+<span id="cb48-13"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb48-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-14"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb48-14" aria-hidden="true" tabindex="-1"></a>        plot_acf(train[col])</span>
+<span id="cb48-15"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb48-15" aria-hidden="true" tabindex="-1"></a>        plot_pacf(train[col])</span>
+<span id="cb48-16"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb48-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-17"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb48-17" aria-hidden="true" tabindex="-1"></a>        model <span class="op">=</span> pm.auto_arima(train[col], trace<span class="op">=</span><span class="va">True</span>, suppress_warnings<span class="op">=</span><span class="va">True</span>, seasonal<span class="op">=</span>seasonal, m<span class="op">=</span>m)</span>
+<span id="cb48-18"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb48-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-19"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb48-19" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(model.summary())</span>
+<span id="cb48-20"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb48-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-21"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb48-21" aria-hidden="true" tabindex="-1"></a>        df_all.loc[train_idx, <span class="st">&#39;fitted&#39;</span>] <span class="op">=</span> model.predict_in_sample(end<span class="op">=-</span><span class="dv">1</span>)</span>
+<span id="cb48-22"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb48-22" aria-hidden="true" tabindex="-1"></a>        df_all.loc[test_idx, <span class="st">&#39;forecast&#39;</span>] <span class="op">=</span> np.array(model.predict(n_periods<span class="op">=</span>N_TEST, return_conf_int<span class="op">=</span><span class="va">False</span>))</span>
+<span id="cb48-23"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb48-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-24"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb48-24" aria-hidden="true" tabindex="-1"></a>        plot_fitted_forecast(df_all, col)</span></code></pre></div>
+<p>If you would like to run ARIMA from <code>statsmodels</code>, you can import <code>ARIMA</code> from <code>statsmodels.tsa.arima.model</code>. <code>statsmodels</code> also provides functions and APIs for other time-series/forecasting methods and models. For example, you can test for stationarity with the augmented Dickey-Fuller unit root test by importing <code>adfuller</code> from <code>statsmodels.tsa.stattools</code>, or run the Vector Autoregressive Moving Average with exogenous regressors by importing <code>VARMAX</code> from <code>statsmodels.tsa.statespace.varmax</code>. In addition, if you would like to do the Box-Cox transformation, you can import <code>boxcox</code> from <code>scipy.stats</code>.</p>
+</div>
+<div id="artificial-neural-network-ann" class="section level2 hasAnchor" number="3.3">
+<h2><span class="header-section-number">3.3</span> Artificial Neural Network (ANN)<a href="time-series-forecasting-and-deep-learning-algorithms.html#artificial-neural-network-ann" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Similar to other chapters, the assumption is that readers have some idea about what a neural network is and what it can do. Our goal is not to give an in-depth introduction to neural networks. Rather, we will only cover elements of neural networks that matter most in their applications in economics and business assuming readers already have some quantitative training. An excellent place that you can “play” with a neural network model is the <a href="https://playground.tensorflow.org/">Tensorflow Playground</a>.</p>
+<p>Neural networks can be used on both regression and classification problems. Our focus in this chapter is to use neural networks on regression since the emphasis is forecasting. Keep in mind that we can always reshape a regression problem into a classification problem. For example, instead of forecasting the actual price or return of a stock, we can predict the likelihood of a stock trending up or down, which is a binary classification problem. The difference between applying neural networks on regression or classification problems is minor: for regression problems, the final activation function is an identify function (returns itself) whereas for classification problems it is Sigmoid or other functions that return values between 0 and 1. A really good summary of activation functions is <a href="https://stats.stackexchange.com/questions/115258/comprehensive-list-of-activation-functions-in-neural-networks-with-pros-cons">this answer on stackexchange</a>.</p>
+<p>Let us begin with artificial neural network (ANN). For implementation of neural networks, we are using <code>Keras</code> (<a href="https://keras.io/" class="uri">https://keras.io/</a>) from <code>Tensorflow</code> (<a href="https://www.tensorflow.org/" class="uri">https://www.tensorflow.org/</a>). We will introduce <code>PyTorch</code>, another popular deep learning framework, in other chapters.</p>
+<p>Neural network models intend to mimic the human brain. The basic idea can be described as follow. Imagine you see an ice-cream truck and decide to try an ice-cream that you have not had before. First, you receive multiple signals: you see the brand, shape, color, and possibly smell and ingredients of many ice-creams that you can choose from. These “raw” signals are first passed through the initial layer of neurons, the ones immediately connected to your eyes and noses and other sensory organs. After the initial layer and processing, you recognize different features of many ice-creams, some excites you, some not. In neural science terminology, the outputs from the first layer of neurons have different “action potential”. If the action potential passes a certain threshold, it excites you. But such excitement can be both positive and negative. For example, you may recognize there are peanuts in some of the ice-creams cones. While the crunchy cone excites you, you also know that you are allergic to peanuts. Imagine in the second layer, one neuron specializes in recognizing cones and the other peanuts. The output from the first layer would activate both of these two neurons. And hence the name “activation function”. This process can continue. A neural network may contain many layers, and each layer many neurons. After passing through all the layers, you have arrived at your decision: A cup with vanilla and strawberry ice-creams and chocolate chips on top.</p>
+<p>Suppose your raw data set has <span class="math inline">\(N\)</span> observations/rows and <span class="math inline">\(M\)</span> features/columns. The probability of the <span class="math inline">\(i\)</span>’s neuron in the first layer being activated is</p>
+<p><span class="math display">\[z^{(1)}_i=p(\text{activated} \mid x)=\sigma(xW^{(1)}_i+b^{(1)}_i)\]</span></p>
+<p>where <span class="math inline">\(x\)</span> is a <span class="math inline">\(N\times M\)</span> matrix, <span class="math inline">\(W^{(1)}_i\)</span> and <span class="math inline">\(b^{(1)}_i\)</span> are both vectors of size <span class="math inline">\(M\)</span>, and <span class="math inline">\(\sigma()\)</span> is an activation function that returns a probability such as Sigmoid or ReLU. In regression terminology, <span class="math inline">\(W^{(1)}_i\)</span> are the coefficients and <span class="math inline">\(b^{(1)}_i\)</span> is the intercept. By neural network convention, we use the superscript <span class="math inline">\((j)\)</span> to denote layer.</p>
+<p>Usually each layer has multiple neurons. In this case, the outputs <span class="math inline">\(z^{(j)}_i\)</span> can be “stacked” horizontally and fed into the next lay. We an similarly stack <span class="math inline">\(W^{(j)}_i\)</span> and <span class="math inline">\(b^{(j)}_i\)</span>. In other words, the number of neurons in the current layer (<span class="math inline">\(j\)</span>) is the number of features for the next layer layer (<span class="math inline">\(j+1\)</span>). With this, we can express the whole neural network in the following manner:</p>
+<ul>
+<li>Beginning (<span class="math inline">\(j=1\)</span>): <span class="math inline">\(z^{(1)}=\sigma(xW^{(1)}+b^{(1)})\)</span></li>
+<li>Hidden layers (<span class="math inline">\(1&lt;j&lt;J\)</span>): <span class="math inline">\(z^{(j)}=\sigma(z^{(j-1)}W^{(j)}+b^{(j)})\)</span></li>
+<li>Final layer (<span class="math inline">\(j=J\)</span>): <span class="math inline">\(\hat{y}=z^{(L-1)}W^{(L)}+b^{(L)}\)</span></li>
+</ul>
+<p>where <span class="math inline">\(J\)</span> denotes the total number of layers, and <span class="math inline">\(\hat{y}\)</span> is the prediction. Note that the final layer does not have an activation function here because we are dealing with a regression model.</p>
+<p>While Sigmoid is a widely used function when probabilities are to be predicted, it suffers from the <a href="https://en.wikipedia.org/wiki/Vanishing_gradient_problem">vanishing gradient problem</a> especially with deep (many layers) neural networks. Modern deep learning models often use <code>ReLU</code> or <code>tanh</code> as the activation function for inner layers. Again, see <a href="https://stats.stackexchange.com/questions/115258/comprehensive-list-of-activation-functions-in-neural-networks-with-pros-cons">this answer on stackexchange</a> for the pros and cons of different activation functions in neural networks.</p>
+</div>
+<div id="ann-in-tensorflowkeras" class="section level2 hasAnchor" number="3.4">
+<h2><span class="header-section-number">3.4</span> ANN in TensorFlow/Keras<a href="time-series-forecasting-and-deep-learning-algorithms.html#ann-in-tensorflowkeras" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+</div>
+<div id="recurrent-neural-network-rnn" class="section level2 hasAnchor" number="3.5">
+<h2><span class="header-section-number">3.5</span> Recurrent Neural Network (RNN)<a href="time-series-forecasting-and-deep-learning-algorithms.html#recurrent-neural-network-rnn" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>There is a compelling reason why <code>Recurrent Neural Network</code> (RNN) models are often expected to perform well in time-series/forecasting tasks: it is the neural network version of the autoregressive (AR) process. in its simplest form, often referred to as <code>Simple RNN</code>, the output from the hidden layers of time <span class="math inline">\(t-1\)</span> is used as inputs for time <span class="math inline">\(t\)</span> in addition to <span class="math inline">\(x\)</span>.</p>
+<p>Suppose you only care about one-step forecast, i.e., you want to predict <span class="math inline">\(t+1\)</span> with data up to time <span class="math inline">\(t\)</span>. Suppose we use all data for training, the approaches covered in this chapter so far have basically the same flavor: specify a single model for any length of time, train the model using data up to time <span class="math inline">\(t\)</span>, and make the prediction for <span class="math inline">\(t+1\)</span>. Even with walk-forward validation, it is not much different except that several values of <span class="math inline">\(t\)</span> are considered and hence the model was trained on different data and can have different parameters dependent on the value of <span class="math inline">\(t\)</span>.</p>
+<p>Having a single unified model is often fine as long as the time series does not have large ups and downs. Unfortunately, economics and business time-series data only consists of ups and downs, such as a recession. In such cases, we often want to specify more than one model. That can be accomplished manually if we know exactly when a structural break has happened.</p>
+<p>But life is a box of chocolates and every hour/day is different. It would be nice that a model can do the following: that it “remembers” the past and customizes a model for the current time.</p>
+<p>RNN does exactly that. Concretely, let <span class="math inline">\(h_t\)</span> denote the <em>hidden state</em> of an RNN at time <span class="math inline">\(t\)</span>, we have</p>
+<p><span class="math display">\[h_t = \sigma(h_{t-1}W_{ht} + x_tW_{xt}+b_{t})\]</span></p>
+<p>where <span class="math inline">\(W_{ht}\)</span> and <span class="math inline">\(W_{xt}\)</span> are coefficients/weights for the hidden state and input <span class="math inline">\(x_t\)</span>, respectively, at time <span class="math inline">\(t\)</span>, and <span class="math inline">\(b_{t}(= b_{ht} + b_{xt})\)</span> is the intercept. The hidden state allows the model to “remember” the past and adds non-linear complexity to each time period. It should be noted that <span class="math inline">\(h_t\)</span> can be a mini ANN with many hidden layers.</p>
+<p>In addition to Simple RNN, <code>Long Short-Term Member</code> (LSTM) and <code>Gated Recurrent Units</code> (GRU) are two widely used RNN models. Both models modified how hidden state is being remembered from one time period (or one state) to another. For GRU, two “gates” are introduced:</p>
+<ul>
+<li>Update gate: <span class="math inline">\(z_t = \sigma(x_tW_{xzt}+h_{t-1}W_{hzt}+b_{zt})\)</span></li>
+<li>Reset gate: <span class="math inline">\(r_t = \sigma(x_tW_{xrt}+h_{t-1}W_{hrt}+b_{rt})\)</span></li>
+</ul>
+<p>And the hidden state is updated according to</p>
+<p><span class="math display">\[h_t = (1-z_t)\odot h_{t-1} + z_t\odot \omega(x_tW_{xht}+(r_t\odot h_{t-1})W_{hht}+b_{ht})\]</span></p>
+<p>where <span class="math inline">\(\odot\)</span> is an element-wise multiplication and <span class="math inline">\(\omega()\)</span> is an activation function similar to <span class="math inline">\(\sigma()\)</span> except that in Tensorflow the default is <code>tanh</code> instead of Sigmoid for RNN. In the GRU, <span class="math inline">\(z_t\)</span> controls how much the neural network “forgets” and <span class="math inline">\(r_t\)</span> controls how much the neural network “learns” from the previous state. If <span class="math inline">\(z_t=0\)</span>, then the neural network forgets about the previous state (since <span class="math inline">\(1-z_t=0\)</span>) and relearn. Keep in mind that the relearn, which is <span class="math inline">\(\omega()\)</span> still consists of the previous hidden state <span class="math inline">\(h_{t-1}\)</span> unless <span class="math inline">\(r_t\)</span> is also equal to 0.</p>
+<p>For LSTM, we introduce a new state called <code>cell state</code> in addition to the hidden state. In practice, the cell state is an intermediate value that helps to keep track of the model is not included in calculating the final output. The LSTM has three gates:</p>
+<ul>
+<li>Forget gate: <span class="math inline">\(f_t = \sigma(x_tW_{xft}+h_{t-1}W_{hft}+b_{ft})\)</span></li>
+<li>Input/Update gate: <span class="math inline">\(i_t = \sigma(x_tW_{xit}+h_{t-1}W_{hit}+b_{it})\)</span></li>
+<li>Output gate: <span class="math inline">\(o_t = \sigma(x_tW_{xot}+h_{t-1}W_{hot}+b_{ot})\)</span></li>
+</ul>
+<p>And the hidden state and cell state (<span class="math inline">\(c_t\)</span>) are updated according to:</p>
+<ul>
+<li>Cell state: <span class="math inline">\(c_t = f_t\odot c_{t-1} + i_t\odot \omega(x_tW_{xct}+h_{t-1}W_{hct}+b_{ct})\)</span></li>
+<li>Hidden state: <span class="math inline">\(h_t = o_t\odot \psi(c_t)\)</span></li>
+</ul>
+<p>Note that in Tensorflow, the activation function <span class="math inline">\(\omega()\)</span> and <span class="math inline">\(\psi()\)</span> can not be specified individually and are both defaulted to tanh.</p>
+</div>
+<div id="rnn-in-tensorflowkeras" class="section level2 hasAnchor" number="3.6">
+<h2><span class="header-section-number">3.6</span> RNN in TensorFlow/Keras<a href="time-series-forecasting-and-deep-learning-algorithms.html#rnn-in-tensorflowkeras" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+</div>
+<div id="convolutional-neural-network-cnn" class="section level2 hasAnchor" number="3.7">
+<h2><span class="header-section-number">3.7</span> Convolutional Neural Network (CNN)<a href="time-series-forecasting-and-deep-learning-algorithms.html#convolutional-neural-network-cnn" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><code>Convolutional Neural Network</code> (CNN) is another deep learning algorithm that we can connect to traditional time-series/forecasting methods easily. Consider a typical ARIMA model, which has three parameters: <span class="math inline">\(p\)</span>, <span class="math inline">\(q\)</span>, and <span class="math inline">\(d\)</span>. These parameters dictates the number of periods in, respectively, autoregressive, moving average, and differencing. An alternative way to look at the ARIMA model is that the original time series data is transformed based on the three parameters.</p>
+<p>There are other transformations and filters performed on time-series data, for example, Fourier transformation, low-pass filter, Baxter-King filter, to name a few. Exponential smoothing, which we have shown its implementation using <code>statsmodels</code> earlier, is also a filter. Differencing and autoregressive process are also filters.</p>
+<p>Which brings us to CNN: convolving is applying filters on the data. The technical/mathematical details are less important for time-series data, as CNN is a widely used algorithm in computer vision (CV) and there are more nuances in that area. For our purpose, let us focus on the following aspects of CNN.</p>
+<p>First, convolution does pattern matching/finding with cross-correlation. Imagine a time-series with length <span class="math inline">\(T=10\)</span>:</p>
+<p><span class="math display">\[ts = [1, 4, 5, 3, 3, 4, 2, 3, 5, 3]\]</span></p>
+<p>and another vector of length <span class="math inline">\(K=3\)</span>:</p>
+<p><span class="math display">\[c = [1, 5, 1]\]</span></p>
+<p>When we convolved <span class="math inline">\(ts\)</span> with <span class="math inline">\(c\)</span>, we are “sliding” <span class="math inline">\(c\)</span> over <span class="math inline">\(ts\)</span> and at each position, we compute the dot product. For example, when <span class="math inline">\(c\)</span> is overlaid on the first three values of <span class="math inline">\(ts\)</span>, we have:</p>
+<p><span class="math display">\[[1, 5, 1] \cdot [1, 4, 5]=(1\times1)+(5\times4)+(1\times5)=26\]</span></p>
+<p>Repeating this process, we get a convolved version of <span class="math inline">\(ts\)</span>:</p>
+<p><span class="math display">\[tsv = [26, 32, 23, 22, 25, 17, 22, 31]\]</span></p>
+<p>The resulted new vector is of size <span class="math inline">\(T-K+1\)</span>, which is the <code>valid</code> mode of covolution. If we want the resulted vector to be the same size as the original, we are performing a <code>same</code> mode convolution and we need to add padding of size <span class="math inline">\(K-1\)</span>. In our example, we can add two zeros to the original time series then do the convolution:</p>
+<p><span class="math display">\[tsz = [0, 1, 4, 5, 3, 3, 4, 5, 6, 5, 3, 0]\]</span></p>
+<p>How is covolution pattern matching/finding? In the above example, it easy to see that the filter <span class="math inline">\(c\)</span> has the pattern [low, high low]. In the above example, at locations 2nd and 6th, we have</p>
+<p><span class="math display">\[ts_2 = [4, 5, 3]; \ ts_6 = [4, 2, 3]\]</span></p>
+<p>The only difference is the value in the middle. It it straightforward to realize that the filter <span class="math inline">\(c\)</span> helps to identify a pattern that has [low, high, low] since <span class="math inline">\(c \cdot ts_2 &gt; c \cdot ts_6\)</span>.</p>
+<p>But there is more. If we look at <span class="math inline">\(tsv\)</span>, we notice the two highest values are at locations 2nd and 8th:</p>
+<p><span class="math display">\[ts_2 = [4, 5, 3]; \ ts_8 = [3, 5, 3]\]</span></p>
+<p>They both have the pattern of [low, high, low]. In other words, the filter <span class="math inline">\(c=[1, 5, 1]\)</span> creates a spike in <span class="math inline">\(tsv\)</span> when the pattern in <span class="math inline">\(ts\)</span> is [low, high, low].</p>
+<p>In a Euclidean space, the dot product of two vectors can be expressed as</p>
+<p><span class="math display">\[a \cdot b = ||a|| \times ||b|| \times \cos{\theta_{ab}}\]</span></p>
+<p>where <span class="math inline">\(||a||\)</span> and <span class="math inline">\(||b||\)</span> are the magnitude of the two products and <span class="math inline">\(\theta_{ab}\)</span> is the angle between <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>. Since <span class="math inline">\(\cos{(0)}=1\)</span>, <span class="math inline">\(\cos{(\pi/2)} = 0\)</span>, and <span class="math inline">\(\cos{(\pi)}=-1\)</span>, the dot product not only measures the magnitudes of the two vectors, but also their correlations. Take an extreme example: when the angle between them is <span class="math inline">\(\pi\)</span>, they are orthogonal and the dot product is equal to zero no matter the magnitude.</p>
+<p>To summarize what we have discussed so far, we say that covolution is cross-correlation. When the segment of the data is highly correlates to the filter, it creates a spike in value and hence indicates a certain pattern.</p>
+<p>Second, convolution reduces the number of parameters of the model. Let’s go back to the example above. Suppose you hypothesize that there is a 3-day pattern in the data, which actually prompted the use of a filter with size 3. If you want to look at all windows of size 3 in the data, you would be looking at 8 of such windows and a total of 24 parameters, 1 for each day in each window. By using convolution and the sliding filter, you only need 3 filters: the size of the filter. This is not much of a saving in our example, but imagine the case of images, and the difference is huge.</p>
+<p>By using the filter sliding through the data, we have stopped to care where the pattern happens, but only that it has happened. This is called <code>translational invariance</code>, which is important, again, in computer vision. Imagine you have two pictures of the same cat in the same posture from the same angle, except one of them the cat is on the floor and the other up on the table. It is the same cat. Your filter should be finding the cat, and it should not care where the cat is.</p>
+<p>Translational invariance is not as prominent in time-series data, but here is one example with our stock price data: suppose every time a stock’s price goes up by more than 10% in a single day, it will follow with a decline; but if the hike is less than 5%, it will follow with another hike. This is a pattern that a filter (or two) should be able to match. And it does not matter when (in analagous to where in CV) it happens.</p>
+<p>Third, and before we move on to code, we should introduce two related concepts in CNN: pooling and feature maps. Pooling reduces the size of the data. Continue with our example above with <span class="math inline">\(ts\)</span> and <span class="math inline">\(c\)</span>. Suppose we do a <code>full</code> mode convolution, i.e., sliding <span class="math inline">\(c\)</span> over <span class="math inline">\(tsz\)</span>, then we have the new convolved series as:</p>
+<p><span class="math display">\[tsf = [9, 26, 32, 23, 22, 25, 17, 22, 31, 20]\]</span></p>
+<p>we can perform <code>max</code> pooling on <span class="math inline">\(tsf\)</span> to reduce its size to 5. What we do is to group every two numbers, then pick the highest number from the group:</p>
+<p><span class="math inline">\(tsfp = [\{9, 26\}, \{32, 23\}, \{22, 25\}, \{17, 22\}, \{31, 20\}]\)</span></p>
+<p><span class="math inline">\(tsfp = [26, 32, 25, 22, 31]\)</span></p>
+<p>The other way to do pooling is <code>average</code> pooling, but max pooling is more intuitive. At a high level, pooling, especially max pooling, does two things: it reduces the size of the data but preserves the “spikes”. In other words, this is another operation of “we do not care where/when as long as it happens”.</p>
+<p>By convention, even though pooling has reduced the size of the data, filter size remains the same. In other words, if we overlay <span class="math inline">\(c\)</span> on <span class="math inline">\(tsfp\)</span>, at the first location (<span class="math inline">\(tsfp_1 = [26, 32, 25]\)</span>), <span class="math inline">\(c\)</span> is now finding patterns from the first 7 numbers in <span class="math inline">\(ts\)</span>. To see this, note that the value 25 in <span class="math inline">\(tsfp_1\)</span> was calculated by</p>
+<p><span class="math display">\[[1, 5, 1] \cdot ts_5 \Rightarrow [1, 5, 1] \cdot [3, 4, 5]\]</span></p>
+<p>where the value 5 in <span class="math inline">\(ts_5\)</span> is the 7th value of <span class="math inline">\(ts\)</span>. In other words, with pooling and same size filters, CNN is able to see bigger and bigger “pictures” when data is passed through the convolution layers.</p>
+<p>However, it is important to increase the number of filters after each pooling until the size of the feature map is large enough. A <code>feature map</code> is a collection of features. It has a pictorial name because CNN was first developed for computer vision. The reason for the increasing size of feature map is straightforward: as data goes through the convolution layers, the filters are search wider and wider due to pooling. Increasing the number of features/filters would allow the CNN to look deeper. This helps to preserve information while transformation is happening. For time-series data, instead of a long time series, we can think of the data output from the convolution layers as a stack of many moments.</p>
+<p>After going through the covolution (and pooling) layers, the output is fed into some <code>Dense</code> layers just like ANN. In a way, we can think of CNN as two-stage feature engineering: covolution layers and Dense layers.</p>
+</div>
+<div id="cnn-in-tensorflowkeras" class="section level2 hasAnchor" number="3.8">
+<h2><span class="header-section-number">3.8</span> CNN in TensorFlow/Keras<a href="time-series-forecasting-and-deep-learning-algorithms.html#cnn-in-tensorflowkeras" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+</div>
+<div id="facebook-prophet" class="section level2 hasAnchor" number="3.9">
+<h2><span class="header-section-number">3.9</span> Facebook Prophet<a href="time-series-forecasting-and-deep-learning-algorithms.html#facebook-prophet" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><a href="https://facebook.github.io/prophet/" class="uri">https://facebook.github.io/prophet/</a></p>
+</div>
+<div id="summary-1" class="section level2 hasAnchor" number="3.10">
+<h2><span class="header-section-number">3.10</span> Summary<a href="time-series-forecasting-and-deep-learning-algorithms.html#summary-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>brief disucssion on self-supervised learning?</p>
+</div>
+<div id="references-2" class="section level2 hasAnchor" number="3.11">
+<h2><span class="header-section-number">3.11</span> References<a href="time-series-forecasting-and-deep-learning-algorithms.html#references-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<ul>
+<li><a href="https://www.udemy.com/course/time-series-analysis/" class="uri">https://www.udemy.com/course/time-series-analysis/</a></li>
+</ul>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="regression-reconsidered.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/datahurdler/Econ-ML-Book/edit/master/03-forecasting-en.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

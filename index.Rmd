@@ -15,7 +15,7 @@ documentclass: book
 # github-repo: rstudio/bookdown-demo
 ---
 
-# Introduction
+# Introduction {-}
 
 The primary purpose of these articles, which I started to write in May 2023, is to review, summarize, and organize what I have learned in Machine Learning as a PhD economist. I have taken several Machine Learning related courses on Coursera and Udemy. In 2022, I also worked, briefly, as a data scientist in an AdTech start-up.
 

@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 2 Discrete Choice, Classification, and Tree-Based Ensemble Algorithms | Machine Learning for Economics and Business</title>
+  <meta name="description" content="Chapter 2 Discrete Choice, Classification, and Tree-Based Ensemble Algorithms | Machine Learning for Economics and Business" />
+  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 2 Discrete Choice, Classification, and Tree-Based Ensemble Algorithms | Machine Learning for Economics and Business" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 2 Discrete Choice, Classification, and Tree-Based Ensemble Algorithms | Machine Learning for Economics and Business" />
+  
+  
+  
+
+<meta name="author" content="Zijun Luo" />
+
+
+<meta name="date" content="2023-07-03" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html"/>
+<link rel="next" href="time-series-forecasting-and-deep-learning-algorithms.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Machine Learning for Economics and Business</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction</a></li>
+<li class="chapter" data-level="1" data-path="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html"><i class="fa fa-check"></i><b>1</b> Randomized Controlled Trial, A/B/N Testing, and Multi-Armed Bandit Algorithms</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#introduction-1"><i class="fa fa-check"></i><b>1.1</b> Introduction</a></li>
+<li class="chapter" data-level="1.2" data-path="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#the-explore-exploit-tradeoff"><i class="fa fa-check"></i><b>1.2</b> The Explore-Exploit Tradeoff</a></li>
+<li class="chapter" data-level="1.3" data-path="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#epsilon-greedy"><i class="fa fa-check"></i><b>1.3</b> Epsilon Greedy</a></li>
+<li class="chapter" data-level="1.4" data-path="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#optimistic-initial-values"><i class="fa fa-check"></i><b>1.4</b> Optimistic Initial Values</a></li>
+<li class="chapter" data-level="1.5" data-path="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#upper-confidence-bound-ucb"><i class="fa fa-check"></i><b>1.5</b> Upper Confidence Bound (UCB)</a></li>
+<li class="chapter" data-level="1.6" data-path="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#gradient-bandit-algorithm"><i class="fa fa-check"></i><b>1.6</b> Gradient Bandit Algorithm</a></li>
+<li class="chapter" data-level="1.7" data-path="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#thompson-sampling-bayesian-bandits"><i class="fa fa-check"></i><b>1.7</b> Thompson Sampling (Bayesian Bandits)</a></li>
+<li class="chapter" data-level="1.8" data-path="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#conjugate-prior"><i class="fa fa-check"></i><b>1.8</b> Conjugate Prior</a></li>
+<li class="chapter" data-level="1.9" data-path="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#thompson-sampling-code"><i class="fa fa-check"></i><b>1.9</b> Thompson Sampling: Code</a></li>
+<li class="chapter" data-level="1.10" data-path="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#comparing-the-algorithms"><i class="fa fa-check"></i><b>1.10</b> Comparing the Algorithms</a></li>
+<li class="chapter" data-level="1.11" data-path="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#summary-and-extensions"><i class="fa fa-check"></i><b>1.11</b> Summary and Extensions</a></li>
+<li class="chapter" data-level="1.12" data-path="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#references"><i class="fa fa-check"></i><b>1.12</b> References</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="discrete-choice-classification-and-tree-based-ensemble-algorithms.html"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html"><i class="fa fa-check"></i><b>2</b> Discrete Choice, Classification, and Tree-Based Ensemble Algorithms</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="discrete-choice-classification-and-tree-based-ensemble-algorithms.html"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#introduction-2"><i class="fa fa-check"></i><b>2.1</b> Introduction</a></li>
+<li class="chapter" data-level="2.2" data-path="discrete-choice-classification-and-tree-based-ensemble-algorithms.html"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#the-bias-variance-tradeoff"><i class="fa fa-check"></i><b>2.2</b> The Bias-Variance Tradeoff</a></li>
+<li class="chapter" data-level="2.3" data-path="discrete-choice-classification-and-tree-based-ensemble-algorithms.html"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#decision-tree"><i class="fa fa-check"></i><b>2.3</b> Decision Tree</a></li>
+<li class="chapter" data-level="2.4" data-path="discrete-choice-classification-and-tree-based-ensemble-algorithms.html"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#split-criterion"><i class="fa fa-check"></i><b>2.4</b> Split Criterion</a></li>
+<li class="chapter" data-level="2.5" data-path="discrete-choice-classification-and-tree-based-ensemble-algorithms.html"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#pruning"><i class="fa fa-check"></i><b>2.5</b> Pruning</a></li>
+<li class="chapter" data-level="2.6" data-path="discrete-choice-classification-and-tree-based-ensemble-algorithms.html"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#bagging-and-random-forest"><i class="fa fa-check"></i><b>2.6</b> Bagging and Random Forest</a></li>
+<li class="chapter" data-level="2.7" data-path="discrete-choice-classification-and-tree-based-ensemble-algorithms.html"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#boosting-and-adaboost"><i class="fa fa-check"></i><b>2.7</b> Boosting and AdaBoost</a></li>
+<li class="chapter" data-level="2.8" data-path="discrete-choice-classification-and-tree-based-ensemble-algorithms.html"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#gradient-boosting-and-xgboost"><i class="fa fa-check"></i><b>2.8</b> Gradient Boosting and XGBoost</a></li>
+<li class="chapter" data-level="2.9" data-path="discrete-choice-classification-and-tree-based-ensemble-algorithms.html"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#python-implementation-with-scikit-learn"><i class="fa fa-check"></i><b>2.9</b> Python Implementation with scikit-learn</a></li>
+<li class="chapter" data-level="2.10" data-path="discrete-choice-classification-and-tree-based-ensemble-algorithms.html"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#confusion-matrix-and-other-performance-metrics"><i class="fa fa-check"></i><b>2.10</b> Confusion Matrix and other Performance Metrics</a></li>
+<li class="chapter" data-level="2.11" data-path="discrete-choice-classification-and-tree-based-ensemble-algorithms.html"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#comparison-the-algorithms"><i class="fa fa-check"></i><b>2.11</b> Comparison the Algorithms</a></li>
+<li class="chapter" data-level="2.12" data-path="discrete-choice-classification-and-tree-based-ensemble-algorithms.html"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#summary"><i class="fa fa-check"></i><b>2.12</b> Summary</a></li>
+<li class="chapter" data-level="2.13" data-path="discrete-choice-classification-and-tree-based-ensemble-algorithms.html"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#references-1"><i class="fa fa-check"></i><b>2.13</b> References</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="time-series-forecasting-and-deep-learning-algorithms.html"><a href="time-series-forecasting-and-deep-learning-algorithms.html"><i class="fa fa-check"></i><b>3</b> Time Series, Forecasting, and Deep Learning Algorithms</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="time-series-forecasting-and-deep-learning-algorithms.html"><a href="time-series-forecasting-and-deep-learning-algorithms.html#introduction-3"><i class="fa fa-check"></i><b>3.1</b> Introduction</a></li>
+<li class="chapter" data-level="3.2" data-path="time-series-forecasting-and-deep-learning-algorithms.html"><a href="time-series-forecasting-and-deep-learning-algorithms.html#time-series-implementation-in-statsmodels"><i class="fa fa-check"></i><b>3.2</b> Time Series Implementation in <code>statsmodels</code></a></li>
+<li class="chapter" data-level="3.3" data-path="time-series-forecasting-and-deep-learning-algorithms.html"><a href="time-series-forecasting-and-deep-learning-algorithms.html#artificial-neural-network-ann"><i class="fa fa-check"></i><b>3.3</b> Artificial Neural Network (ANN)</a></li>
+<li class="chapter" data-level="3.4" data-path="time-series-forecasting-and-deep-learning-algorithms.html"><a href="time-series-forecasting-and-deep-learning-algorithms.html#ann-in-tensorflowkeras"><i class="fa fa-check"></i><b>3.4</b> ANN in TensorFlow/Keras</a></li>
+<li class="chapter" data-level="3.5" data-path="time-series-forecasting-and-deep-learning-algorithms.html"><a href="time-series-forecasting-and-deep-learning-algorithms.html#recurrent-neural-network-rnn"><i class="fa fa-check"></i><b>3.5</b> Recurrent Neural Network (RNN)</a></li>
+<li class="chapter" data-level="3.6" data-path="time-series-forecasting-and-deep-learning-algorithms.html"><a href="time-series-forecasting-and-deep-learning-algorithms.html#rnn-in-tensorflowkeras"><i class="fa fa-check"></i><b>3.6</b> RNN in TensorFlow/Keras</a></li>
+<li class="chapter" data-level="3.7" data-path="time-series-forecasting-and-deep-learning-algorithms.html"><a href="time-series-forecasting-and-deep-learning-algorithms.html#convolutional-neural-network-cnn"><i class="fa fa-check"></i><b>3.7</b> Convolutional Neural Network (CNN)</a></li>
+<li class="chapter" data-level="3.8" data-path="time-series-forecasting-and-deep-learning-algorithms.html"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cnn-in-tensorflowkeras"><i class="fa fa-check"></i><b>3.8</b> CNN in TensorFlow/Keras</a></li>
+<li class="chapter" data-level="3.9" data-path="time-series-forecasting-and-deep-learning-algorithms.html"><a href="time-series-forecasting-and-deep-learning-algorithms.html#facebook-prophet"><i class="fa fa-check"></i><b>3.9</b> Facebook Prophet</a></li>
+<li class="chapter" data-level="3.10" data-path="time-series-forecasting-and-deep-learning-algorithms.html"><a href="time-series-forecasting-and-deep-learning-algorithms.html#summary-1"><i class="fa fa-check"></i><b>3.10</b> Summary</a></li>
+<li class="chapter" data-level="3.11" data-path="time-series-forecasting-and-deep-learning-algorithms.html"><a href="time-series-forecasting-and-deep-learning-algorithms.html#references-2"><i class="fa fa-check"></i><b>3.11</b> References</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="regression-reconsidered.html"><a href="regression-reconsidered.html"><i class="fa fa-check"></i><b>4</b> Regression Reconsidered</a></li>
+<li class="chapter" data-level="5" data-path="causal-inference-reconsidered.html"><a href="causal-inference-reconsidered.html"><i class="fa fa-check"></i><b>5</b> Causal Inference Reconsidered</a></li>
+<li class="chapter" data-level="6" data-path="more-than-meets-the-eye.html"><a href="more-than-meets-the-eye.html"><i class="fa fa-check"></i><b>6</b> More than Meets the Eye</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Machine Learning for Economics and Business</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="discrete-choice-classification-and-tree-based-ensemble-algorithms" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">Chapter 2</span> Discrete Choice, Classification, and Tree-Based Ensemble Algorithms<a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#discrete-choice-classification-and-tree-based-ensemble-algorithms" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="introduction-2" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> Introduction<a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#introduction-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Suppose you are the owner of an e-commerce website that sells a musical instrument in 5 sizes: soprano, alto, tenor, bass, and contrabass. You are considering to open up some physical stores. With physical stores, you need to make more careful inventory decisions. Based on your past experience in shipping out your instruments, you are convinced that different communities can have different tastes toward different sizes. And you want to make inventory decisions accordingly.</p>
+<p>If the stake for a musical store is too small, consider the classic discrete choice example: automobiles. Sales of different types of automobiles are different among U.S. states, for example, more trucks are sold in Texas than most other states. In such circumstance, answering the question of “what” is more important than “how many”, as most consumers buy a single unit of the item. This scenario is known as “discrete choice” in economics and social sciences. Being able to make a good prediction on such question can inform many business decisions, not only inventory, since the aggregation of individual purchases tells us about the overall demand of a product in a market.</p>
+<p>In economics and social sciences, the popular approaches to model discrete choice are “top-down”: it starts with an understanding of the data-generating process and some assumptions. Logit and Probit are two widely used models in economics. If the error term is believed to follow a logistic distribution, then use the logit model or logistic regression. If the error term is believed to follow a normal distribution, then use the probit model. If there is nested structure, then use nested-logit. And so on.</p>
+<p>This is fine, since the focus of economics and social sciences is hypothesis testing and to understand mechanisms. On the contrary, the machine learning approach is more <em>bottom-up</em>: it mostly cares about making good predictions. In other words, we can say that the economics “top-down” approach of discrete choice modeling cares much more about “bias” whereas the machine learning approach considers the bias-variance tradeoff more holistically.</p>
+</div>
+<div id="the-bias-variance-tradeoff" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> The Bias-Variance Tradeoff<a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#the-bias-variance-tradeoff" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Let’s begin with <em>Variance</em>. A model with a high variance is sensitive to the <em>training</em> data and can capture the fine details in the training data. However, such model is usually difficult to generalize. On the one hand, the <em>test</em> data, or the data that the model is actually applied to, may lack the fine detail presented in the training data. On the other hand, those fine details may not be as important in the actual data as compared to the training data.</p>
+<p>A model that can capture fine details is almost guaranteed to have low <em>bias</em>. A model with low bias is one that explains the known, or training, data well. In order to predict, we need our machine learning model to learn from known data. A model with high bias can rarely predict well.</p>
+<p>While models with low bias <em>and</em> low variance do exist, they are rare. Since a model with high bias rarely works well, lowering bias is often considered the first-order task. One way to do so is using models, or specifying hyperparameters of a model, such that more fine details in the data are captured. By so doing, higher variance is introduced. And hence the trade-off.</p>
+<p>Consider the following example: a zoo wants to build a machine learning algorithm to detect penguin species and deploy it on their smart phone application. Let’s say all that the zoo and the users care about is to tell apart King, Magellanic, and Macaroni penguins. The zoo’s staffs and data scientists took hundreds of photos of penguins in their aquarium, split the penguins into training and test datasets as how tasks like this are usually performed, and built the machine learning model. In their test, with photos that they have set aside earlier, they find that the algorithm is able to identify the penguins correctly 98% of the time. They were happy with the result and so deployed it.</p>
+<p>However, when users use the application to identify penguins in other zoos, the algorithm fails miserably. Why? It turns out that the machine learning algorithm was not learning to identify penguins by their different features such as head, neck, and tail. Instead, the algorithm identifies the different species of penguins by the tag on their wings: blue is King penguin, red Magellanic, and yellow Macaroni. These are the colors used by the zoo that developed the algorithm, but other zoos have different tags. As a result, this algorithm, which has low bias but high variance due to its dependency on penguins in a single aquarium, is unable to predict or detect the species of penguins outside of the training data.</p>
+<p>As we will see next, tree-based algorithms are extremely prone to high variance, or <em>over-fitting</em>.</p>
+</div>
+<div id="decision-tree" class="section level2 hasAnchor" number="2.3">
+<h2><span class="header-section-number">2.3</span> Decision Tree<a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#decision-tree" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Let’s first talk about the basic decision tree algorithm. Because we will be using <a href="https://scikit-learn.org/stable/">scikit-learn</a> for <code>Python</code> implementation in this chapter, I am using notations and languages similar to that in scikit-learn’s documentation. It should be mentioned at the outset that this is not a comprehensive lecture on the decision tree algorithm. You can easily find more in-depth discussions in books such as <a href="https://www.statlearning.com/">An Introduction to Statistical Learning</a> and <a href="https://hastie.su.domains/ElemStatLearn/">The Elements of Statistical Learning</a>, or other online learning sources. The focus in this session is aspects of the decision tree algorithm that matter the most for the understanding of the ensemble methods and their applications in economics and business.</p>
+<p>The simplest way to think about a decision tree algorithm is to consider a flow-chart, especially one that is for diagnostic purposes. Instead of someone building a flow-chart from intuition or experience, we feed data into the computer and the decision tree algorithm would build a flow-chart to explain the data. For example, if we know some characteristics of the music store’s past consumers, and want to know who is more likely to buy the soprano size instruments, a flow-chart built by the decision tree algorithm may look like this:
+* Is the customer under 30?
+* Yes: is the customer female?
+* Yes: has the customer played any instrument before?
+* Yes: the customer has a 90% chance of buying a soprano instrument
+* No: the customer has 15% chance of buying a soprano instrument
+* No: is the customer married?
+* Yes: the customer has a 5% chance of buying a soprano instrument
+* No: the customer has 92% chance of buying a soprano instrument
+* No: is the customer under 50?
+* Yes: the customer has a 10% chance of buying a soprano instrument
+* No: has the customer played any instrument before?
+* Yes: the customer has a 100% chance of buying a soprano instrument
+* No: the customer has a 20% chance of buying a soprano instrument</p>
+<p>You can see several basic elements of a decision tree algorithm from the above example:</p>
+<ol style="list-style-type: decimal">
+<li>As expected, the tree algorithm resulted in a hierarchical structure that can easily be represented by a tree diagram;</li>
+<li>The tree structure does not need to be symmetrical. For example, when the answer to “is the customer under 50” is a “yes”, the branch stopped, resulted in a shorter branch compared to the rest of the tree;</li>
+<li>You may use the same feature more than once. In this example, the question “has the customer played any instrument before” has appeared twice. Also there are two splits based on two different age cutoffs;</li>
+<li>You can use both categorical and numerical features. In this example, age is numerical, whereas all other features are categorical;</li>
+<li>It is accustomed to split to only two branches at each node. If you want three branches, you can do it at the next node: two branches at the first node, then one or both of the next nodes split into another 2 branches.</li>
+</ol>
+<p>There are other elements of a decision tree algorithm that you can not observe directly from this example but are very important. We examine these in more details in the following sections.</p>
+</div>
+<div id="split-criterion" class="section level2 hasAnchor" number="2.4">
+<h2><span class="header-section-number">2.4</span> Split Criterion<a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#split-criterion" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>At each node, the split must be based on some criterion. The commonly used criteria are <strong>Gini impurity</strong> and <strong>Entropy</strong> (or <strong>Log-loss</strong>). According to the scikit-learn documentation, let</p>
+<p><span class="math display">\[p_{mk}=\frac{1}{n_m}\sum_{y\in Q_m}{I(y=k)}\]</span></p>
+<p>denote the proportion of class <span class="math inline">\(k\)</span> observations in node <span class="math inline">\(m\)</span>, where <span class="math inline">\(Q_m\)</span> is the data available at node <span class="math inline">\(m\)</span>, <span class="math inline">\(n_m\)</span> is the sample size at node <span class="math inline">\(m\)</span>, and <span class="math inline">\(I(\cdot)\)</span> returns 1 when <span class="math inline">\(y=k\)</span> and 0 otherwise. Then, the <strong>Gini impurity</strong> is calculated as:</p>
+<p><span class="math display">\[H(Q_m)=\sum_{k}{p_{mk}(1-p_{mk})}\]</span></p>
+<p>whereas <strong>Entropy</strong> is:</p>
+<p><span class="math display">\[H(Q_m)=-\sum_{k}{p_{mk}\log{(p_{mk})}}\]</span></p>
+<p>At each node <span class="math inline">\(m\)</span>, a <code>candidate</code> is defined by the combination of a feature and a threshold. For example, in the above example, for the question “Is the customer under 30,” the feature is age and the threshold is 30. Let <span class="math inline">\(\theta\)</span> denote a candidate, which splits <span class="math inline">\(Q_m\)</span> into two partitions: <span class="math inline">\(Q_m^{\text{left}}\)</span> and <span class="math inline">\(Q_m^{\text{right}}\)</span>. Then the <strong>quality</strong> of a split with <span class="math inline">\(\theta\)</span> is computed as the weighted average of the criterion function <span class="math inline">\(H(Q_m)\)</span>:</p>
+<p><span class="math display">\[G(Q_m, \theta) = \frac{n_m^{\text{left}}}{n_m}H(Q_m^{\text{left}}(\theta)) + \frac{n_m^{\text{right}}}{n_m}H(Q_m^{\text{right}}(\theta))\]</span></p>
+<p>The objective of the decision tree algorithm is to find the candidate that minimizes the quality at each <span class="math inline">\(m\)</span>:</p>
+<p><span class="math display">\[\theta^{*} = \underset{\theta}{\operatorname{argmin}} \ G(Q_m, \theta)\]</span></p>
+<p>It is straightforward to see that, from either the <strong>Gini impurity</strong> or the <strong>Entropy</strong> criterion function, the unconstrained minimum of <span class="math inline">\(G(Q_m, \theta)\)</span> is achieved at <span class="math inline">\(p_{mk}=0\)</span> or <span class="math inline">\(p_{mk}=1\)</span>, i.e., when the result of the split consists of a single class.</p>
+<p>A quick remark before we move on: although there exists a global optimum for the decision tree algorithm where the quality function is minimized for the <em>whole</em> tree, the computation finding it is too complex. In practice, decision tree algorithms use <em>local</em> optima at each node as described above.</p>
+</div>
+<div id="pruning" class="section level2 hasAnchor" number="2.5">
+<h2><span class="header-section-number">2.5</span> Pruning<a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#pruning" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>If achieving a “pure” branch, where only observations from a single class remained after a split, minimizes the quality function <span class="math inline">\(G(Q_m, \theta)\)</span>, then why did we not achieve that “pure” state in the music store example earlier? There are two main reasons. First, we may not have enough features. Imagine you have two individuals in your data set, one bought a soprano and the other bought a contrabass. These two individuals are almost identical with the only difference being their eye colors. If “eye color” is not one of the features captured in your data set, you will have no way to distinguish these two individuals. On the other hand, imagine we know <em>everything</em> about each and every individual, then it is guaranteed that you can find a “perfect” tree, such that there is a single class of individuals at each end node. Such “perfect” tree may not be unique. At the extreme, imagine a tree such that each end node represents a single individual.</p>
+<p>The second reason is related to the Bias-Variance Tradeoff. Because the ultimate goal is to predict, fitting a “perfect” tree can result in too high of a variance. Continued with the previous example, your ability to build a perfect tree depends entirely on whether you have “eye color” as a feature in your data set. That means that your algorithm is too sensitive to one particular feature, and if this feature does not exist, your algorithm would fail to build a “perfect” tree (assuming that was the goal). Or, if this feature is somehow absent or incorrectly coded in the data set you are predicting on, your algorithm may break down.</p>
+<p>This is why a decision tree needs to be pruned. In practice, pruning is often done by specifying two hyperparameters: the maximum depth of the tree (<code>max_depth</code> in scikit-learn) and the minimum number of samples required to split (<code>min_samples_split</code> in scikit-learn). Without going into the technical details, we can intuitively understand that both of these restrictions prevent us from splitting the tree to the extreme case such that each end node represents an individual. In other words, they restrict the growth of a tree.</p>
+<p>The caveat of a single decision tree algorithm is obvious: it can easily suffer from either high bias or high variance, especially the latter. This is why ensemble methods such as <strong>bagging</strong> and <strong>boosting</strong> were introduced. In practice, a single decision tree is rarely used as the “final” model. It is often only used as a demonstrative example.</p>
+</div>
+<div id="bagging-and-random-forest" class="section level2 hasAnchor" number="2.6">
+<h2><span class="header-section-number">2.6</span> Bagging and Random Forest<a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#bagging-and-random-forest" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><code>Bagging</code> is one of two ensemble methods based on the decision tree algorithm. <code>Bagging</code> is short for <em>bootstrap aggregation</em>, which explains what bagging algorithms do: select random subsets from the training data set, fit the decision tree algorithm on each subset, and aggregate to get the prediction. There are several variations of <code>Bagging</code> algorithms depending on how random samples are drawn:</p>
+<ol style="list-style-type: decimal">
+<li>When random subsets were drawn with replacement (bootstrap), the algorithm is known as <code>Bagging</code> (Breiman, 1996)</li>
+<li>When random subsets were drawn without replacement, the algorithm is known as <code>Pasting</code> (Breiman, 1999)</li>
+<li>When random subsets are drawn based on features rather than individuals, the algorithm is known as <code>Subspaces</code> (Ho, 1998)</li>
+<li>When random subsets are drawn based on both features and individuals, the algorithm is known as <code>Random Patches</code> (Louppe and Geurts, 2012)</li>
+<li>When random subsets were drawn with replacement (bootstrap) <em>and</em> at each split, a random subset of features is chosen, the algorithm is known as <code>Random Forest</code> (Breiman, 2001)</li>
+</ol>
+<p>In scikit-learn, the first four algorithms are implemented in <code>BaggingClassifier</code> whereas <code>Random Forest</code> is implemented in <code>RandomForestClassifier</code>.</p>
+<p>In bagging algorithms, the “aggregation” of results during prediction is usually taken by votes. For example, suppose you have fit your data with the <code>Random Forest</code> algorithm with 1,000 trees, and now you want to know what size of the instrument a new customer is likely to buy. When the algorithm considers the first split, it will look at all 1,000 trees and see which candidate was used the most often. Suppose “Is the customer under 30” appeared in 800 of the trees, then the algorithm would split according to <code>age=30</code>. And so, at each split, the algorithm would take a tally from the 1,000 individual trees and act accordingly, just like how one would look at a flow-chart to determine actions.</p>
+<p>While a <code>Bagging</code> algorithm helps to reduce bias, the main benefit of bootstrapping is to reduce variance. The <code>Random Forest</code> algorithm, for example, is able to reduce variance in two ways: First, bootstrapping random samples is equivalent to consider many different scenarios. Not only does this mean that the algorithm is less reliant on a particular scenario (the whole training data set), it also makes it possible that one or some of the random scenarios may be similar to the “future,” i.e., the environment that the algorithm needs to make predictions on. Second, by considering a random set of features at each split, the algorithm is less reliant on certain features, and is hence resilient to “future” cases where certain features may be missing or have errors.</p>
+</div>
+<div id="boosting-and-adaboost" class="section level2 hasAnchor" number="2.7">
+<h2><span class="header-section-number">2.7</span> Boosting and AdaBoost<a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#boosting-and-adaboost" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>While the main benefit of <code>Bagging</code> is in reducing variance, the main benefit of <code>Boosting</code> is to reduce bias and maintain a reasonably low variance. Boosting is able to maintain a low variance because, like Bagging, it also fits many trees. Unlike Bagging, which builds the trees in parallel, Boosting builds them sequentially.</p>
+<p>The basic idea of boosting is to have incremental (small/“weak”) improvements from one stage to another, which is why the learning algorithms are built sequentially. This idea can be applied to all types of algorithms. In the context of decision tree, a boosting algorithm can be demonstrated by the following pseudocode:</p>
+<pre><code>Step 1: Build a simple decision tree (weak learner)
+Step 2: Loop:
+            Minimize weighted error with a tree with a small improvement
+            Stop when reaching a stopping rule</code></pre>
+<p>Currently, there are three popular types of tree-based boosting algorithms: <code>AdaBoost</code>, <code>Gradient Boosting</code>, and <code>XGBoost</code>. The different algorithms are different in how they <em>boost</em>, i.e., how to implement Step 2.</p>
+<p><code>AdaBoost</code> was introduced by Freund and Schapire (1995). It is short for <em>Ada</em>ptive <em>Boost</em>ing. <code>AdaBoost</code> implements boosting by changing the weights of observations. That is, by making some observations/individuals more important than others. In a training data set with <span class="math inline">\(N\)</span> individuals, the algorithm begins by weighting each individual the same: at a weight of <span class="math inline">\(1/N\)</span>. Then it fits a simple decision tree model and makes predictions. Inevitably, it makes better decision for some individuals than others. The algorithm then increases the weight for individuals that it did not make correct/good predictions on in the previous stage/model. This effectively asks the next decision tree algorithm to focus more on these individuals that it has failed to understand previously. And this process continues until a stopping rule is reached. A stopping rule may be, for example, “<strong>stops</strong> when 98% of the individuals are correctly predicted”.</p>
+<p>It is straightforward to see that a boosting algorithm lowers bias. But is it often able to main a low <em>variance</em> too? Boosting is able to do so because the tree built at each stage/iteration is different. When making predictions, it takes a weighted average of the models. Some mathematical details are helpful.</p>
+<p>Let <span class="math inline">\(w_{ij}\)</span> denote the weight of individual <span class="math inline">\(i\)</span> in stage/iteration <span class="math inline">\(j\)</span>. In the beginning, i.e., <span class="math inline">\(j=1\)</span>, we have <span class="math inline">\(w_{i1}=1/N\)</span> for all <span class="math inline">\(i\)</span> where <span class="math inline">\(N\)</span> is the the total number of individuals in the data set. After the first weak tree is built, we can calculate the error/misclassification rate of stage <span class="math inline">\(j\)</span> as</p>
+<p><span class="math display">\[e_j = \frac{\sum_{N}{w_{ij}\times I_{ij}(\text{incorrect})}}{\sum_{N}{w_{ij}}}\]</span></p>
+<p>where <span class="math inline">\(I_{ij}(\text{incorrect})\)</span> equals 1 if the prediction for individual <span class="math inline">\(i\)</span> is incorrect in stage <span class="math inline">\(j\)</span> and 0 otherwise. We can then calculate the <em>stage value</em> of model <span class="math inline">\(j\)</span> with:</p>
+<p><span class="math display">\[v_j = \frac{1}{2}\log\left(\frac{1-e_j}{e_j}\right)\]</span></p>
+<p>The stage value is used both in updating <span class="math inline">\(w_{ij+1}\)</span>, i.e., the weight of individual <span class="math inline">\(i\)</span> in the next stage, and to act as the weight of model <span class="math inline">\(j\)</span> when prediction is computed. To update the weight for the next stage/model, we have</p>
+<p><span class="math display">\[w_{ij+1} = w_{ij} \times \exp{(v_j \times I_{ij}(\hat{y}_{ij}=y_i))}\]</span></p>
+<p>where <span class="math inline">\(\hat{y}_{ij}\)</span> is the prediction for individual <span class="math inline">\(i\)</span> in stage <span class="math inline">\(j\)</span>, and <span class="math inline">\(y_i\)</span> is the true label for individual <span class="math inline">\(i\)</span>. For binary classification, it is a convention to expression <span class="math inline">\(\hat{y}_{ij}\)</span> and <span class="math inline">\(y_i\)</span> as 1 and -1, such that the above equation can be simplified into</p>
+<p><span class="math display">\[w_{ij+1} = w_{ij} \times \exp{(v_j \times \hat{y}_{ij}\times y_i)}\]</span></p>
+<p>At each stage <span class="math inline">\(j(&gt;1)\)</span>, the <code>AdaBoost</code> algorithm aims to minimize <span class="math inline">\(e_j\)</span>.</p>
+<p>To compute the overall/final prediction, let <span class="math inline">\(\hat{y}_{ij}\)</span> denote the prediction of model/stage <span class="math inline">\(j\)</span> for individual <span class="math inline">\(i\)</span>, then the predicted value is calculated by:</p>
+<p><span class="math display">\[\hat{y}_{i} = \sum_{J}{\hat{y}_{ij} \times v_j}\]</span></p>
+<p>where <span class="math inline">\(J\)</span> is the total number of stages.</p>
+</div>
+<div id="gradient-boosting-and-xgboost" class="section level2 hasAnchor" number="2.8">
+<h2><span class="header-section-number">2.8</span> Gradient Boosting and XGBoost<a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#gradient-boosting-and-xgboost" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><code>Gradient Boosting</code> (Friedman, 2001) is another approach to boost. Instead of updating the weight after each stage/model, Gradient Boosting aims to minimize a loss function, using methods such as gradient decent. The default loss function in scikit-learn, which is also the most commonly used in practice, is the binomial deviance:</p>
+<p><span class="math display">\[L_j = -2\sum_{N}{y_i\log{(\hat{p}_{ij})} + (1-y_i)\log{(1-\hat{p}_{ij})}}\]</span></p>
+<p>where <span class="math inline">\(N\)</span> is the number of individuals, <span class="math inline">\(y_i\)</span> is the true label for individual <span class="math inline">\(i\)</span>, and <span class="math inline">\(\hat{p}_{ij}\)</span> is the predicted probability that individual <span class="math inline">\(i\)</span> at stage <span class="math inline">\(j\)</span> having a label of <span class="math inline">\(y\)</span>, and is given by the softmax (logistic) function when log-loss is specified:</p>
+<p><span class="math display">\[\hat{p}_{ij} = \frac{\exp{(F_j(x_i))}}{1+\exp{(F_j(x_i))}}\]</span></p>
+<p>where <span class="math inline">\(F_j(x_i)\)</span> is a numerical predicted value for individual <span class="math inline">\(i\)</span> by regressor <span class="math inline">\(F_j(x)\)</span>. Here, <span class="math inline">\(F_j(x)\)</span> is the aggregated regressor in stage <span class="math inline">\(j\)</span>, which is given by</p>
+<p><span class="math display">\[F_j(x) = F_{j-1}(x) + h_j(x)\]</span></p>
+<p>where <span class="math inline">\(h_j(x)\)</span> is the weak learner/regressor at stage <span class="math inline">\(j\)</span> that minimizes <span class="math inline">\(L_j\)</span>. Suppose the algorithm runs a total of <span class="math inline">\(M\)</span> stages, we have the final aggregated regressor <span class="math inline">\(F_M(x)\)</span>. Substituting <span class="math inline">\(F_M(x)\)</span> into <span class="math inline">\(\hat{p}_{ij}\)</span> gives the overall prediction of the Gradient Boosting model.</p>
+<p>Using first-order Taylor approximation, it can be shown that minimizing <span class="math inline">\(L_j\)</span> is approximately equivalent to predicting the negative gradient of the samples, where the negative gradient for individual <span class="math inline">\(i\)</span> is given by</p>
+<p><span class="math display">\[-g_i = -\left[\frac{\partial l_{ij-1}}{\partial F_{j-1}(x_i)}\right]\]</span></p>
+<p>where <span class="math inline">\(l_{ij-1}\)</span> is the term inside the summation in <span class="math inline">\(L_j\)</span> (but lagged one stage):</p>
+<p><span class="math display">\[l_{ij-1} = y_i\log{(\hat{p}_{ij-1})} + (1-y_i)\log{(1-\hat{p}_{ij-1})}\]</span></p>
+<p>In other words, while the basic decision tree algorithm aims to predict the true classes, usually represented by indicator variables, <code>Gradient Boosting</code> aims to predict a continuous numerical value which is the gradient. This means that, at each stage, Gradient Boosting is a regression problem rather than a classification problem. Predicting the gradient allows the algorithm to utilize many well developed methods for such task, for example, the Nelder-Mead method or grid search.</p>
+<p>The discussion above focused on binary classification, which requires a single tree to be built in each stage. In multiclass classification, <span class="math inline">\(K\)</span> trees would be built for <span class="math inline">\(K\)</span> classes. For example, if <code>Gradient Boosting</code> is used to identify the 26 English alphabets, 26 trees are built and fitted in each stage.</p>
+<p><code>XGBoost</code> was introduced by Tianqi Chen in 2014. It is short for “e<em>X</em>treme <em>G</em>radient <em>Boost</em>ing”. Instead of gradient decent, <code>XGBoost</code> implements the <a href="https://en.wikipedia.org/wiki/Newton%27s_method">Newton’s Method</a>, which is computationally much more demanding than gradient decent and requires a second-order Taylor approximation (instead of only the first-order approximation as in <code>Gradient Boosting</code>). Due to this, in addition to <strong>Gradients</strong>, <code>XGBoost</code> also calculates the <strong>Hessians</strong>, which are a set of second-order derivatives (whereas gradients are the first-order derivatives).</p>
+<p>The <code>Python</code> library <code>xgboost</code> implements <code>XGBoost</code> and can easily be integrated with <code>scikit-learn</code>, which is the library we use to implement all algorithms covered in this chapter.</p>
+</div>
+<div id="python-implementation-with-scikit-learn" class="section level2 hasAnchor" number="2.9">
+<h2><span class="header-section-number">2.9</span> Python Implementation with scikit-learn<a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#python-implementation-with-scikit-learn" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>As we have done in other chapters, we will first generate a data set, then fit the data with various algorithms. After we have fitted the models, we will print out some basic performance metrics, chief among them the <code>confusion matrix</code>, and conduct a cross validation exercise.</p>
+<p>The algorithms we consider include:
+* Logistic regression
+* Decision tree classifier
+* Random forest classifier
+* Adaboost classifier
+* Gradient boosting classifier
+* XGBoost</p>
+<p>Even though logistic regression is not covered in this chapter, I included it in the Python implementation for comparison purposes. Although not necessary, I also use a Python class in this implementation. Here is the full script:</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb41-1"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> random</span>
+<span id="cb41-2"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> string</span>
+<span id="cb41-3"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb41-4"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb41-5"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb41-6"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> KMeans</span>
+<span id="cb41-7"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split, cross_val_score</span>
+<span id="cb41-8"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span>
+<span id="cb41-9"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.tree <span class="im">import</span> DecisionTreeClassifier</span>
+<span id="cb41-10"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestClassifier</span>
+<span id="cb41-11"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-11" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> AdaBoostClassifier</span>
+<span id="cb41-12"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-12" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> GradientBoostingClassifier</span>
+<span id="cb41-13"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-13" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> accuracy_score, precision_score, recall_score, f1_score</span>
+<span id="cb41-14"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-14" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> confusion_matrix, ConfusionMatrixDisplay</span>
+<span id="cb41-15"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-15" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> xgboost</span>
+<span id="cb41-16"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-17"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-17" aria-hidden="true" tabindex="-1"></a>N_GROUP <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb41-18"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-18" aria-hidden="true" tabindex="-1"></a>N_IND <span class="op">=</span> <span class="dv">50000</span></span>
+<span id="cb41-19"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-19" aria-hidden="true" tabindex="-1"></a>N_FEATURES <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb41-20"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-21"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-22"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-22" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> TreeModels:</span>
+<span id="cb41-23"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-23" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(</span>
+<span id="cb41-24"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-24" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>,</span>
+<span id="cb41-25"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-25" aria-hidden="true" tabindex="-1"></a>            n_group: <span class="bu">int</span> <span class="op">=</span> <span class="dv">5</span>,</span>
+<span id="cb41-26"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-26" aria-hidden="true" tabindex="-1"></a>            n_individuals: <span class="bu">int</span> <span class="op">=</span> <span class="dv">10000</span>,</span>
+<span id="cb41-27"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-27" aria-hidden="true" tabindex="-1"></a>            n_num_features: <span class="bu">int</span> <span class="op">=</span> <span class="dv">10</span>,</span>
+<span id="cb41-28"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-28" aria-hidden="true" tabindex="-1"></a>            numeric_only: <span class="bu">bool</span> <span class="op">=</span> <span class="va">False</span>,</span>
+<span id="cb41-29"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-29" aria-hidden="true" tabindex="-1"></a>    ):</span>
+<span id="cb41-30"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-30" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb41-31"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-31" aria-hidden="true" tabindex="-1"></a><span class="co">        Initialize the TreeModels class.</span></span>
+<span id="cb41-32"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-33"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-33" aria-hidden="true" tabindex="-1"></a><span class="co">        Args:</span></span>
+<span id="cb41-34"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-34" aria-hidden="true" tabindex="-1"></a><span class="co">            n_group (int): Number of groups. Default is 5.</span></span>
+<span id="cb41-35"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-35" aria-hidden="true" tabindex="-1"></a><span class="co">            n_individuals (int): Number of individuals. Default is 10000.</span></span>
+<span id="cb41-36"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-36" aria-hidden="true" tabindex="-1"></a><span class="co">            n_num_features (int): Number of numerical features. Default is 10.</span></span>
+<span id="cb41-37"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-37" aria-hidden="true" tabindex="-1"></a><span class="co">            numeric_only (bool): Flag to indicate whether to use only numerical features. Default is False.</span></span>
+<span id="cb41-38"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-39"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-39" aria-hidden="true" tabindex="-1"></a><span class="co">        Returns:</span></span>
+<span id="cb41-40"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-40" aria-hidden="true" tabindex="-1"></a><span class="co">            None</span></span>
+<span id="cb41-41"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-41" aria-hidden="true" tabindex="-1"></a><span class="co">        &quot;&quot;&quot;</span></span>
+<span id="cb41-42"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-42" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f&#39;There are </span><span class="sc">{</span>n_individuals<span class="sc">}</span><span class="ss"> individuals.&#39;</span>)</span>
+<span id="cb41-43"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-43" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f&#39;There are </span><span class="sc">{</span>n_group<span class="sc">}</span><span class="ss"> choices.&#39;</span>)</span>
+<span id="cb41-44"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-44" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f&#39;There are </span><span class="sc">{</span>n_num_features<span class="sc">}</span><span class="ss"> numerical features and 1 categorical feature.&#39;</span>)</span>
+<span id="cb41-45"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-46"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-46" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.numeric_only <span class="op">=</span> numeric_only</span>
+<span id="cb41-47"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-48"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-48" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Generate random numerical features and categorical feature</span></span>
+<span id="cb41-49"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-49" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.num_features <span class="op">=</span> np.random.rand(n_individuals, n_num_features <span class="op">+</span> <span class="dv">2</span>)</span>
+<span id="cb41-50"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-50" aria-hidden="true" tabindex="-1"></a>        cat_list <span class="op">=</span> random.choices(string.ascii_uppercase, k<span class="op">=</span><span class="dv">6</span>)</span>
+<span id="cb41-51"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-51" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.cat_features <span class="op">=</span> np.random.choice(cat_list, size<span class="op">=</span>(n_individuals, <span class="dv">1</span>))</span>
+<span id="cb41-52"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-53"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-53" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Create a DataFrame with numerical features and one-hot encoded categorical feature</span></span>
+<span id="cb41-54"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-54" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.df <span class="op">=</span> pd.DataFrame(<span class="va">self</span>.num_features[:, :<span class="op">-</span><span class="dv">2</span>])</span>
+<span id="cb41-55"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-55" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.df[<span class="st">&#39;cat_features&#39;</span>] <span class="op">=</span> <span class="va">self</span>.cat_features</span>
+<span id="cb41-56"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-56" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.df <span class="op">=</span> pd.get_dummies(<span class="va">self</span>.df, prefix<span class="op">=</span>[<span class="st">&#39;cat&#39;</span>])</span>
+<span id="cb41-57"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-57" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.df.columns <span class="op">=</span> <span class="va">self</span>.df.columns.astype(<span class="bu">str</span>)</span>
+<span id="cb41-58"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-59"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-59" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> numeric_only:</span>
+<span id="cb41-60"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-60" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Cluster the data based on numerical features only</span></span>
+<span id="cb41-61"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-61" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Logistic regression performs the best in this condition</span></span>
+<span id="cb41-62"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-62" aria-hidden="true" tabindex="-1"></a>            kmeans <span class="op">=</span> KMeans(n_clusters<span class="op">=</span>n_group, n_init<span class="op">=</span><span class="st">&quot;auto&quot;</span>).fit(<span class="va">self</span>.num_features)</span>
+<span id="cb41-63"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-63" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.df[<span class="st">&#39;target&#39;</span>] <span class="op">=</span> kmeans.labels_</span>
+<span id="cb41-64"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-64" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb41-65"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-65" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Cluster the data based on both numerical and categorical features</span></span>
+<span id="cb41-66"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-66" aria-hidden="true" tabindex="-1"></a>            cat_columns <span class="op">=</span> <span class="va">self</span>.df.<span class="bu">filter</span>(like<span class="op">=</span><span class="st">&#39;cat&#39;</span>)</span>
+<span id="cb41-67"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-67" aria-hidden="true" tabindex="-1"></a>            kmeans1 <span class="op">=</span> KMeans(n_clusters<span class="op">=</span>n_group, n_init<span class="op">=</span><span class="st">&quot;auto&quot;</span>).fit(cat_columns)</span>
+<span id="cb41-68"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-68" aria-hidden="true" tabindex="-1"></a>            kmeans2 <span class="op">=</span> KMeans(n_clusters<span class="op">=</span>n_group, n_init<span class="op">=</span><span class="st">&quot;auto&quot;</span>).fit(<span class="va">self</span>.num_features)</span>
+<span id="cb41-69"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-69" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.df[<span class="st">&#39;target&#39;</span>] <span class="op">=</span> np.floor((kmeans1.labels_ <span class="op">+</span> kmeans2.labels_) <span class="op">/</span> <span class="dv">2</span>)</span>
+<span id="cb41-70"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-71"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-71" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Add some random noise to the numerical features</span></span>
+<span id="cb41-72"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-72" aria-hidden="true" tabindex="-1"></a>        numerical_columns <span class="op">=</span> [<span class="bu">str</span>(i) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n_num_features)]</span>
+<span id="cb41-73"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-73" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> column <span class="kw">in</span> numerical_columns:</span>
+<span id="cb41-74"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-74" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.df[column] <span class="op">=</span> <span class="va">self</span>.df[column] <span class="op">+</span> random.gauss(mu<span class="op">=</span><span class="dv">0</span>, sigma<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="cb41-75"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-76"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-76" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Split the data into training and testing sets</span></span>
+<span id="cb41-77"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-77" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.X <span class="op">=</span> <span class="va">self</span>.df.drop(columns<span class="op">=</span>[<span class="st">&#39;target&#39;</span>])</span>
+<span id="cb41-78"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-78" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.y <span class="op">=</span> <span class="va">self</span>.df[<span class="st">&#39;target&#39;</span>]</span>
+<span id="cb41-79"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-79" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.X_train, <span class="va">self</span>.X_test, <span class="va">self</span>.y_train, <span class="va">self</span>.y_test <span class="op">=</span> train_test_split(</span>
+<span id="cb41-80"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-80" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.X, <span class="va">self</span>.y, test_size<span class="op">=</span><span class="fl">0.3</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb41-81"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-82"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-82" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Initialize the y_pred variable</span></span>
+<span id="cb41-83"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-83" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.y_pred <span class="op">=</span> np.empty([n_individuals, <span class="dv">1</span>])</span>
+<span id="cb41-84"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-85"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-85" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Initialize a dictionary to save results</span></span>
+<span id="cb41-86"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-86" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.results <span class="op">=</span> <span class="bu">dict</span>()</span>
+<span id="cb41-87"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-88"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-88" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> show_results(<span class="va">self</span>, clf, clf_name, print_flag<span class="op">=</span><span class="va">False</span>, plot_flag<span class="op">=</span><span class="va">True</span>):</span>
+<span id="cb41-89"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-89" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb41-90"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-90" aria-hidden="true" tabindex="-1"></a><span class="co">        Train and evaluate a classifier.</span></span>
+<span id="cb41-91"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-92"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-92" aria-hidden="true" tabindex="-1"></a><span class="co">        Args:</span></span>
+<span id="cb41-93"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-93" aria-hidden="true" tabindex="-1"></a><span class="co">            clf: Classifier object.</span></span>
+<span id="cb41-94"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-94" aria-hidden="true" tabindex="-1"></a><span class="co">            clf_name (str): Name of the classifier.</span></span>
+<span id="cb41-95"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-95" aria-hidden="true" tabindex="-1"></a><span class="co">            print_flag (bool): Whether to print results. Default is False.</span></span>
+<span id="cb41-96"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-96" aria-hidden="true" tabindex="-1"></a><span class="co">            plot_flag (bool): Whether to draw CM plots and save them. Default is True.</span></span>
+<span id="cb41-97"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-98"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-98" aria-hidden="true" tabindex="-1"></a><span class="co">        Returns:</span></span>
+<span id="cb41-99"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-99" aria-hidden="true" tabindex="-1"></a><span class="co">            None</span></span>
+<span id="cb41-100"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-100" aria-hidden="true" tabindex="-1"></a><span class="co">        &quot;&quot;&quot;</span></span>
+<span id="cb41-101"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-101" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(clf_name)</span>
+<span id="cb41-102"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-102" aria-hidden="true" tabindex="-1"></a>        clf.fit(<span class="va">self</span>.X_train, <span class="va">self</span>.y_train)</span>
+<span id="cb41-103"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-103" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.y_pred <span class="op">=</span> clf.predict(<span class="va">self</span>.X_test)</span>
+<span id="cb41-104"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-105"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-105" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Calculate evaluation metrics</span></span>
+<span id="cb41-106"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-106" aria-hidden="true" tabindex="-1"></a>        train_acc <span class="op">=</span> clf.score(<span class="va">self</span>.X_train, <span class="va">self</span>.y_train)</span>
+<span id="cb41-107"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-107" aria-hidden="true" tabindex="-1"></a>        acc <span class="op">=</span> accuracy_score(<span class="va">self</span>.y_test, <span class="va">self</span>.y_pred)</span>
+<span id="cb41-108"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-108" aria-hidden="true" tabindex="-1"></a>        precision <span class="op">=</span> precision_score(<span class="va">self</span>.y_test, <span class="va">self</span>.y_pred, average<span class="op">=</span><span class="st">&#39;weighted&#39;</span>)</span>
+<span id="cb41-109"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-109" aria-hidden="true" tabindex="-1"></a>        recall <span class="op">=</span> recall_score(<span class="va">self</span>.y_test, <span class="va">self</span>.y_pred, average<span class="op">=</span><span class="st">&#39;weighted&#39;</span>)</span>
+<span id="cb41-110"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-110" aria-hidden="true" tabindex="-1"></a>        f1 <span class="op">=</span> f1_score(<span class="va">self</span>.y_test, <span class="va">self</span>.y_pred, average<span class="op">=</span><span class="st">&#39;weighted&#39;</span>)</span>
+<span id="cb41-111"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-112"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-112" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Perform cross-validation and print the average score</span></span>
+<span id="cb41-113"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-113" aria-hidden="true" tabindex="-1"></a>        cv_score <span class="op">=</span> cross_val_score(clf, <span class="va">self</span>.X, <span class="va">self</span>.y, cv<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb41-114"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-115"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-115" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> print_flag:</span>
+<span id="cb41-116"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-116" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="bu">isinstance</span>(clf, LogisticRegression):</span>
+<span id="cb41-117"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-117" aria-hidden="true" tabindex="-1"></a>                <span class="bu">print</span>(<span class="ss">f&#39;Coefficients: </span><span class="sc">{</span>clf<span class="sc">.</span>coef_<span class="sc">}</span><span class="ss">&#39;</span>)</span>
+<span id="cb41-118"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-118" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
+<span id="cb41-119"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-119" aria-hidden="true" tabindex="-1"></a>                <span class="bu">print</span>(<span class="ss">f&#39;Feature Importance: </span><span class="sc">{</span>clf<span class="sc">.</span>feature_importances_<span class="sc">}</span><span class="ss">&#39;</span>)</span>
+<span id="cb41-120"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-120" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f&#39;Training accuracy: </span><span class="sc">{</span>train_acc<span class="sc">:.4f}</span><span class="ss">&#39;</span>)</span>
+<span id="cb41-121"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-121" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f&#39;Test accuracy: </span><span class="sc">{</span>acc<span class="sc">:.4f}</span><span class="ss">&#39;</span>)</span>
+<span id="cb41-122"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-122" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f&#39;Test precision: </span><span class="sc">{</span>precision<span class="sc">:.4f}</span><span class="ss">&#39;</span>)</span>
+<span id="cb41-123"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-123" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f&#39;Test recall: </span><span class="sc">{</span>recall<span class="sc">:.4f}</span><span class="ss">&#39;</span>)</span>
+<span id="cb41-124"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-124" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f&#39;Test F1 score: </span><span class="sc">{</span>f1<span class="sc">:.4f}</span><span class="ss">&#39;</span>)</span>
+<span id="cb41-125"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-125" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f&#39;Average Cross Validation: </span><span class="sc">{</span>np<span class="sc">.</span>mean(cv_score)<span class="sc">}</span><span class="ss">&#39;</span>)</span>
+<span id="cb41-126"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-127"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-127" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> plot_flag:</span>
+<span id="cb41-128"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-128" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Plot the confusion matrix</span></span>
+<span id="cb41-129"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-129" aria-hidden="true" tabindex="-1"></a>            cm <span class="op">=</span> confusion_matrix(<span class="va">self</span>.y_test, <span class="va">self</span>.y_pred, labels<span class="op">=</span>clf.classes_)</span>
+<span id="cb41-130"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-130" aria-hidden="true" tabindex="-1"></a>            disp <span class="op">=</span> ConfusionMatrixDisplay(confusion_matrix<span class="op">=</span>cm, display_labels<span class="op">=</span>clf.classes_)</span>
+<span id="cb41-131"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-131" aria-hidden="true" tabindex="-1"></a>            disp.plot()</span>
+<span id="cb41-132"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-133"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-133" aria-hidden="true" tabindex="-1"></a>            plt.savefig(<span class="ss">f&quot;cm_</span><span class="sc">{</span>clf_name<span class="sc">}</span><span class="ss">_</span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>numeric_only<span class="sc">}</span><span class="ss">.png&quot;</span>, dpi<span class="op">=</span><span class="dv">150</span>)</span>
+<span id="cb41-134"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-135"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-135" aria-hidden="true" tabindex="-1"></a>        plt.show()</span>
+<span id="cb41-136"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-137"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-137" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Save results in self.result dictionary</span></span>
+<span id="cb41-138"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-138" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.results[clf_name] <span class="op">=</span> {</span>
+<span id="cb41-139"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-139" aria-hidden="true" tabindex="-1"></a>            <span class="st">&#39;train_acc&#39;</span>: train_acc,</span>
+<span id="cb41-140"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-140" aria-hidden="true" tabindex="-1"></a>            <span class="st">&#39;acc&#39;</span>: acc,</span>
+<span id="cb41-141"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-141" aria-hidden="true" tabindex="-1"></a>            <span class="st">&#39;precision&#39;</span>: precision,</span>
+<span id="cb41-142"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-142" aria-hidden="true" tabindex="-1"></a>            <span class="st">&#39;recall&#39;</span>: recall,</span>
+<span id="cb41-143"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-143" aria-hidden="true" tabindex="-1"></a>            <span class="st">&#39;f1_score&#39;</span>: f1,</span>
+<span id="cb41-144"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-144" aria-hidden="true" tabindex="-1"></a>            <span class="st">&#39;cv_score&#39;</span>: np.mean(cv_score)</span>
+<span id="cb41-145"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-145" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb41-146"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-147"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-148"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-148" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> run_tree_ensembles(</span>
+<span id="cb41-149"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-149" aria-hidden="true" tabindex="-1"></a>        n_group: <span class="bu">int</span> <span class="op">=</span> <span class="dv">5</span>,</span>
+<span id="cb41-150"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-150" aria-hidden="true" tabindex="-1"></a>        n_num_features: <span class="bu">int</span> <span class="op">=</span> <span class="dv">10</span>,</span>
+<span id="cb41-151"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-151" aria-hidden="true" tabindex="-1"></a>        print_flag: <span class="bu">bool</span> <span class="op">=</span> <span class="va">True</span>,</span>
+<span id="cb41-152"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-152" aria-hidden="true" tabindex="-1"></a>        plot_flag: <span class="bu">bool</span> <span class="op">=</span> <span class="va">True</span>,</span>
+<span id="cb41-153"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-153" aria-hidden="true" tabindex="-1"></a>        numeric_only_bool: <span class="bu">list</span> <span class="op">=</span> (<span class="va">False</span>, <span class="va">True</span>),</span>
+<span id="cb41-154"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-154" aria-hidden="true" tabindex="-1"></a>        n_individuals: <span class="bu">int</span> <span class="op">=</span> <span class="dv">50000</span>,</span>
+<span id="cb41-155"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-155" aria-hidden="true" tabindex="-1"></a>) <span class="op">-&gt;</span> <span class="bu">dict</span>:</span>
+<span id="cb41-156"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-157"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-157" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> numeric_only_bool:</span>
+<span id="cb41-158"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-158" aria-hidden="true" tabindex="-1"></a>        tree <span class="op">=</span> TreeModels(n_group, n_individuals, n_num_features, numeric_only<span class="op">=</span>i)</span>
+<span id="cb41-159"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-159" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-160"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-160" aria-hidden="true" tabindex="-1"></a>        logit <span class="op">=</span> LogisticRegression(max_iter<span class="op">=</span><span class="dv">10000</span>)</span>
+<span id="cb41-161"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-161" aria-hidden="true" tabindex="-1"></a>        tree.show_results(logit, <span class="st">&#39;logit&#39;</span>, print_flag, plot_flag)</span>
+<span id="cb41-162"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-163"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-163" aria-hidden="true" tabindex="-1"></a>        d_tree <span class="op">=</span> DecisionTreeClassifier()</span>
+<span id="cb41-164"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-164" aria-hidden="true" tabindex="-1"></a>        tree.show_results(d_tree, <span class="st">&#39;decisiontree&#39;</span>, print_flag, plot_flag)</span>
+<span id="cb41-165"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-166"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-166" aria-hidden="true" tabindex="-1"></a>        rf <span class="op">=</span> RandomForestClassifier()</span>
+<span id="cb41-167"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-167" aria-hidden="true" tabindex="-1"></a>        tree.show_results(rf, <span class="st">&#39;randomforest&#39;</span>, print_flag, plot_flag)</span>
+<span id="cb41-168"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-168" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-169"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-169" aria-hidden="true" tabindex="-1"></a>        ada <span class="op">=</span> AdaBoostClassifier()</span>
+<span id="cb41-170"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-170" aria-hidden="true" tabindex="-1"></a>        tree.show_results(ada, <span class="st">&#39;adaboost&#39;</span>, print_flag, plot_flag)</span>
+<span id="cb41-171"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-172"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-172" aria-hidden="true" tabindex="-1"></a>        gbm <span class="op">=</span> GradientBoostingClassifier()</span>
+<span id="cb41-173"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-173" aria-hidden="true" tabindex="-1"></a>        tree.show_results(gbm, <span class="st">&#39;gbm&#39;</span>, print_flag, plot_flag)</span>
+<span id="cb41-174"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-174" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-175"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-175" aria-hidden="true" tabindex="-1"></a>        xgb <span class="op">=</span> xgboost.XGBClassifier()</span>
+<span id="cb41-176"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-176" aria-hidden="true" tabindex="-1"></a>        tree.show_results(xgb, <span class="st">&#39;xgboost&#39;</span>, print_flag, plot_flag)</span>
+<span id="cb41-177"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-177" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-178"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-178" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> {n_individuals: tree.results}</span></code></pre></div>
+<p>Here are some remarks about the script. First, the number of numerical features in the generated data set is given by <code>n_num_features</code>. Two additional columns of numerical features and six columns of string/categorical features are also included to add randomness and complexity to the generated data. The numerical features are stored in the <code>numpy</code> array <code>num_features</code> while the categorical features are stored in <code>cat_features</code>. These features are then properly processed and stored in the <code>pandas</code> dataframe <code>df</code>:</p>
+<ul>
+<li>Only the original numerical feature columns are stored (<code>self.num_features[:, :-2]</code>);</li>
+<li>The categorical features are one-hot encoded with <code>pd.get_dummies()</code>.</li>
+</ul>
+<p>In the <code>if</code> statement that followed, the <code>KMeans</code> algorithm is called to generate <code>n_group</code> classes/clusters.</p>
+<p>Additional randomness is added to the numerical features by the following:</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb42-1"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb42-1" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Add some random noise to the numerical features</span></span>
+<span id="cb42-2"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb42-2" aria-hidden="true" tabindex="-1"></a>        numerical_columns <span class="op">=</span> [<span class="bu">str</span>(i) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n_num_features)]</span>
+<span id="cb42-3"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb42-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> column <span class="kw">in</span> numerical_columns:</span>
+<span id="cb42-4"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb42-4" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.df[column] <span class="op">=</span> <span class="va">self</span>.df[column] <span class="op">+</span> random.gauss(mu<span class="op">=</span><span class="dv">0</span>, sigma<span class="op">=</span><span class="dv">3</span>)</span></code></pre></div>
+<p>The rest of the <code>TreeModels</code> class performs the train-test split and adds a method named <code>show_results()</code> to run the selected algorithm followed by printing out (based on the value of <code>print_flag</code>) several performance metrics.</p>
+</div>
+<div id="confusion-matrix-and-other-performance-metrics" class="section level2 hasAnchor" number="2.10">
+<h2><span class="header-section-number">2.10</span> Confusion Matrix and other Performance Metrics<a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#confusion-matrix-and-other-performance-metrics" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><code>Confusion matrix</code> is the most important and common way to examine the performance of a classification algorithm. It is a matrix showing the numbers of individuals in each true-predicted label combination. In our simulated data, there are 5 classes, which results in a 5-by-5 confusion matrix. Below is the confusion matrix of the test data from the logistic regression when the simulation has included categorical features in generating the target groups:</p>
+<div class="figure">
+<img src="images/cm_logit_False.png" alt="" />
+<p class="caption">Comparison</p>
+</div>
+<p>In the confusion matrix, the rows show the “True label” whereas the columns show the “Predicted label”. All the cells on the diagonal are corrected predicted. Based on the confusion matrix, there are three basic performance metrics: <strong>accuracy</strong>, <strong>precision</strong>, and <strong>recall</strong>. There are also various metrics that are weighted averages. For example, the <strong>f1 score</strong> is the harmonic mean of precision and recall.</p>
+<p><code>Accuracy</code> is the proportion of individuals that the algorithm has predicted correctly. To calculate the accuracy score, we sum up the values on the diagonal then divide the total number of individuals in the data set. From the above example, we can calculate accuracy by:</p>
+<p><span class="math display">\[\frac{1884+2769+2945+1553+404}{15000}=0.6370\]</span></p>
+<p>Precision and recall are usually defined based on a certain class. For overall precision and recall scores, we can take a weighted average. <code>Precision</code> is the proportion of individuals who the algorithm predicted to be a certain class is actually that class. In the above example, 2577 individuals were predicted to be class 0, but only 1884 actually are. As a result, the precision <em>for class 0</em> is:</p>
+<p><span class="math display">\[\frac{1884}{2577}=0.7311\]</span></p>
+<p><code>Recall</code>, On the other hand, is the proportion of individuals who belong to a certain class that the algorithm predicted correctly. In the above example, 4979 individuals belong to class 2, but only 2945 were predicted correctly by the algorithm. As a result, the recall <em>for class 2</em> is:</p>
+<p><span class="math display">\[\frac{2945}{4979}=0.5915\]</span></p>
+<p>If we take weighted average of precision and recall of all 5 classes, we get the overall precision and recall scores as 0.6376 and 0.6370, or about 63.7%. These are the values reported as <code>precision_score</code> and <code>recall_score</code> by scikit-learn.</p>
+<p>Economics and social sciences often use the terms “Type I” and “Type II” errors, which can be related to the discussion here in case of binary classification. In a binary classification, we have 4 quadrants:
+1. True positive (TP): those who belong to the “positive” class and are predicted so;
+2. True negative (TN): those who belong to the “negative” class and are predicted so. True positive and true negative are on the diagonal;
+3. False positive (FP): those who are predicted to be “positive” but are actually “negative’;
+4. False negative (FN): those who are predicted to be”negative” but are actually “positive”.</p>
+<p>Type I error corresponds to false positive and Type II error corresponds to false negative.</p>
+<p>Before we move on to formally compare results from the 6 algorithms, it is worth noting that random forest, gradient boosting, and XGBoost performed much better than logistic regression in the above simulated data set with categorical features and <code>random seed = 123</code>. For example, below is the confusion matrix from XGBoost:</p>
+<div class="figure">
+<img src="images/cm_xgboost_False.png" alt="" />
+<p class="caption">Comparison</p>
+</div>
+</div>
+<div id="comparison-the-algorithms" class="section level2 hasAnchor" number="2.11">
+<h2><span class="header-section-number">2.11</span> Comparison the Algorithms<a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#comparison-the-algorithms" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The following <code>Python</code> script runs the comparison between different algorithms for between 6000 and 50000 individuals (sample size):</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb43-1"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb43-2"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> random</span>
+<span id="cb43-3"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb43-4"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> multiprocessing <span class="im">import</span> Pool, cpu_count</span>
+<span id="cb43-5"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> functools <span class="im">import</span> partial</span>
+<span id="cb43-6"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tree_ensembles <span class="im">import</span> run_tree_ensembles</span>
+<span id="cb43-7"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-8"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-8" aria-hidden="true" tabindex="-1"></a>plt.ion()</span>
+<span id="cb43-9"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-10"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-10" aria-hidden="true" tabindex="-1"></a>n_individuals_range <span class="op">=</span> <span class="bu">range</span>(<span class="dv">50000</span>, <span class="dv">5999</span>, <span class="op">-</span><span class="dv">2000</span>)</span>
+<span id="cb43-11"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-12"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-13"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-13" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> run_monte_carlo(n_individuals_range, numeric_only_bool):</span>
+<span id="cb43-14"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-15"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> Pool(<span class="dv">1</span>) <span class="im">as</span> pool:</span>
+<span id="cb43-16"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-16" aria-hidden="true" tabindex="-1"></a>        func <span class="op">=</span> partial(run_tree_ensembles, <span class="dv">5</span>, <span class="dv">10</span>, <span class="va">False</span>, <span class="va">False</span>, numeric_only_bool)</span>
+<span id="cb43-17"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-17" aria-hidden="true" tabindex="-1"></a>        results <span class="op">=</span> <span class="bu">list</span>(pool.imap(func, n_individuals_range))</span>
+<span id="cb43-18"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-19"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> results</span>
+<span id="cb43-20"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-21"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-22"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-22" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_monte_carlo(data: <span class="bu">list</span>):</span>
+<span id="cb43-23"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-24"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-24" aria-hidden="true" tabindex="-1"></a>    df_list <span class="op">=</span> []</span>
+<span id="cb43-25"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> item <span class="kw">in</span> data:</span>
+<span id="cb43-26"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-26" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i, inner_dict <span class="kw">in</span> item.items():</span>
+<span id="cb43-27"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-27" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> j, inner_inner_dict <span class="kw">in</span> inner_dict.items():</span>
+<span id="cb43-28"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-28" aria-hidden="true" tabindex="-1"></a>                value <span class="op">=</span> inner_inner_dict[<span class="st">&#39;cv_score&#39;</span>]</span>
+<span id="cb43-29"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-29" aria-hidden="true" tabindex="-1"></a>                df_list.append({<span class="st">&#39;i&#39;</span>: i, <span class="st">&#39;Model&#39;</span>: j, <span class="st">&#39;cv_score&#39;</span>: value})</span>
+<span id="cb43-30"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-31"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-31" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> pd.DataFrame(df_list)</span>
+<span id="cb43-32"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-33"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-33" aria-hidden="true" tabindex="-1"></a>    fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb43-34"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-35"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-35" aria-hidden="true" tabindex="-1"></a>    num_models <span class="op">=</span> <span class="bu">len</span>(df[<span class="st">&#39;Model&#39;</span>].unique())</span>
+<span id="cb43-36"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-36" aria-hidden="true" tabindex="-1"></a>    cmap <span class="op">=</span> plt.get_cmap(<span class="st">&#39;Set2&#39;</span>)  <span class="co"># Use the Set2 color map</span></span>
+<span id="cb43-37"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-38"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-38" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i, model <span class="kw">in</span> <span class="bu">enumerate</span>(df[<span class="st">&#39;Model&#39;</span>].unique()):</span>
+<span id="cb43-39"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-39" aria-hidden="true" tabindex="-1"></a>        model_data <span class="op">=</span> df[df[<span class="st">&#39;Model&#39;</span>] <span class="op">==</span> model]</span>
+<span id="cb43-40"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-40" aria-hidden="true" tabindex="-1"></a>        color <span class="op">=</span> cmap(i <span class="op">%</span> num_models)  <span class="co"># Cycle through the color map</span></span>
+<span id="cb43-41"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-41" aria-hidden="true" tabindex="-1"></a>        ax.plot(model_data[<span class="st">&#39;i&#39;</span>], model_data[<span class="st">&#39;cv_score&#39;</span>], <span class="st">&#39;-o&#39;</span>, c<span class="op">=</span>color, label<span class="op">=</span>model, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb43-42"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-43"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-43" aria-hidden="true" tabindex="-1"></a>    ax.set_xlabel(<span class="st">&#39;Number of Individuals&#39;</span>)</span>
+<span id="cb43-44"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-44" aria-hidden="true" tabindex="-1"></a>    ax.set_ylabel(<span class="st">&#39;Cross Validation Scores&#39;</span>)</span>
+<span id="cb43-45"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-45" aria-hidden="true" tabindex="-1"></a>    ax.set_title(<span class="st">&#39;Plot of Cross Validation Scores&#39;</span>)</span>
+<span id="cb43-46"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-46" aria-hidden="true" tabindex="-1"></a>    ax.legend([<span class="st">&#39;Logit&#39;</span>, <span class="st">&#39;Decision Tree&#39;</span>, <span class="st">&#39;Random Forest&#39;</span>, <span class="st">&#39;Adaboost&#39;</span>, <span class="st">&#39;GBM&#39;</span>, <span class="st">&#39;XGBoost&#39;</span>],</span>
+<span id="cb43-47"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-47" aria-hidden="true" tabindex="-1"></a>              loc<span class="op">=</span><span class="st">&#39;lower right&#39;</span>,</span>
+<span id="cb43-48"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-48" aria-hidden="true" tabindex="-1"></a>              fontsize<span class="op">=</span><span class="dv">9</span>, markerscale<span class="op">=</span><span class="fl">1.5</span>, scatterpoints<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb43-49"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-49" aria-hidden="true" tabindex="-1"></a>              fancybox<span class="op">=</span><span class="va">True</span>, framealpha<span class="op">=</span><span class="fl">0.5</span>)</span></code></pre></div>
+<p>The script intends to use parallel computing, but algorithms in <code>scikit-learn</code> already utilized parallel computing, so <code>Pool(1)</code> is set to run with a single thread. Two comparisons, with and without using the categorical features in generating the target groups, were run. The average score from 10-fold cross validations are recorded and plotted. Here is the result from when <code>KMeans</code> generated the target groups without using the categorical columns (but they are still present in the training data and used as features):</p>
+<div class="figure">
+<img src="images/comparison_true.png" alt="" />
+<p class="caption">Comparison</p>
+</div>
+<p>A single decision tree performed the worst, while, surprisingly, logistic regression performed the best. Keep in mind that the ups and downs at different sample sizes do not indicate that more data is worse. There is some random components in how the data was generated with the <code>KMeans</code> algorithm.</p>
+<p>When categorical columns are included in generating the target groups, there exists more variations among algorithms:</p>
+<div class="figure">
+<img src="images/comparison_false.png" alt="" />
+<p class="caption">Comparison</p>
+</div>
+<p>In here, <code>Adaboost</code> performed noticeably worse than all other algorithms. Logistic regression also fell, partly because its inability to deal with categorical features (even with one-hot encoding). Not surprisingly, the performances of <code>Random Forest</code>, <code>Gradient Boosting</code>, and <code>XGBoost</code> remain strong.</p>
+</div>
+<div id="summary" class="section level2 hasAnchor" number="2.12">
+<h2><span class="header-section-number">2.12</span> Summary<a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#summary" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In this chapter, we have covered the decision tree algorithm as well as bagging and boosting algorithms based on decision tree. Here are a few important takeaways and remarks.</p>
+<p>First, ensemble methods is a general method that applies to algorithms beyond tree-based models. You could apply the same principle of bagging and boosting on regression models. For example, you can build several regressors with a bootstrap data set, or include only some of the features, or use weighted methods to boost. As a matter of fact, ensemble can also be built between regression and classification algorithms. Gradient Boosting and XGBoost are already such ensembles: regression models were used in in each stage for an eventual prediction of classes.</p>
+<p>Second, tree-based models can be used for regression problems. For example, instead of <code>RandomForestClassifier</code>, you can use <code>RandomForestRegressor</code> from scikit-learn to implement a Random Forest algorithm regression problems. When you are using a classification algorithm on a continuous target, the algorithm aims to predict the mean of the target instead of trying to predict classes. We will cover this in more depth in a later chapter.</p>
+<p>Third, in general, it is more accurate to predict classes than continuous values. Due to this, the use of classification algorithms may be broader than most would think. For example, it is possible to convert a regression problem (in predicting continuous quantities) to classification problems. The market share example given in the beginning of the chapter is a good example. Another example is e-commerce. Most e-commerce owners have a limited offering. As a result, instead of predicting the total sales per month or the dollar value of a customer, it is easier to predict whether and how many units a customer would buy. This method can be especially powerful since a business owner often has control over the price of the products.</p>
+<p>Lastly, tree-based methods can be used for causal inference. While causal inference itself is a topic of a later chapter, for readers who are familiar with causal inference methods, you can easily find parallel between decision tree and propensity score matching (PSM): individuals who ended up in the same leave/node have something in common, and hence can be considered as good matches. This is the basic idea behind <code>causal tree</code> (Athey and Imbens, 2016).</p>
+</div>
+<div id="references-1" class="section level2 hasAnchor" number="2.13">
+<h2><span class="header-section-number">2.13</span> References<a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#references-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<ul>
+<li>S. Athey and G. Imbens, “Recursive partitioning for heterogeneous causal effects”, <em>PNAS</em>, 2016.</li>
+<li>L. Breiman, “Bagging predictors”, <em>Machine Learning</em>, 1996.</li>
+<li>L. Breiman, “Pasting small votes for classification in large databases and on-line”, <em>Machine Learning</em>, 1999.</li>
+<li>L. Breiman, “Random forest”, <em>Machine Learning</em>, 2001.</li>
+<li>Y. Freund and R. Schapire, “A Decision-Theoretic Generalization of on-Line Learning and an Application to Boosting”, 1995.</li>
+<li>J. Friedman, “Greedy Function Approximation: A Gradient Boosting Machine”, <em>The Annals of Statistics</em>, 2001.</li>
+<li>T. Ho, “The random subspace method for constructing decision forests”, <em>Pattern Analysis and Machine Intelligence</em>, 1998.</li>
+<li>G. Louppe and P. Geurts, “Ensembles on Random Patches”, <em>Machine Learning and Knowledge Discovery in Databases</em>, 2012.</li>
+<li><a href="https://scikit-learn.org/stable/modules/tree.html" class="uri">https://scikit-learn.org/stable/modules/tree.html</a></li>
+<li><a href="https://xgboost.readthedocs.io/en/stable/tutorials/model.html" class="uri">https://xgboost.readthedocs.io/en/stable/tutorials/model.html</a></li>
+<li><a href="https://machinelearningmastery.com/boosting-and-adaboost-for-machine-learning/" class="uri">https://machinelearningmastery.com/boosting-and-adaboost-for-machine-learning/</a></li>
+<li><a href="https://stats.stackexchange.com/questions/157870/scikit-binomial-deviance-loss-function" class="uri">https://stats.stackexchange.com/questions/157870/scikit-binomial-deviance-loss-function</a></li>
+<li><a href="https://www.ccs.neu.edu/home/vip/teach/MLcourse/4_boosting/slides/" class="uri">https://www.ccs.neu.edu/home/vip/teach/MLcourse/4_boosting/slides/</a></li>
+</ul>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="time-series-forecasting-and-deep-learning-algorithms.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/datahurdler/Econ-ML-Book/edit/master/02-tree-ensembles-en.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
