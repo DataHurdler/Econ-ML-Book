@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 2 Randomized Controlled Trial, A/B/N Testing, and Multi-Armed Bandit Algorithms | Machine Learning for Economics and Business</title>
+  <meta name="description" content="Chapter 2 Randomized Controlled Trial, A/B/N Testing, and Multi-Armed Bandit Algorithms | Machine Learning for Economics and Business" />
+  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 2 Randomized Controlled Trial, A/B/N Testing, and Multi-Armed Bandit Algorithms | Machine Learning for Economics and Business" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 2 Randomized Controlled Trial, A/B/N Testing, and Multi-Armed Bandit Algorithms | Machine Learning for Economics and Business" />
+  
+  
+  
+
+<meta name="author" content="Zijun Luo" />
+
+
+<meta name="date" content="2023-07-03" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="cross.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Machine Learning for Economics and Business</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html"><i class="fa fa-check"></i><b>2</b> Randomized Controlled Trial, A/B/N Testing, and Multi-Armed Bandit Algorithms</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#introduction-1"><i class="fa fa-check"></i><b>2.1</b> Introduction</a></li>
+<li class="chapter" data-level="2.2" data-path="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#the-explore-exploit-tradeoff"><i class="fa fa-check"></i><b>2.2</b> The Explore-Exploit Tradeoff</a></li>
+<li class="chapter" data-level="2.3" data-path="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#epsilon-greedy"><i class="fa fa-check"></i><b>2.3</b> Epsilon Greedy</a></li>
+<li class="chapter" data-level="2.4" data-path="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#optimistic-initial-values"><i class="fa fa-check"></i><b>2.4</b> Optimistic Initial Values</a></li>
+<li class="chapter" data-level="2.5" data-path="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#upper-confidence-bound-ucb"><i class="fa fa-check"></i><b>2.5</b> Upper Confidence Bound (UCB)</a></li>
+<li class="chapter" data-level="2.6" data-path="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#gradient-bandit-algorithm"><i class="fa fa-check"></i><b>2.6</b> Gradient Bandit Algorithm</a></li>
+<li class="chapter" data-level="2.7" data-path="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#thompson-sampling-bayesian-bandits"><i class="fa fa-check"></i><b>2.7</b> Thompson Sampling (Bayesian Bandits)</a></li>
+<li class="chapter" data-level="2.8" data-path="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#conjugate-prior"><i class="fa fa-check"></i><b>2.8</b> Conjugate Prior</a></li>
+<li class="chapter" data-level="2.9" data-path="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#thompson-sampling-code"><i class="fa fa-check"></i><b>2.9</b> Thompson Sampling: Code</a></li>
+<li class="chapter" data-level="2.10" data-path="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#comparing-the-algorithms"><i class="fa fa-check"></i><b>2.10</b> Comparing the Algorithms</a></li>
+<li class="chapter" data-level="2.11" data-path="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#summary-and-extensions"><i class="fa fa-check"></i><b>2.11</b> Summary and Extensions</a></li>
+<li class="chapter" data-level="2.12" data-path="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#references"><i class="fa fa-check"></i><b>2.12</b> References</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="cross.html"><a href="cross.html"><i class="fa fa-check"></i><b>3</b> Cross-references</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="cross.html"><a href="cross.html#chapters-and-sub-chapters"><i class="fa fa-check"></i><b>3.1</b> Chapters and sub-chapters</a></li>
+<li class="chapter" data-level="3.2" data-path="cross.html"><a href="cross.html#captioned-figures-and-tables"><i class="fa fa-check"></i><b>3.2</b> Captioned figures and tables</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="parts.html"><a href="parts.html"><i class="fa fa-check"></i><b>4</b> Parts</a></li>
+<li class="chapter" data-level="5" data-path="footnotes-and-citations.html"><a href="footnotes-and-citations.html"><i class="fa fa-check"></i><b>5</b> Footnotes and citations</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="footnotes-and-citations.html"><a href="footnotes-and-citations.html#footnotes"><i class="fa fa-check"></i><b>5.1</b> Footnotes</a></li>
+<li class="chapter" data-level="5.2" data-path="footnotes-and-citations.html"><a href="footnotes-and-citations.html#citations"><i class="fa fa-check"></i><b>5.2</b> Citations</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="blocks.html"><a href="blocks.html"><i class="fa fa-check"></i><b>6</b> Blocks</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="blocks.html"><a href="blocks.html#equations"><i class="fa fa-check"></i><b>6.1</b> Equations</a></li>
+<li class="chapter" data-level="6.2" data-path="blocks.html"><a href="blocks.html#theorems-and-proofs"><i class="fa fa-check"></i><b>6.2</b> Theorems and proofs</a></li>
+<li class="chapter" data-level="6.3" data-path="blocks.html"><a href="blocks.html#callout-blocks"><i class="fa fa-check"></i><b>6.3</b> Callout blocks</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="sharing-your-book.html"><a href="sharing-your-book.html"><i class="fa fa-check"></i><b>7</b> Sharing your book</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="sharing-your-book.html"><a href="sharing-your-book.html#publishing"><i class="fa fa-check"></i><b>7.1</b> Publishing</a></li>
+<li class="chapter" data-level="7.2" data-path="sharing-your-book.html"><a href="sharing-your-book.html#pages"><i class="fa fa-check"></i><b>7.2</b> 404 pages</a></li>
+<li class="chapter" data-level="7.3" data-path="sharing-your-book.html"><a href="sharing-your-book.html#metadata-for-sharing"><i class="fa fa-check"></i><b>7.3</b> Metadata for sharing</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references-1.html"><a href="references-1.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Machine Learning for Economics and Business</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">Chapter 2</span> Randomized Controlled Trial, A/B/N Testing, and Multi-Armed Bandit Algorithms<a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="introduction-1" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> Introduction<a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#introduction-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Randomized Controlled Trial (RCT) is the gold standard for establishing causality in experimental methods. It is used widely in clinical trials for new drugs or field experiments in social sciences and economics. In business, especially e-commerce, a related concept is A/B/N Testing. The main idea of RCT and A/B/N test is straightforward: individuals are randomly divided into groups to receive different treatments. Afterwards treatments, outcomes are being valuated and compared in order to find out which treatment works better/best. In RCT, a control group, where individuals receive a “placebo”, is usually included. Note that placebo should be considered as a type of treatment too and individuals who receive a placebo are not getting “nothing”. A placebo is something that has no therapeutic effect, i.e., it is not designed to cure a disease or an illness. But it can nevertheless positively impact the well-being of individuals who have received it, if due to nothing but psychological effects. As a result, it would be rather wrong to expect “no effect” from the the controlled group that receives the placebo in an RCT.</p>
+<p>In the rest of this article, I will be using A/B/N test as the example because I want to stay away from the nitty-gritty details of RCT. I am using “A/B/N” to include tests with more than 2 versions. If you are only comparing two versions, it is an A/B test.</p>
+<p>When I was interviewing for a data scientist job in 2022, the following was one of the interview questions: We are going to run an A/B test on a client’s website. How long do we need to run the experiment for? Back then I knew about how to find minimum sample size based on hypothesis testing in Statistics, so I framed my answer that way. But I stopped in the middle while answering the question. Something I did not think seriously enough about popped into my head: how would I know the standard deviation, one of the required values to carry out the calculation for minimum sample size, before we even run the experiment? My interview went downhill from there. Needless to say, I did not get the job. However, the interviewer was nice enough to tell me that I should look into “power analysis”.</p>
+<p>I did. Suppose you have built an e-commerce website with two possible color pallettes, and you want to understand which color pallette would induce more purchases. You can randomly assign a visitor to the two versions of the website, and after a while, you will have a dataset with two columns: for each visitor, you recorded the version that the visitor was assigned to and the purchases that the visitor made. For <span class="math inline">\(i\in(A,B)\)</span>, let’s define the following values:
+* <span class="math inline">\(\bar{x}_i\)</span>: expected dollars spent by visitors of version <span class="math inline">\(i\)</span>;
+* <span class="math inline">\(n_i\)</span>: number of visitors who saw version <span class="math inline">\(i\)</span>;
+* <span class="math inline">\(s_i\)</span>: standard deviation of dollars spent by visitors who saw version <span class="math inline">\(i\)</span>.</p>
+<p>We can now calculate the “power” as
+<span class="math display">\[t=\frac{\bar{x}_A-\bar{x}_B}{s_p\sqrt{\tfrac{1}{n_A}+\tfrac{1}{n_B}}}\]</span>
+where <span class="math inline">\(s_p=\sqrt{\frac{(n_A-1)s_A^2+(n_B-1)s_B^2}{n_A+n_B-2}}\)</span> is the pooled standard deviation. The “power”, <span class="math inline">\(t\)</span>, follows a <span class="math inline">\(t\)</span>-distribution with <span class="math inline">\(n_A+n_B-2\)</span> degrees of freedom.</p>
+<p>Suppose <span class="math inline">\(s_A=s_B\)</span> for the two versions in your A/B test, we can denote the two standard deviations as <span class="math inline">\(s\)</span>. Also suppose, for simplicity, you want <span class="math inline">\(n_A=n_B\)</span>. You can solve for <span class="math inline">\(n_i\)</span> from the above power analysis formula and obtain:
+<span class="math display">\[N=\frac{4t^2s^2}{(\bar{x}_A-\bar{x}_B)^2}\]</span>
+where <span class="math inline">\(N\)</span> is the total sample size (<span class="math inline">\(n_A+n_B\)</span>). It is easy to see that you will need a larger sample size if
+* the expected difference between the two versions are smaller;
+* you want a better significance level, e.g., 1% instead of 5%;
+* the standard deviation is bigger, i.e., dollars spent are more dispersed among individuals;</p>
+<p>But here is the problem: you do not know the values of <span class="math inline">\(\bar{x}_i\)</span> and <span class="math inline">\(s_i\)</span> before the experiment. For <span class="math inline">\(\bar{x}_i\)</span>, it may be less of an issue. Instead of the expected values, all you really need is the <em>expected difference</em>, which can be specified. For example, suppose your website is currently running Version A, and all you care about is that Version B can increase expected purchase amount by 15. In other words, <span class="math inline">\(\bar{x}_B-\bar{x}_A=15\)</span>. But you still need to know the standard deviations. How? Some suggest that you can run a short trial to estimate the standard deviation. But then, isn’t the A/B test already a trial itself?</p>
+<p>Here is another problem about classic A/B test design. After I became a data scientist, at another company, we actually ran an A/B test. The problem is that, according to the aforementioned power analysis, the experiment needed to be ran for at least 3 months, but we did not have that much time. After 1 month, our model (Version B) outperformed the existed model (Version A). Could we have declared our model to be the better one? According to classic A/B test design, the answer is “No” because we should not be “peeking” as the difference can be driven by random factors happened only in the first month of the experiment.</p>
+<p>Now think about clinical trials for a new drug, where the “no peeking” rule can raise serious concerns. If a drug has proved its effectiveness in the first 500 patients, yet the power analysis tells you that you need to test it on 50,000 patients, what would you do? Isn’t it unethical to continue to give a placebo to individuals who may benefit from the actual drug?</p>
+<p>These two problems have bothered me for a while, until I learned about the approaches I will cover in this article. Here is a brief overview of how these algorithms work. Instead of having a predetermined sample size, the A/B test is deployed in real-time. Continued with our example of a website with two color pallettes, a visitor is randomly assigned to a version of the website on the first visit. An algorithm will then pick a version for a visitor. In general, the version that has received higher purchase values should get more visitors. But how do we know which one gives the higher payoff? Here, we face the Explore-Exploit Tradeoff.</p>
+</div>
+<div id="the-explore-exploit-tradeoff" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> The Explore-Exploit Tradeoff<a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#the-explore-exploit-tradeoff" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In a nutshell, the explore-exploit tradeoff shows the following paradox: in order to find the best version, you need to explore, which means that the outcome of exploration necessarily improves the more you different versions. However, to maximize total payoff, you want to stick with the best version once (you think) you have found it, which is to exploit. This means that the outcome of exploitation necessarily deteriorates the more you different versions since there is one and only one best version.</p>
+<p>How to handle the explore-exploit tradeoff constitutes the core difference among algorithms. Some algorithms, such as variants of the “greedy” family, really focuses on exploitation. The disadvantage is that such algorithm can easily “saddle” into the second-best as long as the second-best is “good enough”, as I will show later when we discuss the <code>Epsilon Greedy</code> algorithm. Others, such as <code>Upper Confidence Bound</code>, put more emphasis on exploration, at least initially.</p>
+<p>If you are reading this article because you think it may help you with your research project(s), you are not a stranger to the explore-exploit tradeoff. I remember a conversation I had with a professor not long after I graduated. I asked him if I should have given up on projects that I do not think that would end up in good journals. His answer was: but how do you know before you try? He had a point: my professor never published his PhD dissertation. He was successful after he has explored a new area of research. However, about 15 years after his dissertation, a paper on a closely related topic was published in a top journal. In retrospect, he may have explored more than the optimum, which was probably why he suggested me to exploit more.</p>
+</div>
+<div id="epsilon-greedy" class="section level2 hasAnchor" number="2.3">
+<h2><span class="header-section-number">2.3</span> Epsilon Greedy<a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#epsilon-greedy" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We will begin our in-depth discussion of algorithms with <code>Epsilon Greedy</code>. For each algorithm, I aim to provide:
+* intuition and description of theory
+* pseudocode
+* <code>Python</code> code</p>
+<p>Algorithms in the <code>Greedy</code> family applies a simple logic: choose the version that gives the best <em>observed</em> expected payoff. For simplicity, and for the rest of this article, let’s consider an e-commerce website that has 5 different designs but sells a single product: an EveryDay-Carry (EDC) musical instrument for 69.99 dollars. If we run an A/B/N test on the web designs, only 2 outcomes are possible from each visitor: buy or not buy.</p>
+<p>Here is the pseudocode for a simple <code>Greedy</code> algorithm:</p>
+<pre><code>loop:
+    j = argmax(expected bandit win rates)
+    x = reward (1 or 0) from playing bandit j
+    bandit[j].update_mean(x)</code></pre>
+<p>I used <strong>bandit</strong> instead of <strong>version</strong> here, and will be using these two terms interchangeably, because the problem we are working on is commonly known as the <code>Multi-Armed Bandits</code> problem in probability theory and reinforcement learning. The analogy comes from choosing among multiple slot machines in a casino since a single slot machine is referred to as a “one-armed bandit”.</p>
+<p>Let’s take a closer look at the pseudocode. In this pseudocode, <span class="math inline">\(i\)</span> indexes visitor, <span class="math inline">\(j\)</span> indexes the website version (or bandit), and <span class="math inline">\(x\)</span> is 1 when the visitor buys and 0 otherwise. Furthermore, <code>update_mean()</code> is a function that takes the new value of <code>x</code> and updates the expected payoff for bandit <code>j</code>. To update the expected payoff after bandit <code>j</code> was played for the <span class="math inline">\(n_{th}\)</span> time, we have</p>
+<p><span class="math display">\[\bar{x}_n=\bar{x}_{n-1}+\frac{x_n-\bar{x}_{n-1}}{n}\]</span></p>
+<p>This calculates the mean in <em>constant time and memory</em>, i.e., it requires only 3 values to calculate the mean, <span class="math inline">\(\bar{x}_n\)</span>, regardless of the value of <span class="math inline">\(n\)</span>: <span class="math inline">\(\bar{x}_{n-1}\)</span>, <span class="math inline">\(x_n\)</span>, and <span class="math inline">\(n\)</span>, whereas the number of values required to calculate the mean with the formula</p>
+<p><span class="math display">\[\bar{x}_n=\frac{\sum_{i=1}^n{x_i}}{n}\]</span></p>
+<p>increases with <span class="math inline">\(n\)</span>.</p>
+<p>While not necessary, it can sometimes be a good idea to try all versions in the beginning. For example, for the first 50 visitors, we can send them to each design with equal probability. From that point on, the algorithm finds the version that gives the best expected payoff, and play that version.</p>
+<p>It should be obvious that the simple <code>Greedy</code> algorithm has a problem: once it finds a bandit with a <em>high enough</em> payoff, it rarely switches. In other words, it almost never explores. The <code>Epsilon Greedy</code> algorithm provides a simple fix:</p>
+<pre><code>loop:
+    p = random number in [0, 1]
+    if p &lt; epsilon:
+        j = choose a bandit at random
+    else:
+        j = argmax(expected bandit win rates)
+    x = reward (1 or 0) from playing bandit j
+    bandit[j].update_mean(x)</code></pre>
+<p>As the pseudocode shows, a random value is drawn when a new visitor has arrived. If the random value is smaller than the threshold, <code>epsilon</code>, set before the start of the experiment, then a random bandit is picked. Note that this randomly picked bandit can be the same as the one picked by <code>argmax</code>. To exclude such case only requires a few more lines of code. However, this is not a requirement of the <code>Epsilon Greedy</code> algorithm and the benefit of doing so is not obvious.</p>
+<p>Let’s now move onto the actual implementation of <code>Epsilon Greedy</code> in <code>Python</code>. Note that the script includes lines with the comment “<em>only in demonstration</em>”. These are codes to generate the <em>true</em> win rate of different bandits, which you do not know when running a real-world experiment. This also means you can not use the scripts here in real-world problems without making necessary changes.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb3-2"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> random</span>
+<span id="cb3-3"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># set the number of bandits</span></span>
+<span id="cb3-5"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-5" aria-hidden="true" tabindex="-1"></a>N_bandits <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb3-6"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># set the number of trials</span></span>
+<span id="cb3-7"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># only in demonstration</span></span>
+<span id="cb3-8"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-8" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">100000</span></span>
+<span id="cb3-9"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> BayesianAB:</span>
+<span id="cb3-12"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(</span>
+<span id="cb3-13"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-13" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>,</span>
+<span id="cb3-14"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-14" aria-hidden="true" tabindex="-1"></a>            number_of_bandits: <span class="bu">int</span> <span class="op">=</span> <span class="dv">2</span>,</span>
+<span id="cb3-15"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-15" aria-hidden="true" tabindex="-1"></a>            number_of_trials: <span class="bu">int</span> <span class="op">=</span> <span class="dv">100000</span>,</span>
+<span id="cb3-16"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-16" aria-hidden="true" tabindex="-1"></a>            p_max: <span class="bu">float</span> <span class="op">=</span> <span class="fl">.75</span>,</span>
+<span id="cb3-17"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-17" aria-hidden="true" tabindex="-1"></a>            p_diff: <span class="bu">float</span> <span class="op">=</span> <span class="fl">.05</span>,</span>
+<span id="cb3-18"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-18" aria-hidden="true" tabindex="-1"></a>            p_min: <span class="bu">float</span> <span class="op">=</span> <span class="fl">.1</span></span>
+<span id="cb3-19"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-19" aria-hidden="true" tabindex="-1"></a>    ):</span>
+<span id="cb3-20"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> p_min <span class="op">&gt;</span> p_max <span class="op">-</span> p_diff:</span>
+<span id="cb3-21"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-21" aria-hidden="true" tabindex="-1"></a>            <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="st">&quot;Condition p_min &lt; p_max - p_diff not satisfied. Exit...&quot;</span>)</span>
+<span id="cb3-22"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-23"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-23" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.prob_true <span class="op">=</span> [<span class="dv">0</span>] <span class="op">*</span> number_of_bandits  <span class="co"># only in demonstration</span></span>
+<span id="cb3-24"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-24" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.prob_win <span class="op">=</span> [<span class="dv">0</span>] <span class="op">*</span> number_of_bandits</span>
+<span id="cb3-25"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-25" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.history <span class="op">=</span> []</span>
+<span id="cb3-26"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-26" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.history_bandit <span class="op">=</span> []  <span class="co"># for Monte Carlo</span></span>
+<span id="cb3-27"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-27" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.count <span class="op">=</span> [<span class="dv">0</span>] <span class="op">*</span> number_of_bandits  <span class="co"># only in demonstration</span></span>
+<span id="cb3-28"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-28" aria-hidden="true" tabindex="-1"></a>        <span class="co"># preference and pi are for gradient_bandit only</span></span>
+<span id="cb3-29"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-29" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.pref <span class="op">=</span> [<span class="dv">0</span>] <span class="op">*</span> number_of_bandits</span>
+<span id="cb3-30"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-30" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.pi <span class="op">=</span> [<span class="dv">1</span> <span class="op">/</span> number_of_bandits] <span class="op">*</span> number_of_bandits</span>
+<span id="cb3-31"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-31" aria-hidden="true" tabindex="-1"></a>        <span class="co"># a and b are for bayesian_bandits only</span></span>
+<span id="cb3-32"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-32" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.alpha <span class="op">=</span> [<span class="dv">1</span>] <span class="op">*</span> number_of_bandits</span>
+<span id="cb3-33"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-33" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.beta <span class="op">=</span> [<span class="dv">1</span>] <span class="op">*</span> number_of_bandits</span>
+<span id="cb3-34"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-34" aria-hidden="true" tabindex="-1"></a>        <span class="co"># number of trials/visitors</span></span>
+<span id="cb3-35"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-35" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.N <span class="op">=</span> number_of_trials</span>
+<span id="cb3-36"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-37"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-37" aria-hidden="true" tabindex="-1"></a>        <span class="co"># set the last bandit to have a win rate of 0.75 and the rest lower</span></span>
+<span id="cb3-38"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-38" aria-hidden="true" tabindex="-1"></a>        <span class="co"># only in demonstration</span></span>
+<span id="cb3-39"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-39" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.prob_true[<span class="op">-</span><span class="dv">1</span>] <span class="op">=</span> p_max</span>
+<span id="cb3-40"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-40" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, number_of_bandits <span class="op">-</span> <span class="dv">1</span>):</span>
+<span id="cb3-41"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-41" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.prob_true[i] <span class="op">=</span> <span class="bu">round</span>(p_max <span class="op">-</span> random.uniform(p_diff, p_max <span class="op">-</span> p_min), <span class="dv">2</span>)</span>
+<span id="cb3-42"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-43"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-43" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Receives a random value of 0 or 1</span></span>
+<span id="cb3-44"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-44" aria-hidden="true" tabindex="-1"></a>    <span class="co"># only in demonstration</span></span>
+<span id="cb3-45"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-45" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> pull(</span>
+<span id="cb3-46"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-46" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>,</span>
+<span id="cb3-47"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-47" aria-hidden="true" tabindex="-1"></a>            i,</span>
+<span id="cb3-48"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-48" aria-hidden="true" tabindex="-1"></a>    ) <span class="op">-&gt;</span> <span class="bu">bool</span>:</span>
+<span id="cb3-49"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-49" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> random.random() <span class="op">&lt;</span> <span class="va">self</span>.prob_true[i]</span>
+<span id="cb3-50"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-51"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-51" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Updates the mean</span></span>
+<span id="cb3-52"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-52" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> update(</span>
+<span id="cb3-53"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-53" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>,</span>
+<span id="cb3-54"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-54" aria-hidden="true" tabindex="-1"></a>            i,</span>
+<span id="cb3-55"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-55" aria-hidden="true" tabindex="-1"></a>            k,</span>
+<span id="cb3-56"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-56" aria-hidden="true" tabindex="-1"></a>    ) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb3-57"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-57" aria-hidden="true" tabindex="-1"></a>        outcome <span class="op">=</span> <span class="va">self</span>.pull(i)</span>
+<span id="cb3-58"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-58" aria-hidden="true" tabindex="-1"></a>        <span class="co"># may use a constant discount rate to discount past</span></span>
+<span id="cb3-59"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-59" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.prob_win[i] <span class="op">=</span> (<span class="va">self</span>.prob_win[i] <span class="op">*</span> k <span class="op">+</span> outcome) <span class="op">/</span> (k <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb3-60"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-60" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.history.append(<span class="va">self</span>.prob_win.copy())</span>
+<span id="cb3-61"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-61" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.history_bandit.append(i)  <span class="co"># for Monte Carlo</span></span>
+<span id="cb3-62"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-62" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.count[i] <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb3-63"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-64"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-64" aria-hidden="true" tabindex="-1"></a>    <span class="co">####################</span></span>
+<span id="cb3-65"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-65" aria-hidden="true" tabindex="-1"></a>    <span class="co"># epsilon greedy</span></span>
+<span id="cb3-66"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-66" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> epsilon_greedy(</span>
+<span id="cb3-67"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-67" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>,</span>
+<span id="cb3-68"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-68" aria-hidden="true" tabindex="-1"></a>            epsilon: <span class="bu">float</span> <span class="op">=</span> <span class="fl">0.5</span>,</span>
+<span id="cb3-69"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-69" aria-hidden="true" tabindex="-1"></a>    ):</span>
+<span id="cb3-70"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-71"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-71" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.history.append(<span class="va">self</span>.prob_win.copy())</span>
+<span id="cb3-72"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-73"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-73" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="va">self</span>.N):</span>
+<span id="cb3-74"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-74" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> random.random() <span class="op">&lt;</span> epsilon:</span>
+<span id="cb3-75"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-75" aria-hidden="true" tabindex="-1"></a>                i <span class="op">=</span> random.randrange(<span class="dv">0</span>, <span class="bu">len</span>(<span class="va">self</span>.prob_win))</span>
+<span id="cb3-76"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-76" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
+<span id="cb3-77"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-77" aria-hidden="true" tabindex="-1"></a>                i <span class="op">=</span> np.argmax(<span class="va">self</span>.prob_win)</span>
+<span id="cb3-78"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-79"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-79" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.update(i, k)</span>
+<span id="cb3-80"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-81"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb3-81" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.history</span></code></pre></div>
+<p>Let’s break it down. First, we import two libraries: <code>numpy</code> and <code>random</code>. We will be using functions from these libraries such as <code>argmax()</code> from <code>numpy</code> and <code>randrange()</code> from <code>random</code>:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb4-2"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> random</span></code></pre></div>
+<p>We then set three global parameters:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb5-1"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># set the number of bandits</span></span>
+<span id="cb5-2"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb5-2" aria-hidden="true" tabindex="-1"></a>N_bandits <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb5-3"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># set the number of trials/visitors</span></span>
+<span id="cb5-4"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb5-4" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">100000</span></span></code></pre></div>
+<p>In practice, the value of <code>N_bandits</code> depends on the number of versions your experiment is set out to test, and the number of visitors, <code>N</code>, is unknown.</p>
+<p>In this script, we are creating a class named <code>BayesianAB</code>, and put all the algorithms we cover in this article under <code>BayesianAB</code>. We initiate the class with the following values:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb6-1"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> BayesianAB:</span>
+<span id="cb6-2"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(</span>
+<span id="cb6-3"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb6-3" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>,</span>
+<span id="cb6-4"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb6-4" aria-hidden="true" tabindex="-1"></a>            number_of_bandits: <span class="bu">int</span> <span class="op">=</span> <span class="dv">2</span>,</span>
+<span id="cb6-5"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb6-5" aria-hidden="true" tabindex="-1"></a>            number_of_trials: <span class="bu">int</span> <span class="op">=</span> <span class="dv">100000</span>,</span>
+<span id="cb6-6"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb6-6" aria-hidden="true" tabindex="-1"></a>            p_max: <span class="bu">float</span> <span class="op">=</span> <span class="fl">.75</span>,</span>
+<span id="cb6-7"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb6-7" aria-hidden="true" tabindex="-1"></a>            p_diff: <span class="bu">float</span> <span class="op">=</span> <span class="fl">.05</span>,</span>
+<span id="cb6-8"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb6-8" aria-hidden="true" tabindex="-1"></a>            p_min: <span class="bu">float</span> <span class="op">=</span> <span class="fl">.8</span></span>
+<span id="cb6-9"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb6-9" aria-hidden="true" tabindex="-1"></a>    ):</span>
+<span id="cb6-10"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb6-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> p_min <span class="op">&gt;</span> p_max <span class="op">-</span> p_diff:</span>
+<span id="cb6-11"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb6-11" aria-hidden="true" tabindex="-1"></a>            <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="st">&quot;Condition p_min &lt; p_max - p_diff not satisfied. Exit...&quot;</span>)</span>
+<span id="cb6-12"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-13"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb6-13" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.prob_true <span class="op">=</span> [<span class="dv">0</span>] <span class="op">*</span> number_of_bandits  <span class="co"># only in demonstration</span></span>
+<span id="cb6-14"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb6-14" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.prob_win <span class="op">=</span> [<span class="dv">0</span>] <span class="op">*</span> number_of_bandits</span>
+<span id="cb6-15"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb6-15" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.history <span class="op">=</span> []</span>
+<span id="cb6-16"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb6-16" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.history_bandit <span class="op">=</span> []  <span class="co"># for Monte Carlo</span></span>
+<span id="cb6-17"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb6-17" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.count <span class="op">=</span> [<span class="dv">0</span>] <span class="op">*</span> number_of_bandits  <span class="co"># only in demonstration</span></span>
+<span id="cb6-18"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb6-18" aria-hidden="true" tabindex="-1"></a>        <span class="co"># preference and pi are for gradient_bandit only</span></span>
+<span id="cb6-19"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb6-19" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.pref <span class="op">=</span> [<span class="dv">0</span>] <span class="op">*</span> number_of_bandits</span>
+<span id="cb6-20"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb6-20" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.pi <span class="op">=</span> [<span class="dv">1</span> <span class="op">/</span> number_of_bandits] <span class="op">*</span> number_of_bandits</span>
+<span id="cb6-21"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb6-21" aria-hidden="true" tabindex="-1"></a>        <span class="co"># a and b are for bayesian_bandits only</span></span>
+<span id="cb6-22"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb6-22" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.alpha <span class="op">=</span> [<span class="dv">1</span>] <span class="op">*</span> number_of_bandits</span>
+<span id="cb6-23"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb6-23" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.beta <span class="op">=</span> [<span class="dv">1</span>] <span class="op">*</span> number_of_bandits</span>
+<span id="cb6-24"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb6-24" aria-hidden="true" tabindex="-1"></a>        <span class="co"># number of trials/visitors</span></span>
+<span id="cb6-25"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb6-25" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.N <span class="op">=</span> number_of_trials</span></code></pre></div>
+<p>The <code>BayesianAB</code> class accepts 5 parameters:
+* <code>number_of_bandits</code> has a default value of 2;
+* <code>number_of_trials</code> indicates the number of rounds/visitors, which has a default value of 100,000;
+* <code>p_max</code> is the highest win rate;
+* <code>p_diff</code> is the smallest possible difference between the highest win rate and the second highest win rate;
+* <code>p_min</code> is the lowest possible win rate, andt the condition <code>p_min &gt; p_max - p_diff</code> must be met.</p>
+<p>The <code>BayesianAB</code> class pre-allocates 10 lists to store various values necessary for different tasks:
+* <code>prob_true</code> stores the <em>true</em> win rate of each bandit. These win rates are to be generated next. In practice, you do not know these true win rate values;
+* <code>prob_win</code> stores the <em>observed (expected)</em> win rate of each bandit. Values in this list are to be updated during each round of the experiment;
+* <code>history</code> stores the history of <code>prob_win</code> in each trial/round. This is important for both updating the mean in constant time (see above) and the evaluation of bandit/algorithm performances afterwards;
+* <code>history_bandit</code> stores the history of what bandit was picked in each trial/round. This is useful when we need to run the Monte Carlo simulation for testbed;
+* <code>count</code> stores the number of times that each bandit was chosen;
+* <code>pref</code> and <code>pi</code> are values for the <code>Gradient Bandit</code> algorithm;
+* <code>alpha</code> and <code>beta</code> are values used in <code>Thompson Sampling</code>, the last algorithm to be considered in this article;
+* <code>N</code> stores the number of trials and is used by each method/algorithm in the <code>BayesianAB</code> class.</p>
+<p>The following lines generate the <em>true</em> win rates:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb7-1"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb7-1" aria-hidden="true" tabindex="-1"></a>        <span class="co"># set the last bandit to have a win rate of 0.75 and the rest lower</span></span>
+<span id="cb7-2"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb7-2" aria-hidden="true" tabindex="-1"></a>        <span class="co"># only in demonstration</span></span>
+<span id="cb7-3"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb7-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.prob_true[<span class="op">-</span><span class="dv">1</span>] <span class="op">=</span> p_max</span>
+<span id="cb7-4"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb7-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, number_of_bandits <span class="op">-</span> <span class="dv">1</span>):</span>
+<span id="cb7-5"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb7-5" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.prob_true[i] <span class="op">=</span> <span class="bu">round</span>(p_max <span class="op">-</span> random.uniform(p_diff, p_max <span class="op">-</span> p_min), <span class="dv">2</span>)</span></code></pre></div>
+<p>The last bandit always has the highest win rate, <code>p_max</code>, and the rest of them are randomized between <code>p_min</code> and <code>p_max - p_diff</code>. I used this approach to allow for flexibility in specifying the number of bandits using <code>N_bandits</code> (or <code>number_of_bandits</code> inside the <code>BayesianAB</code> class).</p>
+<p>Next, we define two functions used by almost every algorithm:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb8-1"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb8-1" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Receives a random value of 0 or 1</span></span>
+<span id="cb8-2"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># only in demonstration</span></span>
+<span id="cb8-3"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> pull(</span>
+<span id="cb8-4"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb8-4" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>,</span>
+<span id="cb8-5"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb8-5" aria-hidden="true" tabindex="-1"></a>            i,</span>
+<span id="cb8-6"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb8-6" aria-hidden="true" tabindex="-1"></a>    ) <span class="op">-&gt;</span> <span class="bu">bool</span>:</span>
+<span id="cb8-7"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb8-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> random.random() <span class="op">&lt;</span> <span class="va">self</span>.prob_true[i]</span>
+<span id="cb8-8"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Updates the mean</span></span>
+<span id="cb8-10"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> update(</span>
+<span id="cb8-11"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb8-11" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>,</span>
+<span id="cb8-12"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb8-12" aria-hidden="true" tabindex="-1"></a>            i,</span>
+<span id="cb8-13"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb8-13" aria-hidden="true" tabindex="-1"></a>            k,</span>
+<span id="cb8-14"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb8-14" aria-hidden="true" tabindex="-1"></a>    ) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb8-15"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb8-15" aria-hidden="true" tabindex="-1"></a>        outcome <span class="op">=</span> <span class="va">self</span>.pull(i)</span>
+<span id="cb8-16"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb8-16" aria-hidden="true" tabindex="-1"></a>        <span class="co"># may use a constant discount rate to discount past</span></span>
+<span id="cb8-17"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb8-17" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.prob_win[i] <span class="op">=</span> (<span class="va">self</span>.prob_win[i] <span class="op">*</span> k <span class="op">+</span> outcome) <span class="op">/</span> (k <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb8-18"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb8-18" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.history.append(<span class="va">self</span>.prob_win.copy())</span>
+<span id="cb8-19"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb8-19" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.history_bandit.append(i)  <span class="co"># for Monte Carlo</span></span>
+<span id="cb8-20"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb8-20" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.count[i] <span class="op">+=</span> <span class="dv">1</span></span></code></pre></div>
+<p>The first function, <code>pull()</code>, returns either True or False depending on if the value of <code>random.random()</code> is less than the true win rate of bandit <span class="math inline">\(i\)</span>. This is unnecessary in practice. Instead, a call to either the <code>BayesianAB</code> class or a specific method (such as <code>Epsilon Greedy</code>) inside <code>BayesianAB</code> should be triggered with the arrival of a new visitor, and by the end of the visit, you would know if the visitor has purchased (True) or not (False). In <code>Python</code>, <code>True</code> is given a numerical value of 1 and <code>False</code> a value of 0.</p>
+<p>The <code>update()</code> function updates the mean. It also adds the updated expected win rate to the list <code>history</code> and increase the count of bandit <span class="math inline">\(i\)</span> being picked by 1.</p>
+<p>Here is the actual method inside <code>BayesianAB</code> that implements <code>epsilon greedy</code>:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb9-1"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb9-1" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> epsilon_greedy(</span>
+<span id="cb9-2"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb9-2" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>,</span>
+<span id="cb9-3"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb9-3" aria-hidden="true" tabindex="-1"></a>            epsilon: <span class="bu">float</span> <span class="op">=</span> <span class="fl">0.5</span>,</span>
+<span id="cb9-4"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb9-4" aria-hidden="true" tabindex="-1"></a>    ):</span>
+<span id="cb9-5"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb9-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.history.append(<span class="va">self</span>.prob_win.copy())</span>
+<span id="cb9-7"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb9-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="va">self</span>.N):</span>
+<span id="cb9-9"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb9-9" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> random.random() <span class="op">&lt;</span> epsilon:</span>
+<span id="cb9-10"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb9-10" aria-hidden="true" tabindex="-1"></a>                i <span class="op">=</span> random.randrange(<span class="dv">0</span>, <span class="bu">len</span>(<span class="va">self</span>.prob_win))</span>
+<span id="cb9-11"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb9-11" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
+<span id="cb9-12"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb9-12" aria-hidden="true" tabindex="-1"></a>                i <span class="op">=</span> np.argmax(<span class="va">self</span>.prob_win)</span>
+<span id="cb9-13"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb9-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-14"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb9-14" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.update(i, k)</span>
+<span id="cb9-15"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb9-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-16"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb9-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.history</span></code></pre></div>
+<p>It follows the logic outlined in the pseudocode. Inside the <code>for</code> loop, these steps are followed:
+1. Checks if a random value is smaller than <code>epsilon</code> which can be specified when the <code>epsilon_greedy()</code> method is called. <code>epsilon</code> also has a default value of <span class="math inline">\(0.5\)</span>. If this is <code>True</code>, then a random bandit is selected;
+2. Otherwise, select the bandit that has the highest expected win rate;
+4. Update the mean for the chosen bandit by calling the <code>update()</code> function.</p>
+<p>The <code>epsilon_greedy()</code> method returns the list <code>history</code>, which stores the complete history for run as discussed earlier.</p>
+<p>To call <code>epsilon_greedy()</code> and examine the results, we execute the following:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb10-1"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb10-1" aria-hidden="true" tabindex="-1"></a>eg <span class="op">=</span> BayesianAB(N_bandits)</span>
+<span id="cb10-2"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&#39;The true win rates: </span><span class="sc">{</span>eg<span class="sc">.</span>prob_true<span class="sc">}</span><span class="ss">&#39;</span>)</span>
+<span id="cb10-3"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb10-3" aria-hidden="true" tabindex="-1"></a>eg_history <span class="op">=</span> eg.epsilon_greedy()</span>
+<span id="cb10-4"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&#39;The observed win rates: </span><span class="sc">{</span>eg<span class="sc">.</span>prob_win<span class="sc">}</span><span class="ss">&#39;</span>)</span>
+<span id="cb10-5"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&#39;Number of times each bandit was played: </span><span class="sc">{</span>eg<span class="sc">.</span>count<span class="sc">}</span><span class="ss">&#39;</span>)</span></code></pre></div>
+<p>Here, we call <code>epsilon_greedy()</code> with the default value for <code>epsilon</code>. This means the algorithm will explore half of the time. We also print out the true win rates, the expected win rates, and the number of times that each bandit was played. Here is the printed output from a particular run:</p>
+<pre><code>The true win rates: [0.37, 0.55, 0.67, 0.4, 0.75]
+The observed win rates: [0.2062, 0.3354, 0.6717, 0.1953, 0.5526]
+Number of times each bandit was played: [10200, 9945, 60001, 9789, 10064]</code></pre>
+<p>In the above run, the best bandit was NOT the one that was selected the most. The second best bandit, with a 0.67 win rate, was picked about 60% of the time, as dictated by the value of <code>epsilon</code>. Such outcome is due to the fact that the bandit with a 0.67 win rate did well in the beginning. Since it is close enough to 0.75, the default win rate of the best bandit, random jumps to the bandit with the 0.75 win rate were not enough to “flip” the results.</p>
+<p>Also note that the expected win rates have not converged to the true win rates except for the “chosen” one after 100,000 visitors. However, if the number of visitors approaches infinity, which means that each version would be picked infinite times, all win rates would converge to their true values. This, in turn, means that the best bandit would eventually overtake the second-best if the experiment runs <em>long enough</em>. In other words, <code>Epsilon Greedy</code> guarantees the identification of the best bandit as <span class="math inline">\(n\)</span> approaches infinity.</p>
+<p>We can visualize the outcome from the experiment with the following code:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb12-1"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb12-2"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb12-3"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb12-4"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_history(</span>
+<span id="cb12-7"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb12-7" aria-hidden="true" tabindex="-1"></a>        history: <span class="bu">list</span>,</span>
+<span id="cb12-8"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb12-8" aria-hidden="true" tabindex="-1"></a>        prob_true: <span class="bu">list</span>,</span>
+<span id="cb12-9"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb12-9" aria-hidden="true" tabindex="-1"></a>        k<span class="op">=</span>N,</span>
+<span id="cb12-10"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb12-10" aria-hidden="true" tabindex="-1"></a>):</span>
+<span id="cb12-11"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb12-11" aria-hidden="true" tabindex="-1"></a>    df_history <span class="op">=</span> pd.DataFrame(history[:k])</span>
+<span id="cb12-12"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-13"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb12-13" aria-hidden="true" tabindex="-1"></a>    plt.figure(figsize<span class="op">=</span>(<span class="dv">20</span>, <span class="dv">5</span>))</span>
+<span id="cb12-14"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb12-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-15"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb12-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Define the color palette</span></span>
+<span id="cb12-16"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb12-16" aria-hidden="true" tabindex="-1"></a>    colors <span class="op">=</span> sns.color_palette(<span class="st">&quot;Set2&quot;</span>, <span class="bu">len</span>(prob_true))</span>
+<span id="cb12-17"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb12-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-18"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb12-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(prob_true)):</span>
+<span id="cb12-19"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb12-19" aria-hidden="true" tabindex="-1"></a>        sns.lineplot(x<span class="op">=</span>df_history.index, y<span class="op">=</span>df_history[i], color<span class="op">=</span>colors[i])</span>
+<span id="cb12-20"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb12-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-21"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb12-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create custom legend using prob_true and colors</span></span>
+<span id="cb12-22"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb12-22" aria-hidden="true" tabindex="-1"></a>    custom_legend <span class="op">=</span> [plt.Line2D([], [], color<span class="op">=</span>colors[i], label<span class="op">=</span>prob_true[i]) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(prob_true))]</span>
+<span id="cb12-23"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb12-23" aria-hidden="true" tabindex="-1"></a>    plt.legend(handles<span class="op">=</span>custom_legend)</span></code></pre></div>
+<p>Then execute:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb13-1"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb13-1" aria-hidden="true" tabindex="-1"></a>plot_history(history<span class="op">=</span>eg.history, prob_true<span class="op">=</span>eg.prob_true)</span></code></pre></div>
+<p>Here is the output from the above run:</p>
+<div class="figure">
+<img src="images/eg.png" alt="" />
+<p class="caption">Epsilon Greedy</p>
+</div>
+<p>We can also get the visualization for the first 100 visitors, which shows that the third bandit, the a 0.67 win rate, jumped ahead early:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb14-1"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb14-1" aria-hidden="true" tabindex="-1"></a>plot_history(history<span class="op">=</span>eg.history, prob_true<span class="op">=</span>eg.prob_true, k<span class="op">=</span><span class="dv">100</span>)</span></code></pre></div>
+<div class="figure">
+<img src="images/eg_100.png" alt="" />
+<p class="caption">Epsilon Greedy (first 100)</p>
+</div>
+</div>
+<div id="optimistic-initial-values" class="section level2 hasAnchor" number="2.4">
+<h2><span class="header-section-number">2.4</span> Optimistic Initial Values<a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#optimistic-initial-values" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The <code>Optimistic Initial Values</code> algorithm is one of my favorites (the other being the <code>Gradient Bandit</code> algorithm) amongst the algorithms discussed in this article. While <code>Epsilon Greedy</code> focused on “exploit” and can end up choosing the second-best version, the <code>Optimistic Initial Values</code> algorithm puts more focus on “explore” initially, while staying <code>greedy</code>, i.e., pick the strategy that shows the highest expected win rate. The name of this algorithm informs you about what it does: at the start of the experiment, each bandit is set to have a high expected win rate, i.e., we are “optimistic” about each bandit. This ensures that each of them is played a fair number of times initially. If we compare <code>Epsilon Greedy</code> to English auctions where the values go up over time, <code>Optimistic Initial Value</code> is comparable to Dutch auctions where the values go <em>down</em> over time. Here is the pseudocode:</p>
+<pre><code>p_init = 5 # a large value as initial win rate for ALL bandits
+
+loop:
+    j = argmax(expected bandit win rates)
+    x = reward (1 or 0) from playing bandit j
+    bandit[j].update_mane(x)</code></pre>
+<p>Assuming you already have the code from the <code>Epsilon Greedy</code> section, you can add the following method inside the <code>BayesianAB</code> class to run the <code>Optimistic Initial Values</code> algorithm:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb16-1"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb16-1" aria-hidden="true" tabindex="-1"></a>    <span class="co">####################</span></span>
+<span id="cb16-2"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># optimistic initial values</span></span>
+<span id="cb16-3"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> optim_init_val(</span>
+<span id="cb16-4"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb16-4" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>,</span>
+<span id="cb16-5"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb16-5" aria-hidden="true" tabindex="-1"></a>            init_val: <span class="bu">float</span> <span class="op">=</span> <span class="fl">0.99</span>,</span>
+<span id="cb16-6"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb16-6" aria-hidden="true" tabindex="-1"></a>    ):</span>
+<span id="cb16-7"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb16-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-8"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb16-8" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.prob_win <span class="op">=</span> [init_val] <span class="op">*</span> <span class="bu">len</span>(<span class="va">self</span>.prob_win)</span>
+<span id="cb16-9"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb16-9" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.history.append(<span class="va">self</span>.prob_win.copy())</span>
+<span id="cb16-10"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb16-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-11"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb16-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="va">self</span>.N):</span>
+<span id="cb16-12"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb16-12" aria-hidden="true" tabindex="-1"></a>            i <span class="op">=</span> np.argmax(<span class="va">self</span>.prob_win)</span>
+<span id="cb16-13"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb16-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-14"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb16-14" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.update(i, k)</span>
+<span id="cb16-15"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb16-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-16"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb16-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.history</span></code></pre></div>
+<p>The only thing new here is the line that assigns <code>init_val</code> to <code>prob_win</code> in the beginning. We can execute the following to get results and visualization:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb17-1"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb17-1" aria-hidden="true" tabindex="-1"></a>oiv <span class="op">=</span> BayesianAB(N_bandits)</span>
+<span id="cb17-2"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&#39;The true win rates: </span><span class="sc">{</span>oiv<span class="sc">.</span>prob_true<span class="sc">}</span><span class="ss">&#39;</span>)</span>
+<span id="cb17-3"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb17-3" aria-hidden="true" tabindex="-1"></a>oiv_history <span class="op">=</span> oiv.optim_init_val(init_val<span class="op">=</span><span class="fl">0.99</span>)</span>
+<span id="cb17-4"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&#39;The observed win rates: </span><span class="sc">{</span>oiv<span class="sc">.</span>prob_win<span class="sc">}</span><span class="ss">&#39;</span>)</span>
+<span id="cb17-5"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&#39;Number of times each bandit was played: </span><span class="sc">{</span>oiv<span class="sc">.</span>count<span class="sc">}</span><span class="ss">&#39;</span>)</span>
+<span id="cb17-6"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-7"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the entire experiment history</span></span>
+<span id="cb17-8"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb17-8" aria-hidden="true" tabindex="-1"></a>plot_history(history<span class="op">=</span>oiv.history, prob_true<span class="op">=</span>oiv.prob_true)</span></code></pre></div>
+<p>And following are outcomes from a typical run:</p>
+<pre><code>The true win rates: [0.6, 0.54, 0.62, 0.14, 0.75]
+The observed win rates: [0.6633, 0.7493, 0.7491, 0.7493, 0.7521]
+Number of times each bandit was played: [2, 168, 285, 65, 99479]</code></pre>
+<div class="figure">
+<img src="images/oiv.png" alt="" />
+<p class="caption">Optimistic Initial Values</p>
+</div>
+<p>From the visualization below, you can see that the best bandit jumped ahead after about merely 15 visitors:</p>
+<div class="figure">
+<img src="images/oiv_100.png" alt="" />
+<p class="caption">Optimistic Initial Values (first 100)</p>
+</div>
+<p>Note that I set <code>init_val</code> to 0.99 since we are comparing win rates that can not exceed 1. The larger the initial value, the more the algorithm explores initially. Because the <code>Optimistic Initial Values</code> algorithm was specifically designed to explore in the beginning, it can “fall behind” in reaching the best version, if ever, compared to other algorithms such as <code>Epsilon Greedy</code>. Note that if the best bandit is discovered early, the expected win rates of other bandits never converge to their true win rates in <code>Optimistic Initial Values</code> (but would in <code>Epsilon Greedy</code>). This is a common feature of several of the algorithms discussed in this article.</p>
+</div>
+<div id="upper-confidence-bound-ucb" class="section level2 hasAnchor" number="2.5">
+<h2><span class="header-section-number">2.5</span> Upper Confidence Bound (UCB)<a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#upper-confidence-bound-ucb" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The theory of <code>UCB</code> is harder to fully grasp although its intuition and implementation are straightforward. To start, let’s look back to the last two algorithms that we have discussed: <code>Epsilon Greedy</code> and <code>Optimistic Initial Values</code>. A common step in the implementation of both of these algorithms is to find the bandit that gives the best <em>observed</em> expected win rate. This is why both algorithms are said to be <code>greedy</code>. But can we do better, especially that we know these expected win rates are probabilistic? Put differently, we know that the more a certain bandit was selected, the closer its expected win rate is to its true win rate. But what about those bandits that were rarely picked?</p>
+<p>That is where <code>Upper Confidence Bound</code> comes into play. The idea is that we should not be relying on the observed expected win rates alone in making decisions. We should give each version some “bonus points”: if a version has been picked a lot, it gets a small bonus; but if a version has barely been barely chosen, it should get a larger bonus because, probabilistically, the observed expected win rate <em>can</em> be far from the true win rate if a version has not been played much.</p>
+<p>If you are interested in the math, you can read the paper “<a href="https://homes.di.unimi.it/~cesabian/Pubblicazioni/ml-02.pdf">Finite-time Analysis of the Multiarmed Bandit Problem</a>”. In the paper, the authors have outlined a function for the “bonus”, which is commonly known as <code>UCB1</code>:</p>
+<p><span class="math display">\[b_j=\sqrt{\frac{2\log{N}}{n_j}}\]</span></p>
+<p>where <span class="math inline">\(N\)</span> is the total number of visitors at the time of computing the bonus, and <span class="math inline">\(n_j\)</span> is the number of times that bandit <span class="math inline">\(j\)</span> was chosen at the time of computing the bonus. Adding <span class="math inline">\(b\)</span> to the expected win rate gives the <strong>upper confidence bound</strong>:</p>
+<p><span class="math display">\[\text{UCB1}_j=\bar{x}_{n_j}+b_j\]</span></p>
+<p>Here is the pseudocode for <code>UCB1</code>:</p>
+<pre><code>loop:
+    Update UCB1 values
+    j = argmax(UCB1 values)
+    x = reward (1 or 0) from playing bandit j
+    bandit[j].update_mean(x)</code></pre>
+<p>Adding the following method into <code>BayesianAB</code> will implement <code>UCB1</code>:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb20-1"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb20-1" aria-hidden="true" tabindex="-1"></a>    <span class="co">####################</span></span>
+<span id="cb20-2"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb20-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># upper confidence bound (UCB1)</span></span>
+<span id="cb20-3"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> ucb1(</span>
+<span id="cb20-4"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb20-4" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>,</span>
+<span id="cb20-5"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb20-5" aria-hidden="true" tabindex="-1"></a>            c<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb20-6"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb20-6" aria-hidden="true" tabindex="-1"></a>    ):</span>
+<span id="cb20-7"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb20-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-8"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb20-8" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.history.append(<span class="va">self</span>.prob_win.copy())</span>
+<span id="cb20-9"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb20-9" aria-hidden="true" tabindex="-1"></a>        bandit_count <span class="op">=</span> [<span class="fl">0.0001</span>] <span class="op">*</span> <span class="bu">len</span>(<span class="va">self</span>.prob_win)</span>
+<span id="cb20-10"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb20-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-11"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb20-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="va">self</span>.N):</span>
+<span id="cb20-12"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb20-12" aria-hidden="true" tabindex="-1"></a>            bound <span class="op">=</span> <span class="va">self</span>.prob_win <span class="op">+</span> c <span class="op">*</span> np.sqrt(np.divide(<span class="dv">2</span> <span class="op">*</span> np.log(k), bandit_count))</span>
+<span id="cb20-13"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb20-13" aria-hidden="true" tabindex="-1"></a>            i <span class="op">=</span> np.argmax(bound)</span>
+<span id="cb20-14"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb20-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-15"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb20-15" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.update(i, k)</span>
+<span id="cb20-16"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb20-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-17"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb20-17" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> bandit_count[i] <span class="op">&lt;</span> <span class="dv">1</span>:</span>
+<span id="cb20-18"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb20-18" aria-hidden="true" tabindex="-1"></a>                bandit_count[i] <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb20-19"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb20-19" aria-hidden="true" tabindex="-1"></a>            bandit_count[i] <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb20-20"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb20-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-21"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb20-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.history</span></code></pre></div>
+<p>This is very similar to what we had before. One thing to note is that I give a very small initial value (<span class="math inline">\(0.0001\)</span>) to <code>bandit_count</code> to avoid the division of zero in the beginning of the experiment. Later, I reversed the value to 0 with the <code>if</code> statement. An alternative approach is to run the first several iterations on all versions before implementing <code>UCB1</code> thereafter.</p>
+<p><code>UCB1</code> has a parameter, <span class="math inline">\(c\)</span>, which controls the degree of exploration. Other things being equal, A larger value <span class="math inline">\(c\)</span> means a higher reward. The default value is set to 1 in the above script.</p>
+<p>Executing the following will give us results and visualization for <code>UCB1</code>:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb21-1"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb21-1" aria-hidden="true" tabindex="-1"></a>ucb <span class="op">=</span> BayesianAB(N_bandits)</span>
+<span id="cb21-2"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&#39;The true win rates: </span><span class="sc">{</span>ucb<span class="sc">.</span>prob_true<span class="sc">}</span><span class="ss">&#39;</span>)</span>
+<span id="cb21-3"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb21-3" aria-hidden="true" tabindex="-1"></a>ucb_history <span class="op">=</span> ucb.ucb1()</span>
+<span id="cb21-4"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&#39;The observed win rates: </span><span class="sc">{</span>ucb<span class="sc">.</span>prob_win<span class="sc">}</span><span class="ss">&#39;</span>)</span>
+<span id="cb21-5"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&#39;Number of times each bandit was played: </span><span class="sc">{</span>ucb<span class="sc">.</span>count<span class="sc">}</span><span class="ss">&#39;</span>)</span>
+<span id="cb21-6"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-7"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the entire experiment history</span></span>
+<span id="cb21-8"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb21-8" aria-hidden="true" tabindex="-1"></a>plot_history(history<span class="op">=</span>ucb.history, prob_true<span class="op">=</span>ucb.prob_true)</span></code></pre></div>
+<p>A typical run gives the following:</p>
+<pre><code>The true win rates: [0.65, 0.12, 0.63, 0.33, 0.75]
+The observed win rates: [0.6505, 0.1165, 0.1928, 0.0774, 0.3794]
+Number of times each bandit was played: [99470, 77, 103, 67, 282]</code></pre>
+<div class="figure">
+<img src="images/ucb1.png" alt="" />
+<p class="caption">UCB1</p>
+</div>
+<p>This particular run shows that <code>UCB1</code> has also failed to identify the best version. Examining the first 100 visitors shows that the bandit with a .65 win rate jumped out early and never looked back. And I do not believe the algorithm can guarantee convergence even with infinite number of visitors:</p>
+<div class="figure">
+<img src="images/ucb1_100.png" alt="" />
+<p class="caption">UCB1 (first 100)</p>
+</div>
+</div>
+<div id="gradient-bandit-algorithm" class="section level2 hasAnchor" number="2.6">
+<h2><span class="header-section-number">2.6</span> Gradient Bandit Algorithm<a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#gradient-bandit-algorithm" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Another algorithm that does not rely <em>entirely</em> on expected win rates is the <code>Gradient Bandit</code> algorithm. Not surprisingly, this algorithm is related to gradient ascent. With this algorithm, each bandit’s probability of being chosen is determined according to a soft-max distribution:</p>
+<p><span class="math display">\[\pi_n(i)=\frac{e^{H_n(i)}}{\sum_{j=1}^{J}{e^{H_n(j)}}}\]</span></p>
+<p>where <span class="math inline">\(\pi_n(i)\)</span> is the probability of bandit <span class="math inline">\(i\)</span> being picked for customer <span class="math inline">\(n\)</span>, <span class="math inline">\(H_n(i)\)</span> is the <em>preference</em> for bandit <span class="math inline">\(i\)</span> at the time customer <span class="math inline">\(n\)</span> arrives, and <span class="math inline">\(J\)</span> is the total number of bandits in the experiment. In the case of only two bandits, this specification is the same as the logistic or sigmoid function.</p>
+<p>When the first customer arrives, i.e., <span class="math inline">\(n=1\)</span>, it is custom to set the <em>preference</em>, <span class="math inline">\(H_1(j)\)</span>, for all <span class="math inline">\(j\)</span>, to 0 so that every bandit has the same probability of getting picked. Suppose bandit <span class="math inline">\(i\)</span> is picked for customer <span class="math inline">\(n(\geq1)\)</span>, then the <em>preference</em> for <span class="math inline">\(i\)</span> is updated according to:</p>
+<p><span class="math display">\[H_{n+1}(i)=H_n(i)+\alpha(x_n - \bar{x}_{n-1})(1-\pi_n(i))\]</span></p>
+<p>whereas the <em>preferences</em> for all <span class="math inline">\(j\neq i\)</span> are updated according to:</p>
+<p><span class="math display">\[H_{n+1}(j)=H_n(j)-\alpha(x_n - \bar{x}_{n-1})\pi_n(j)\]</span></p>
+<p>where <span class="math inline">\(\alpha&gt;0\)</span> is a “step-size” parameter.</p>
+<p>The intuition of the <code>Gradient Bandit</code> algorithm is as follows. When the reward received from picking <span class="math inline">\(i\)</span> for customer <span class="math inline">\(n\)</span> is higher than the expected reward, the probability of picking <span class="math inline">\(i\)</span> in the future (next round) is increased. In our simple case with only two outcomes (buy and not buy), the reward is higher than the expected reward only if customer <span class="math inline">\(n\)</span> buys.</p>
+<p>Let’s take a look at the pseudocode:</p>
+<pre><code>H = [0] * number_of_bandits
+
+loop:
+  pi = pi(H) # Calculates the soft-max distribution
+  i = random.choices(bandits, weights=pi)
+  gb.update()</code></pre>
+<p>where <code>H.update()</code> updates the values of <span class="math inline">\(H(i)\)</span> (the bandit that was chosen) and <span class="math inline">\(H(j)\)</span> (bandits that were not chosen).</p>
+<p>Here is the <code>Python</code> implementation for <code>Gradient Bandit</code>:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb24-1"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb24-1" aria-hidden="true" tabindex="-1"></a>    <span class="co">####################</span></span>
+<span id="cb24-2"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb24-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># gradient_bandit update</span></span>
+<span id="cb24-3"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> gb_update(</span>
+<span id="cb24-4"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb24-4" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>,</span>
+<span id="cb24-5"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb24-5" aria-hidden="true" tabindex="-1"></a>            i,</span>
+<span id="cb24-6"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb24-6" aria-hidden="true" tabindex="-1"></a>            k,</span>
+<span id="cb24-7"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb24-7" aria-hidden="true" tabindex="-1"></a>            a,</span>
+<span id="cb24-8"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb24-8" aria-hidden="true" tabindex="-1"></a>    ):</span>
+<span id="cb24-9"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb24-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-10"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb24-10" aria-hidden="true" tabindex="-1"></a>        outcome <span class="op">=</span> <span class="va">self</span>.pull(i)</span>
+<span id="cb24-11"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb24-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> z <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(<span class="va">self</span>.pref)):</span>
+<span id="cb24-12"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb24-12" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> z <span class="op">==</span> i:</span>
+<span id="cb24-13"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb24-13" aria-hidden="true" tabindex="-1"></a>                <span class="va">self</span>.pref[z] <span class="op">=</span> <span class="va">self</span>.pref[z] <span class="op">+</span> a <span class="op">*</span> (outcome <span class="op">-</span> <span class="va">self</span>.prob_win[z]) <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> <span class="va">self</span>.pi[z])</span>
+<span id="cb24-14"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb24-14" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
+<span id="cb24-15"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb24-15" aria-hidden="true" tabindex="-1"></a>                <span class="va">self</span>.pref[z] <span class="op">=</span> <span class="va">self</span>.pref[z] <span class="op">-</span> a <span class="op">*</span> (outcome <span class="op">-</span> <span class="va">self</span>.prob_win[z]) <span class="op">*</span> <span class="va">self</span>.pi[z]</span>
+<span id="cb24-16"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb24-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-17"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb24-17" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.prob_win[i] <span class="op">=</span> (<span class="va">self</span>.prob_win[i] <span class="op">*</span> k <span class="op">+</span> outcome) <span class="op">/</span> (k <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb24-18"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb24-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-19"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb24-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.pref</span>
+<span id="cb24-20"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb24-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-21"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb24-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># gradient bandit algorithm</span></span>
+<span id="cb24-22"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb24-22" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> gradient_bandit(</span>
+<span id="cb24-23"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb24-23" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>,</span>
+<span id="cb24-24"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb24-24" aria-hidden="true" tabindex="-1"></a>            a<span class="op">=</span><span class="fl">0.2</span>,</span>
+<span id="cb24-25"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb24-25" aria-hidden="true" tabindex="-1"></a>    ):</span>
+<span id="cb24-26"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb24-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-27"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb24-27" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.history.append([<span class="va">self</span>.pi.copy(),</span>
+<span id="cb24-28"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb24-28" aria-hidden="true" tabindex="-1"></a>                             <span class="va">self</span>.pref.copy(),</span>
+<span id="cb24-29"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb24-29" aria-hidden="true" tabindex="-1"></a>                             <span class="va">self</span>.prob_win.copy()])</span>
+<span id="cb24-30"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb24-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-31"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb24-31" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="va">self</span>.N):</span>
+<span id="cb24-32"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb24-32" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.pi <span class="op">=</span> np.exp(<span class="va">self</span>.pref) <span class="op">/</span> <span class="bu">sum</span>(np.exp(<span class="va">self</span>.pref))</span>
+<span id="cb24-33"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb24-33" aria-hidden="true" tabindex="-1"></a>            pick <span class="op">=</span> random.choices(np.arange(<span class="bu">len</span>(<span class="va">self</span>.pref)), weights<span class="op">=</span><span class="va">self</span>.pi)</span>
+<span id="cb24-34"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb24-34" aria-hidden="true" tabindex="-1"></a>            i <span class="op">=</span> pick[<span class="dv">0</span>]</span>
+<span id="cb24-35"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb24-35" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.pref <span class="op">=</span> <span class="va">self</span>.gb_update(i, k, a)</span>
+<span id="cb24-36"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb24-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-37"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb24-37" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.count[i] <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb24-38"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb24-38" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.history.append([<span class="va">self</span>.pi.copy(),</span>
+<span id="cb24-39"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb24-39" aria-hidden="true" tabindex="-1"></a>                                 <span class="va">self</span>.pref.copy(),</span>
+<span id="cb24-40"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb24-40" aria-hidden="true" tabindex="-1"></a>                                 <span class="va">self</span>.prob_win.copy()])</span>
+<span id="cb24-41"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb24-41" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.history_bandit.append(i)  <span class="co"># for Monte Carlo</span></span>
+<span id="cb24-42"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb24-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-43"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb24-43" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.history</span></code></pre></div>
+<p>Here are some notes on the <code>Python</code> implementation of the <code>Gradient Bandit</code> algorithm:
+1. We have already initiated <code>pref</code> and <code>pi</code> at the start of the <code>BayesianAB</code> class;
+2. As discussed in the pseudocode, a new function, <code>gb_update()</code>, is necessary since we need to update the preference function for every bandit in each round;
+3. The <code>gradient_bandit()</code> function takes 1 parameter: <span class="math inline">\(a\)</span>, which is the step-size parameter. The default value of <span class="math inline">\(a\)</span> is set to 0.2. The smaller the value of <span class="math inline">\(a\)</span>, the more the algorithm explores;
+4. <code>gradient_bandit()</code> saves <code>history</code> differently: each row in <code>history</code> is an array of 3 lists. In order to examine the performance of the <code>Gradient Bandit</code> algorithm, we not only save the expected win rates, but also preferences and the values from the soft-max distribution, <span class="math inline">\(\pi(i)\)</span>;
+5. The function <code>choices()</code> from the <code>random</code> library picks a value from a list based on <code>weights</code>. In this case, the weights is given by the soft-max distribution;</p>
+<p>Because <code>gradient_bandit()</code> saves arrays in <code>history</code>, we also need to update the <code>plot_history()</code> function:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb25-1"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_history(</span>
+<span id="cb25-2"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb25-2" aria-hidden="true" tabindex="-1"></a>        history: <span class="bu">list</span>,</span>
+<span id="cb25-3"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb25-3" aria-hidden="true" tabindex="-1"></a>        prob_true: <span class="bu">list</span>,</span>
+<span id="cb25-4"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb25-4" aria-hidden="true" tabindex="-1"></a>        col<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb25-5"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb25-5" aria-hidden="true" tabindex="-1"></a>        k<span class="op">=</span>N,</span>
+<span id="cb25-6"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb25-6" aria-hidden="true" tabindex="-1"></a>):</span>
+<span id="cb25-7"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb25-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">type</span>(history[<span class="dv">0</span>][<span class="dv">0</span>]) <span class="op">==</span> <span class="bu">list</span>:  <span class="co"># To accommodate gradient bandit</span></span>
+<span id="cb25-8"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb25-8" aria-hidden="true" tabindex="-1"></a>        df_history <span class="op">=</span> pd.DataFrame([arr[col] <span class="cf">for</span> arr <span class="kw">in</span> history][:k])</span>
+<span id="cb25-9"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb25-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb25-10"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb25-10" aria-hidden="true" tabindex="-1"></a>        df_history <span class="op">=</span> pd.DataFrame(history[:k])</span>
+<span id="cb25-11"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb25-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-12"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb25-12" aria-hidden="true" tabindex="-1"></a>    plt.figure(figsize<span class="op">=</span>(<span class="dv">20</span>, <span class="dv">5</span>))</span>
+<span id="cb25-13"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb25-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-14"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb25-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Define the color palette</span></span>
+<span id="cb25-15"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb25-15" aria-hidden="true" tabindex="-1"></a>    colors <span class="op">=</span> sns.color_palette(<span class="st">&quot;Set2&quot;</span>, <span class="bu">len</span>(prob_true))</span>
+<span id="cb25-16"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb25-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-17"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb25-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(prob_true)):</span>
+<span id="cb25-18"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb25-18" aria-hidden="true" tabindex="-1"></a>        sns.lineplot(x<span class="op">=</span>df_history.index, y<span class="op">=</span>df_history[i], color<span class="op">=</span>colors[i])</span>
+<span id="cb25-19"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb25-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-20"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb25-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create custom legend using prob_true and colors</span></span>
+<span id="cb25-21"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb25-21" aria-hidden="true" tabindex="-1"></a>    custom_legend <span class="op">=</span> [plt.Line2D([], [], color<span class="op">=</span>colors[i], label<span class="op">=</span>prob_true[i]) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(prob_true))]</span>
+<span id="cb25-22"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb25-22" aria-hidden="true" tabindex="-1"></a>    plt.legend(handles<span class="op">=</span>custom_legend)</span></code></pre></div>
+<p>The updates occurred in</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb26-1"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb26-1" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">type</span>(history[<span class="dv">0</span>][<span class="dv">0</span>]) <span class="op">==</span> <span class="bu">list</span>:  <span class="co"># To accommodate gradient bandit</span></span>
+<span id="cb26-2"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb26-2" aria-hidden="true" tabindex="-1"></a>        df_history <span class="op">=</span> pd.DataFrame([arr[col] <span class="cf">for</span> arr <span class="kw">in</span> history][:k])</span>
+<span id="cb26-3"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb26-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb26-4"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb26-4" aria-hidden="true" tabindex="-1"></a>        df_history <span class="op">=</span> pd.DataFrame(history[:k])</span></code></pre></div>
+<p>with the added parameter <code>col</code>. This is to accommodate the arrays saved in history by <code>gradient_bandit()</code>. The <code>if</code> statement checks whether the first element in <code>history</code> is a <code>list</code>. If it is, then <code>history</code> was saved from <code>gradient_bandit()</code> and we would need to extract the specific column, given by <code>col</code>, for plotting. The default value of <code>col</code> is 2, which is to plot the history of the win rates.</p>
+<p>Executing the following will run the <code>Gradient Bandit</code> algorithm:</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb27-1"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gradient bandit</span></span>
+<span id="cb27-2"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb27-2" aria-hidden="true" tabindex="-1"></a>gb <span class="op">=</span> BayesianAB(N_bandits)</span>
+<span id="cb27-3"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&#39;The true win rates: </span><span class="sc">{</span>gb<span class="sc">.</span>prob_true<span class="sc">}</span><span class="ss">&#39;</span>)</span>
+<span id="cb27-4"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb27-4" aria-hidden="true" tabindex="-1"></a>gb_history <span class="op">=</span> gb.gradient_bandit()</span>
+<span id="cb27-5"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&#39;The observed win rates: </span><span class="sc">{</span>gb<span class="sc">.</span>prob_win<span class="sc">}</span><span class="ss">&#39;</span>)</span>
+<span id="cb27-6"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&#39;Number of times each bandit was played: </span><span class="sc">{</span>gb<span class="sc">.</span>count<span class="sc">}</span><span class="ss">&#39;</span>)</span>
+<span id="cb27-7"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb27-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-8"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb27-8" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the entire experiment history</span></span>
+<span id="cb27-9"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb27-9" aria-hidden="true" tabindex="-1"></a>plot_history(history<span class="op">=</span>gb.history, prob_true<span class="op">=</span>gb.prob_true)</span></code></pre></div>
+<p>Here are results from a typical run:</p>
+<pre><code>The true win rates: [0.17, 0.56, 0.17, 0.7, 0.75]
+The observed win rates: [0.2564, 0.5514, 0.0105, 0.6636, 0.7498]
+Number of times each bandit was played: [35, 67, 22, 196, 99679]</code></pre>
+<div class="figure">
+<img src="images/gb.png" alt="" />
+<p class="caption">Gradient Bandit</p>
+</div>
+<p>As usual, we can examine what happened after 100 customers. Interestingly, the bandit with the highest win rate did not lead after only 100 customers:</p>
+<div class="figure">
+<img src="images/gb_100.png" alt="" />
+<p class="caption">Gradient Bandit (first 100)</p>
+</div>
+<p>We can plot the evolution of the <code>preference</code> with the following:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb29-1"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot preference</span></span>
+<span id="cb29-2"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb29-2" aria-hidden="true" tabindex="-1"></a>plot_history(history<span class="op">=</span>gb.history, prob_true<span class="op">=</span>gb.prob_true, col<span class="op">=</span><span class="dv">1</span>)</span></code></pre></div>
+<div class="figure">
+<img src="images/gb_pref.png" alt="" />
+<p class="caption">Gradient Bandit (preference)</p>
+</div>
+<p>And plot the soft-max function with the following:</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb30-1"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot pi</span></span>
+<span id="cb30-2"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb30-2" aria-hidden="true" tabindex="-1"></a>plot_history(history<span class="op">=</span>gb.history, prob_true<span class="op">=</span>gb.prob_true, col<span class="op">=</span><span class="dv">0</span>)</span></code></pre></div>
+<div class="figure">
+<img src="images/gb_pi.png" alt="" />
+<p class="caption">Gradient Bandit (pi)</p>
+</div>
+<p>There are several reasons why the <code>Gradient Bandit</code> algorithm is one of my favorites:
+1. Economists are familiar with the idea of using <code>preference</code> to model choices;
+2. Economists are familiar with <code>logistic</code> function, used in logistic regression, which is the special case of <code>soft-max</code> with only two bandits;
+3. One of my research areas is conflict and contest, in which the <code>soft-max</code> function, known as “contest success function”, is widely used in the literature.</p>
+</div>
+<div id="thompson-sampling-bayesian-bandits" class="section level2 hasAnchor" number="2.7">
+<h2><span class="header-section-number">2.7</span> Thompson Sampling (Bayesian Bandits)<a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#thompson-sampling-bayesian-bandits" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><code>Thompson Sampling</code>, or <code>Bayesian Bandits</code>, takes another (big) step forward. In our discussion on <code>Upper Confidence Bound</code>, we acknowledged the fact that using only the expected win rate to represent the performance of a bandit is not accurate. To tackle this, <code>UCB1</code> adds a “bonus”: the bonus is smaller for the bandits that were played more, and larger for the bandits that were played less. Then in our discussion on <code>Gradient Bandit</code>, each bandit’s chance of being picked is described by a soft-max distribution.</p>
+<p>To push these ideas further, and as the name <code>Thompson Sampling</code> has hinted, we ask if we could construct a probability distribution to describe the expected win rates of all the bandits. As it turns out, this is possible, as everything, including parameters, are considered random variables in Bayesian Statistics. For example, with Normal Distribution, we often speak about fixed values of mean and variance. But in Bayesian Statistics, the mean and variance of a Normal Distribution are two random variables and they can be described by probability distributions.</p>
+<p>The mathematical derivation of <code>Thompson Sampling</code> requires the use of <a href="https://en.wikipedia.org/wiki/Conjugate_prior">conjugate prior</a>, which I will discuss here briefly, before returning to the <code>Python</code> implementation of <code>Thompson Sampling</code>.</p>
+</div>
+<div id="conjugate-prior" class="section level2 hasAnchor" number="2.8">
+<h2><span class="header-section-number">2.8</span> Conjugate Prior<a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#conjugate-prior" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Recall the Bayes Rule:
+<span class="math display">\[p(\theta \mid X)=\frac{p(X \mid \theta)p(\theta)}{p(X)}\]</span>
+where the four parts are called, respectively
+* <span class="math inline">\(p(\theta \mid X)\)</span>: Posterior distribution
+* <span class="math inline">\(p(X \mid \theta)\)</span>: Likelihood function
+* <span class="math inline">\(p(\theta)\)</span>: Prior probability distribution
+* <span class="math inline">\(p(X)\)</span>: Evidence</p>
+<p>In Bayesian Statistics, if the posterior distribution is in the same probability distribution family as the prior probability distribution, the prior and posterior are then called conjugate distributions, and the prior is called a <strong>conjugate prior</strong> for the likelihood function.</p>
+<p>With conjugate priors, the updating in a Bayesian approach reduces to the updates of hyperparameters that are used to describe both the prior and posterior distributions, since they are the same. I will leave the details to a Statistics textbook, but for our purpose, since our example concerns of binary outcomes (buy or not buy), our likelihood function is that of Bernoulli. As it turns out, the conjugate prior for a Bernoulli likelihood function is the Beta distribution, which has two hyperparameters: <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span>.</p>
+<p>Now that we have established that Beta distribution is the conjugate prior for Bernoulli, the problem of <code>Thompson Sampling</code> is reduced to
+1. sample from the Beta distribution
+2. find the highest expected value</p>
+</div>
+<div id="thompson-sampling-code" class="section level2 hasAnchor" number="2.9">
+<h2><span class="header-section-number">2.9</span> Thompson Sampling: Code<a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#thompson-sampling-code" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Since <code>Thompson Sampling</code> is mechanical different from the previous algorithms, we need to develop special functions and methods to implement <code>Thompson Sampling</code>. Here is a pseudocode:</p>
+<pre><code>loop:
+    sampling from Beta function for bandit b
+    j = argmax(b.sample() for b bandits)
+    x = reward (1 or 0) from playing bandit j
+    bandit[j].bb_update(x)</code></pre>
+<p>The function that needs to be added is <code>bb_update()</code>. Here is the full <code>Python</code> implementation:</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb32-1"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> beta</span>
+<span id="cb32-2"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb32-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">####################</span></span>
+<span id="cb32-4"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb32-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># bayesian_bandits update</span></span>
+<span id="cb32-5"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb32-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> bb_update(</span>
+<span id="cb32-6"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb32-6" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>,</span>
+<span id="cb32-7"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb32-7" aria-hidden="true" tabindex="-1"></a>            a,</span>
+<span id="cb32-8"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb32-8" aria-hidden="true" tabindex="-1"></a>            b,</span>
+<span id="cb32-9"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb32-9" aria-hidden="true" tabindex="-1"></a>            i,</span>
+<span id="cb32-10"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb32-10" aria-hidden="true" tabindex="-1"></a>    ):</span>
+<span id="cb32-11"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb32-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-12"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb32-12" aria-hidden="true" tabindex="-1"></a>        outcome <span class="op">=</span> <span class="va">self</span>.pull(i)</span>
+<span id="cb32-13"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb32-13" aria-hidden="true" tabindex="-1"></a>        a[i] <span class="op">+=</span> outcome</span>
+<span id="cb32-14"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb32-14" aria-hidden="true" tabindex="-1"></a>        b[i] <span class="op">+=</span> <span class="dv">1</span> <span class="op">-</span> outcome</span>
+<span id="cb32-15"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb32-15" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.count[i] <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb32-16"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb32-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-17"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb32-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> a, b</span>
+<span id="cb32-18"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb32-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-19"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb32-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Bayesian bandits</span></span>
+<span id="cb32-20"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb32-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># For Bernoulli distribution, the conjugate prior is Beta distribution</span></span>
+<span id="cb32-21"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb32-21" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> bayesian_bandits(</span>
+<span id="cb32-22"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb32-22" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>,</span>
+<span id="cb32-23"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb32-23" aria-hidden="true" tabindex="-1"></a>            sample_size: <span class="bu">int</span> <span class="op">=</span> <span class="dv">10</span>,</span>
+<span id="cb32-24"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb32-24" aria-hidden="true" tabindex="-1"></a>    ):</span>
+<span id="cb32-25"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb32-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-26"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb32-26" aria-hidden="true" tabindex="-1"></a>        a_hist, b_hist <span class="op">=</span> [], []</span>
+<span id="cb32-27"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb32-27" aria-hidden="true" tabindex="-1"></a>        a_hist.append(<span class="va">self</span>.alpha.copy())</span>
+<span id="cb32-28"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb32-28" aria-hidden="true" tabindex="-1"></a>        b_hist.append(<span class="va">self</span>.beta.copy())</span>
+<span id="cb32-29"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb32-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-30"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb32-30" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="va">self</span>.N):</span>
+<span id="cb32-31"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb32-31" aria-hidden="true" tabindex="-1"></a>            sample_max <span class="op">=</span> []</span>
+<span id="cb32-32"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb32-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-33"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb32-33" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> m <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(<span class="va">self</span>.prob_true)):</span>
+<span id="cb32-34"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb32-34" aria-hidden="true" tabindex="-1"></a>                m_max <span class="op">=</span> np.<span class="bu">max</span>(np.random.beta(<span class="va">self</span>.alpha[m], <span class="va">self</span>.beta[m], sample_size))</span>
+<span id="cb32-35"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb32-35" aria-hidden="true" tabindex="-1"></a>                sample_max.append(m_max.copy())</span>
+<span id="cb32-36"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb32-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-37"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb32-37" aria-hidden="true" tabindex="-1"></a>            i <span class="op">=</span> np.argmax(sample_max)</span>
+<span id="cb32-38"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb32-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-39"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb32-39" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.alpha, <span class="va">self</span>.beta <span class="op">=</span> <span class="va">self</span>.bb_update(<span class="va">self</span>.alpha, <span class="va">self</span>.beta, i)</span>
+<span id="cb32-40"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb32-40" aria-hidden="true" tabindex="-1"></a>            a_hist.append(<span class="va">self</span>.alpha.copy())</span>
+<span id="cb32-41"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb32-41" aria-hidden="true" tabindex="-1"></a>            b_hist.append(<span class="va">self</span>.beta.copy())</span>
+<span id="cb32-42"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb32-42" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.history_bandit.append(i)  <span class="co"># for Monte Carlo</span></span>
+<span id="cb32-43"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb32-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-44"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb32-44" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.history <span class="op">=</span> [a_hist, b_hist]</span>
+<span id="cb32-45"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb32-45" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.history</span></code></pre></div>
+<p>Let’s walk through this script:
+1. We have already initiated <code>alpha</code> and <code>beta</code> at the start of the <code>BayesianAB</code> class. They are the hyperparameters in the Beta distribution;
+2. We import <code>beta</code> from <code>scipy.stats</code> since the conjugate prior for Bernoulli distribution is the Beta distribution.
+3. The function <code>bb_update()</code> updates the hyperparameter values based on the outcome from the last visitor for bandit <span class="math inline">\(i\)</span>: if the outcome was <code>True</code>, then the value of <code>alpha</code> increases by 1; otherwise, the value of <code>beta</code> increases by 1.</p>
+<p>For the actual implementation of the <code>Bayesian Bandits</code> in the <code>bayesian_bandits()</code> method, it is largely consistent with what we have been doing in other algorithms. The main differences include:
+1. Instead of storing the history of outcomes, we store the history of the values of <code>alpha</code> and <code>beta</code>;
+2. In each iteration, we first find the maximum value from the sample of values of each bandit, then pick the best from this set of <em>maximum</em> values;
+3. As described earlier, the updating is different. Instead of updating the mean, we update the values of <code>alpha</code> and <code>beta</code>.</p>
+<p>Due to these changes, we also need a new function for visualizing the <code>history</code> returned by <code>bayesian_bandits()</code>:</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb33-1"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> bb_plot_history(</span>
+<span id="cb33-2"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb33-2" aria-hidden="true" tabindex="-1"></a>        history: <span class="bu">list</span>,</span>
+<span id="cb33-3"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb33-3" aria-hidden="true" tabindex="-1"></a>        prob_true: <span class="bu">list</span>,</span>
+<span id="cb33-4"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb33-4" aria-hidden="true" tabindex="-1"></a>        k<span class="op">=-</span><span class="dv">1</span>,</span>
+<span id="cb33-5"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb33-5" aria-hidden="true" tabindex="-1"></a>):</span>
+<span id="cb33-6"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb33-6" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">100</span>)</span>
+<span id="cb33-7"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb33-7" aria-hidden="true" tabindex="-1"></a>    legend_str <span class="op">=</span> [[]] <span class="op">*</span> <span class="bu">len</span>(prob_true)</span>
+<span id="cb33-8"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb33-8" aria-hidden="true" tabindex="-1"></a>    plt.figure(figsize<span class="op">=</span>(<span class="dv">20</span>, <span class="dv">5</span>))</span>
+<span id="cb33-9"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb33-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-10"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb33-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(prob_true)):</span>
+<span id="cb33-11"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb33-11" aria-hidden="true" tabindex="-1"></a>        a <span class="op">=</span> history[<span class="dv">0</span>][k][i]</span>
+<span id="cb33-12"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb33-12" aria-hidden="true" tabindex="-1"></a>        b <span class="op">=</span> history[<span class="dv">1</span>][k][i]</span>
+<span id="cb33-13"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb33-13" aria-hidden="true" tabindex="-1"></a>        y <span class="op">=</span> beta.pdf(x, a, b)</span>
+<span id="cb33-14"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb33-14" aria-hidden="true" tabindex="-1"></a>        legend_str[i] <span class="op">=</span> <span class="ss">f&#39;</span><span class="sc">{</span>prob_true[i]<span class="sc">}</span><span class="ss">, alpha: </span><span class="sc">{</span>a<span class="sc">}</span><span class="ss">, beta: </span><span class="sc">{</span>b<span class="sc">}</span><span class="ss">&#39;</span></span>
+<span id="cb33-15"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb33-15" aria-hidden="true" tabindex="-1"></a>        plt.plot(x, y)</span>
+<span id="cb33-16"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb33-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-17"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb33-17" aria-hidden="true" tabindex="-1"></a>    plt.legend(legend_str)</span></code></pre></div>
+<p>We can now run a simulate for <code>Thompson Sampling</code> by executing the following:</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb34-1"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb34-1" aria-hidden="true" tabindex="-1"></a>bb <span class="op">=</span> BayesianAB(N_bandits)</span>
+<span id="cb34-2"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&#39;The true win rates: </span><span class="sc">{</span>bb<span class="sc">.</span>prob_true<span class="sc">}</span><span class="ss">&#39;</span>)</span>
+<span id="cb34-3"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb34-3" aria-hidden="true" tabindex="-1"></a>bb_history <span class="op">=</span> bb.bayesian_bandits(sample_size<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb34-4"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&#39;The observed win rates: </span><span class="sc">{</span>np<span class="sc">.</span>divide(bb.history[<span class="dv">0</span>][<span class="op">-</span><span class="dv">1</span>], bb.count)<span class="sc">}</span><span class="ss">&#39;</span>)</span>
+<span id="cb34-5"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&#39;Number of times each bandit was played: </span><span class="sc">{</span>bb<span class="sc">.</span>count<span class="sc">}</span><span class="ss">&#39;</span>)</span>
+<span id="cb34-6"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb34-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-7"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb34-7" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the entire experiment history</span></span>
+<span id="cb34-8"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb34-8" aria-hidden="true" tabindex="-1"></a>bb_plot_history(history<span class="op">=</span>bb.history, prob_true<span class="op">=</span>bb.prob_true)</span></code></pre></div>
+<p>Outcomes from a typical run look like the following:</p>
+<pre><code>The true win rates: [0.15, 0.67, 0.11, 0.47, 0.75]
+The observed win rates: [0.1, 0.6563, 0.1667, 0.4545, 0.7500]
+Number of times each bandit was played: [10, 355, 12, 44, 99578]</code></pre>
+<div class="figure">
+<img src="images/bb.png" alt="" />
+<p class="caption">Bayesian Bandits</p>
+</div>
+<p>It is also interesting to look at what happened after only 100 visitors:</p>
+<div class="figure">
+<img src="images/bb_100.png" alt="" />
+<p class="caption">Bayesian Bandits (first 100)</p>
+</div>
+<p>Two differences between <code>Thompson Sampling</code> and the other algorithms we have discussed should be noted. First, as already mentioned, <code>Thompson Sampling</code> attempts to build a distribution for the bandits. Comparing the two visuals from 100 visitors and all visitors shows that, although the best version has jumped out early, the distribution is much tighter/narrower at the end of the experiment, indicating greater “confidence” for the estimated expected win rate. Second, and importantly, the <code>Thompson Sampling</code> algorithm has no problem distinguishing between a bandit with a 0.67 win rate and the best version with a win rate of 0.75.</p>
+</div>
+<div id="comparing-the-algorithms" class="section level2 hasAnchor" number="2.10">
+<h2><span class="header-section-number">2.10</span> Comparing the Algorithms<a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#comparing-the-algorithms" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>It is important to compare the five algorithms in various settings. Following Sutton and Barto (2020), I conduct a 5-armed testbed. The idea of the testbed is to run the algorithms many times, say 2,000, then calculates the success rate, which is the percentage that the best bandit was picked in each round. For example, suppose we run the <code>Epsilon Greedy</code> algorithm 2,000 times with different win rates. We look at the bandit picked on the 100th visitor and found that, out of the 2,000 runs the best bandit was picked 800 times. Then at the 100th round/visitor, the success rate was 0.4. When we developed the <code>BayesianAB</code> class, we were already anticipating the implementation of the testbed. Specifically, in the following functions/methods:
+* <code>update()</code>
+* <code>gradient_bandit()</code>
+* <code>bayesian_bandits()</code></p>
+<p>there is</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb36-1"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.history_bandit.append(i)</span></code></pre></div>
+<p>which records the which bandit was picked at each round. The parameters <code>p_max</code>, <code>p_diff</code>, and <code>p_min</code> also allow the <code>BayesianAB</code> class to generate different win rates. We will now develop a script to implement the testbed where the <code>BayesianAB</code> class is imported and called:</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb37-1"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb37-2"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb37-3"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb37-4"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb37-5"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> multiprocessing <span class="im">import</span> Pool, cpu_count</span>
+<span id="cb37-6"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> functools <span class="im">import</span> partial</span>
+<span id="cb37-7"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-8"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bayesianab <span class="im">import</span> BayesianAB</span>
+<span id="cb37-9"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-10"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-10" aria-hidden="true" tabindex="-1"></a><span class="co"># set the number of bandits</span></span>
+<span id="cb37-11"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-11" aria-hidden="true" tabindex="-1"></a>N_bandits <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb37-12"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-12" aria-hidden="true" tabindex="-1"></a><span class="co"># set the number of visitors</span></span>
+<span id="cb37-13"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-13" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">10001</span></span>
+<span id="cb37-14"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-14" aria-hidden="true" tabindex="-1"></a><span class="co"># set the number of trials</span></span>
+<span id="cb37-15"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-15" aria-hidden="true" tabindex="-1"></a>M <span class="op">=</span> <span class="dv">2000</span></span>
+<span id="cb37-16"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-17"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-18"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-18" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> worker(algo, number_of_bandits, number_of_trials, p_max, p_diff, p_min, n):</span>
+<span id="cb37-19"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-19" aria-hidden="true" tabindex="-1"></a>    bayesianab_instance <span class="op">=</span> BayesianAB(number_of_bandits, number_of_trials, p_max, p_diff, p_min)</span>
+<span id="cb37-20"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-20" aria-hidden="true" tabindex="-1"></a>    <span class="bu">getattr</span>(bayesianab_instance, algo)()</span>
+<span id="cb37-21"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> bayesianab_instance.history_bandit</span>
+<span id="cb37-22"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-23"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-24"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-24" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> monte_carlo(</span>
+<span id="cb37-25"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-25" aria-hidden="true" tabindex="-1"></a>        algos,</span>
+<span id="cb37-26"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-26" aria-hidden="true" tabindex="-1"></a>        m<span class="op">=</span><span class="dv">500</span>,</span>
+<span id="cb37-27"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-27" aria-hidden="true" tabindex="-1"></a>        n<span class="op">=</span><span class="dv">10001</span>,</span>
+<span id="cb37-28"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-28" aria-hidden="true" tabindex="-1"></a>        p_max: <span class="bu">float</span> <span class="op">=</span> <span class="fl">.75</span>,</span>
+<span id="cb37-29"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-29" aria-hidden="true" tabindex="-1"></a>        p_diff: <span class="bu">float</span> <span class="op">=</span> <span class="fl">.05</span>,</span>
+<span id="cb37-30"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-30" aria-hidden="true" tabindex="-1"></a>        p_min: <span class="bu">float</span> <span class="op">=</span> <span class="fl">.1</span></span>
+<span id="cb37-31"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-31" aria-hidden="true" tabindex="-1"></a>):</span>
+<span id="cb37-32"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-32" aria-hidden="true" tabindex="-1"></a>    algos_hist <span class="op">=</span> {algo: [] <span class="cf">for</span> algo <span class="kw">in</span> algos}</span>
+<span id="cb37-33"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-34"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> algo <span class="kw">in</span> algos:</span>
+<span id="cb37-35"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-35" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f&#39;Running </span><span class="sc">{</span>algo<span class="sc">}</span><span class="ss">...&#39;</span>)</span>
+<span id="cb37-36"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-36" aria-hidden="true" tabindex="-1"></a>        <span class="cf">with</span> Pool(cpu_count()) <span class="im">as</span> pool:</span>
+<span id="cb37-37"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-37" aria-hidden="true" tabindex="-1"></a>            func <span class="op">=</span> partial(worker, algo, N_bandits, n, p_max, p_diff, p_min)</span>
+<span id="cb37-38"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-38" aria-hidden="true" tabindex="-1"></a>            results <span class="op">=</span> <span class="bu">list</span>(pool.imap(func, <span class="bu">range</span>(m)))</span>
+<span id="cb37-39"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-40"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-40" aria-hidden="true" tabindex="-1"></a>        algos_hist[algo] <span class="op">=</span> results</span>
+<span id="cb37-41"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-42"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-42" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> algos_hist</span>
+<span id="cb37-43"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-44"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-45"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-45" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> run_monte_carlo(</span>
+<span id="cb37-46"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-46" aria-hidden="true" tabindex="-1"></a>        algos,</span>
+<span id="cb37-47"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-47" aria-hidden="true" tabindex="-1"></a>        m,</span>
+<span id="cb37-48"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-48" aria-hidden="true" tabindex="-1"></a>        n,</span>
+<span id="cb37-49"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-49" aria-hidden="true" tabindex="-1"></a>        p_values,</span>
+<span id="cb37-50"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-50" aria-hidden="true" tabindex="-1"></a>):</span>
+<span id="cb37-51"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-51" aria-hidden="true" tabindex="-1"></a>    trials <span class="op">=</span> {}</span>
+<span id="cb37-52"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-52" aria-hidden="true" tabindex="-1"></a>    df_all <span class="op">=</span> {}</span>
+<span id="cb37-53"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-54"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-54" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(p_values)):</span>
+<span id="cb37-55"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-55" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f&#39;The p_values are </span><span class="sc">{</span>p_values[i]<span class="sc">}</span><span class="ss">&#39;</span>)</span>
+<span id="cb37-56"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-56" aria-hidden="true" tabindex="-1"></a>        trials[<span class="ss">f&#39;p</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">&#39;</span>] <span class="op">=</span> monte_carlo(algos,</span>
+<span id="cb37-57"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-57" aria-hidden="true" tabindex="-1"></a>                                      m,</span>
+<span id="cb37-58"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-58" aria-hidden="true" tabindex="-1"></a>                                      n,</span>
+<span id="cb37-59"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-59" aria-hidden="true" tabindex="-1"></a>                                      p_values[i][<span class="dv">0</span>],</span>
+<span id="cb37-60"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-60" aria-hidden="true" tabindex="-1"></a>                                      p_values[i][<span class="dv">1</span>],</span>
+<span id="cb37-61"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-61" aria-hidden="true" tabindex="-1"></a>                                      p_values[i][<span class="dv">2</span>],)</span>
+<span id="cb37-62"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-63"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-63" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(p_values)):</span>
+<span id="cb37-64"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-64" aria-hidden="true" tabindex="-1"></a>        df <span class="op">=</span> pd.DataFrame()</span>
+<span id="cb37-65"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-65" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> j <span class="kw">in</span> algos:</span>
+<span id="cb37-66"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-66" aria-hidden="true" tabindex="-1"></a>            lst <span class="op">=</span> [<span class="dv">0</span>] <span class="op">*</span> (N <span class="op">-</span> <span class="dv">1</span>)</span>
+<span id="cb37-67"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-67" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(M):</span>
+<span id="cb37-68"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-68" aria-hidden="true" tabindex="-1"></a>                lst <span class="op">=</span> np.array(lst) <span class="op">+</span> np.array([<span class="dv">1</span> <span class="cf">if</span> x <span class="op">==</span> <span class="dv">4</span> <span class="cf">else</span> <span class="dv">0</span> <span class="cf">for</span> x <span class="kw">in</span> trials[<span class="ss">f&#39;p</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">&#39;</span>][j][k]])</span>
+<span id="cb37-69"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-69" aria-hidden="true" tabindex="-1"></a>            df[j] <span class="op">=</span> (lst <span class="op">/</span> M).tolist()</span>
+<span id="cb37-70"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-71"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-71" aria-hidden="true" tabindex="-1"></a>        df_all[<span class="ss">f&#39;p</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">&#39;</span>] <span class="op">=</span> df.copy()</span>
+<span id="cb37-72"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-73"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-73" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df_all</span>
+<span id="cb37-74"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-75"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-76"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-76" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_monte_carlo(</span>
+<span id="cb37-77"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-77" aria-hidden="true" tabindex="-1"></a>        df_all,</span>
+<span id="cb37-78"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-78" aria-hidden="true" tabindex="-1"></a>        algos,</span>
+<span id="cb37-79"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-79" aria-hidden="true" tabindex="-1"></a>        col,</span>
+<span id="cb37-80"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-80" aria-hidden="true" tabindex="-1"></a>        row,</span>
+<span id="cb37-81"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-81" aria-hidden="true" tabindex="-1"></a>):</span>
+<span id="cb37-82"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-82" aria-hidden="true" tabindex="-1"></a>    figure, axis <span class="op">=</span> plt.subplots(row, col, figsize<span class="op">=</span>(<span class="dv">20</span>, <span class="dv">10</span>))</span>
+<span id="cb37-83"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-83" aria-hidden="true" tabindex="-1"></a>    colors <span class="op">=</span> sns.color_palette(<span class="st">&quot;Set2&quot;</span>, <span class="bu">len</span>(algos))</span>
+<span id="cb37-84"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-85"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-85" aria-hidden="true" tabindex="-1"></a>    m <span class="op">=</span> <span class="dv">0</span>  <span class="co"># column index</span></span>
+<span id="cb37-86"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-86" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> <span class="dv">0</span>  <span class="co"># row index</span></span>
+<span id="cb37-87"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-88"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-88" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> key <span class="kw">in</span> df_all:</span>
+<span id="cb37-89"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-89" aria-hidden="true" tabindex="-1"></a>        ax <span class="op">=</span> axis[n, m]</span>
+<span id="cb37-90"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-90" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(algos)):</span>
+<span id="cb37-91"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-91" aria-hidden="true" tabindex="-1"></a>            sns.lineplot(x<span class="op">=</span>df_all[key].index, y<span class="op">=</span>df_all[key][algos[i]], linewidth<span class="op">=</span><span class="fl">0.5</span>, color<span class="op">=</span>colors[i], ax<span class="op">=</span>ax)</span>
+<span id="cb37-92"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-93"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-93" aria-hidden="true" tabindex="-1"></a>        ax.set_ylabel(<span class="st">&#39;&#39;</span>)</span>
+<span id="cb37-94"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-94" aria-hidden="true" tabindex="-1"></a>        ax.set_title(prob_list[n <span class="op">*</span> <span class="dv">3</span> <span class="op">+</span> m])</span>
+<span id="cb37-95"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-95" aria-hidden="true" tabindex="-1"></a>        ax.set_xticks([])</span>
+<span id="cb37-96"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-97"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-97" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> m <span class="op">==</span> <span class="dv">2</span>:</span>
+<span id="cb37-98"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-98" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Create custom legend using prob_true and colors</span></span>
+<span id="cb37-99"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-99" aria-hidden="true" tabindex="-1"></a>            custom_legend <span class="op">=</span> [plt.Line2D([], [], color<span class="op">=</span>colors[i], label<span class="op">=</span>algos[i]) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(algos))]</span>
+<span id="cb37-100"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-100" aria-hidden="true" tabindex="-1"></a>            ax.legend(handles<span class="op">=</span>custom_legend, loc<span class="op">=</span><span class="st">&#39;upper left&#39;</span>, fontsize<span class="op">=</span><span class="dv">9</span>)</span>
+<span id="cb37-101"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-101" aria-hidden="true" tabindex="-1"></a>            n <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb37-102"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-102" aria-hidden="true" tabindex="-1"></a>            m <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb37-103"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-103" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb37-104"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-104" aria-hidden="true" tabindex="-1"></a>            m <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb37-105"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-106"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-106" aria-hidden="true" tabindex="-1"></a>    figure.suptitle(<span class="st">&#39;Comparing 5 Algorithms in 12 Different Win Rate Specifications&#39;</span>, fontsize<span class="op">=</span><span class="dv">16</span>)</span>
+<span id="cb37-107"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-108"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-108" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Adjust the spacing between subplots</span></span>
+<span id="cb37-109"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-109" aria-hidden="true" tabindex="-1"></a>    plt.tight_layout()</span>
+<span id="cb37-110"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-111"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-111" aria-hidden="true" tabindex="-1"></a>    plt.savefig(<span class="st">&quot;comparison.png&quot;</span>, dpi<span class="op">=</span><span class="dv">300</span>)</span>
+<span id="cb37-112"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-112" aria-hidden="true" tabindex="-1"></a>    <span class="co"># plt.show()</span></span>
+<span id="cb37-113"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-114"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-115"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-115" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">&quot;__main__&quot;</span>:</span>
+<span id="cb37-116"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-116" aria-hidden="true" tabindex="-1"></a>    algorithms <span class="op">=</span> [<span class="st">&#39;epsilon_greedy&#39;</span>, <span class="st">&#39;optim_init_val&#39;</span>, <span class="st">&#39;ucb1&#39;</span>, <span class="st">&#39;gradient_bandit&#39;</span>, <span class="st">&#39;bayesian_bandits&#39;</span>]</span>
+<span id="cb37-117"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-117" aria-hidden="true" tabindex="-1"></a>    prob_list <span class="op">=</span> [[<span class="fl">.35</span>, <span class="fl">.1</span>, <span class="fl">.1</span>], [<span class="fl">.35</span>, <span class="fl">.05</span>, <span class="fl">.1</span>], [<span class="fl">.35</span>, <span class="fl">.01</span>, <span class="fl">.1</span>],</span>
+<span id="cb37-118"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-118" aria-hidden="true" tabindex="-1"></a>                 [<span class="fl">.75</span>, <span class="fl">.1</span>, <span class="fl">.1</span>], [<span class="fl">.75</span>, <span class="fl">.05</span>, <span class="fl">.1</span>], [<span class="fl">.75</span>, <span class="fl">.01</span>, <span class="fl">.1</span>],</span>
+<span id="cb37-119"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-119" aria-hidden="true" tabindex="-1"></a>                 [<span class="fl">.75</span>, <span class="fl">.1</span>, <span class="fl">.62</span>], [<span class="fl">.75</span>, <span class="fl">.05</span>, <span class="fl">.62</span>], [<span class="fl">.75</span>, <span class="fl">.01</span>, <span class="fl">.62</span>],</span>
+<span id="cb37-120"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-120" aria-hidden="true" tabindex="-1"></a>                 [<span class="fl">.95</span>, <span class="fl">.1</span>, <span class="fl">.82</span>], [<span class="fl">.95</span>, <span class="fl">.05</span>, <span class="fl">.82</span>], [<span class="fl">.95</span>, <span class="fl">.01</span>, <span class="fl">.82</span>],</span>
+<span id="cb37-121"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-121" aria-hidden="true" tabindex="-1"></a>                 ]</span>
+<span id="cb37-122"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-123"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-123" aria-hidden="true" tabindex="-1"></a>    results_df <span class="op">=</span> run_monte_carlo(algorithms, M, N, prob_list)</span>
+<span id="cb37-124"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-125"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb37-125" aria-hidden="true" tabindex="-1"></a>    plot_monte_carlo(results_df, algorithms, <span class="dv">3</span>, <span class="dv">4</span>)</span></code></pre></div>
+<p>Some explanations may be instructive. First, since we will be calling the same functions many times, I decided to use parallelization, which is through the <code>multiprocessing</code> library. In the script, the <code>worker()</code> function defines the task (or worker) for parallelization. The core function in the script, <code>monte_carlo()</code>, accepts six arguments:
+1. <code>algos</code> contains a list of algorithms. The algorithms should match the names given as methods in the <code>BayesianAB</code> class. In our case, we have</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb38-1"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb38-1" aria-hidden="true" tabindex="-1"></a>algorithms <span class="op">=</span> [<span class="st">&#39;epsilon_greedy&#39;</span>, <span class="st">&#39;optim_init_val&#39;</span>, <span class="st">&#39;ucb1&#39;</span>, <span class="st">&#39;gradient_bandit&#39;</span>, <span class="st">&#39;bayesian_bandits&#39;</span>]</span></code></pre></div>
+<ol start="2" style="list-style-type: decimal">
+<li><code>m</code> is the number of simulations/trials to run. The default value is 500. We will actually be running 2000 simulations;</li>
+<li><code>n</code> is the number of rounds/visitors in each simulation. A default value of 10001 means it will have 10000 visitors;</li>
+<li><code>p_max</code> is the highest win rate;</li>
+<li><code>p_diff</code> is the smallest possible difference between the highest win rate and the second highest win rate;</li>
+<li><code>p_min</code> is the lowest possible win rate.</li>
+</ol>
+<p>We will run simulations with 12 different combinations of <code>p_max</code>, <code>p_diff</code>, and <code>p_min</code>, given in the following list:</p>
+<pre><code>    prob_list = [[.35, .1, .1], [.35, .05, .1], [.35, .01, .1],
+                 [.75, .1, .1], [.75, .05, .1], [.75, .01, .1],
+                 [.75, .1, .62], [.75, .05, .62], [.75, .01, .62],
+                 [.95, .1, .82], [.95, .05, .82], [.95, .01, .82],
+                 ]</code></pre>
+<p>The <code>run_monte_carlo()</code> function calls the <code>monte_carlo()</code> function, then processes the results and calculate success rate in each round. The results are stored in a <code>dictionary</code> named <code>df_all</code>.</p>
+<p>The <code>plot_monte_carlo()</code> function, as the name suggests, plots the results in a 4-by-3 grid. Each subplot corresponds to a certain combination of <code>[p_max, p_diff, p_min]</code> which is the titles of the subplots.</p>
+<p>Here is the resulted plot with 2,000 simulations, each with 10,000 rounds/visitors:</p>
+<div class="figure">
+<img src="images/comparison.png" alt="" />
+<p class="caption">Comparison</p>
+</div>
+<p>Several results are worth mentioning:
+1. <code>Thompson Sampling</code> and <code>Gradient Bandit</code> both do consistently well. <code>Thompson Sampling</code> has the best overall performance, picking the best bandit in over 90% of the simulations at the end of 10,000 rounds. It also edged out <code>Gradient Bandit</code> when <code>p_diff</code> is 0.01, which means there can be a close second-best bandit;
+2. The <code>Epsilon Greedy</code> algorithm performs consistently regardless of win rate settings, but at a poor 20% success rate at picking the best bandit. This may be partly due to a relatively high value of epsilon at 0.5;
+3. The algorithm that is the most sensitive to win rate settings is <code>UCB1</code>. When the win rate of the best bandit is at 0.95, <code>UCB1</code>’s performance can be puzzling. In part, it may be a the result of a relatively high <code>c</code> value, since the default is 1. Intuitively, when the best bandit has a win rate of 0.95, and especially when there exists a close second-best, the “bonus” that <code>UCB1</code> can give to a bandit is small. After all, the win rate is not to be exceeding 1. As a result, <code>UCB1</code> has a hard time distinguishing between the best bandits and others that are almost as good. It should be noted that <code>UCB</code> (not <code>UCB1</code>) has the best performance in the testbed in Sutton and Barto (2020), but the authors also acknowledged that <code>UCB</code>’s application beyond the Multi-Armed Bandit problem is limited (in the context of reinforcement learning).</p>
+</div>
+<div id="summary-and-extensions" class="section level2 hasAnchor" number="2.11">
+<h2><span class="header-section-number">2.11</span> Summary and Extensions<a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#summary-and-extensions" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In this article, I have introduced five algorithms that can be used in <em>real-time</em> A/B Testing and Randomized Controlled Trials. Compared to traditional methods that often use Power Analysis to determine the minimum sample size, algorithms introduced in this article have one additional advantage: They can be easily extended to experiments with more than 2 choices/versions/bandits, as shown throughout the article.</p>
+<p>The algorithms introduced in this article are known as algorithms for the <code>Multi-Armed Bandit</code> problem, which is considered as the simplest form of <strong>reinforcement learning</strong>. We will come back to more reinforcement learning algorithms and problems in later articles.</p>
+<p>Two extensions of the <code>Multi-Armed Bandit</code> problem should be mentioned: <code>Non-stationary Bandit</code> and <code>Contextual Bandit</code>. Non-stationary Bandit is the situation in which that the win rates change over time. One particular algorithm that we introduced in this article is known to do badly in non-stationary bandit problems: <code>Optimistic Initial Values</code>. The reason is obvious. <code>Optimistic Initial Values</code> algorithm is designed to explore aggressively in the beginning. When the win rates change after this initial exploration stage has ended, it is hard for it to change course.</p>
+<p>As the name suggested, <code>Contextual Bandit</code> means that there exists contextual information to be used when making a decision. In a simple example, a casino may have slot machines in different colors, and the colors are not random: the green machines have higher win rates than the red ones. A new player would not know that information at first, but as time goes on and if the player has explored enough, it is possible to figure out the <em>association</em> between color and win rate, and hence decisions are made accordingly. This is also why <code>Contextual Bandit</code> is also known as <code>Associative Search</code>. We will come back to this in another article, since <code>Contextual Bandit</code> algorithms can be used in regression problems.</p>
+<p>(Visit my GitHub for the latest Python scripts: <a href="https://github.com/DataHurdler/Econ-ML/tree/main/Multi-Arm%20Bandits" class="uri">https://github.com/DataHurdler/Econ-ML/tree/main/Multi-Arm%20Bandits</a>)</p>
+</div>
+<div id="references" class="section level2 hasAnchor" number="2.12">
+<h2><span class="header-section-number">2.12</span> References<a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<ul>
+<li><a href="https://www.udemy.com/course/bayesian-machine-learning-in-python-ab-testing/" class="uri">https://www.udemy.com/course/bayesian-machine-learning-in-python-ab-testing/</a></li>
+<li><a href="http://incompleteideas.net/book/the-book-2nd.html" class="uri">http://incompleteideas.net/book/the-book-2nd.html</a> (Chapter 2)</li>
+<li><a href="https://en.m.wikipedia.org/wiki/Multi-armed_bandit" class="uri">https://en.m.wikipedia.org/wiki/Multi-armed_bandit</a></li>
+<li><a href="https://www.tensorflow.org/agents/tutorials/intro_bandit" class="uri">https://www.tensorflow.org/agents/tutorials/intro_bandit</a></li>
+</ul>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="cross.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/datahurdler/Econ-ML-Book/edit/master/01-rct-bandit-en.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
