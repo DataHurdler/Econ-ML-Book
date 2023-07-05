@@ -26,7 +26,7 @@ As we will see next, tree-based algorithms are extremely prone to high variance,
 
 ## Decision Tree
 
-Let's first talk about the basic decision tree algorithm. Because we will be using [scikit-learn](https://scikit-learn.org/stable/) for `Python` implementation in this chapter, I am using notations and languages similar to that in scikit-learn's documentation. It should be mentioned at the outset that this is not a comprehensive lecture on the decision tree algorithm. You can easily find more in-depth discussions in books such as [An Introduction to Statistical Learning](https://www.statlearning.com/) and [The Elements of Statistical Learning](https://hastie.su.domains/ElemStatLearn/), or other online learning sources. The focus in this session is aspects of the decision tree algorithm that matter the most for the understanding of the ensemble methods and their applications in economics and business.
+Let us first talk about the basic decision tree algorithm. Because we will be using [scikit-learn](https://scikit-learn.org/stable/) for `Python` implementation in this chapter, we are using notations and languages similar to that in scikit-learn's documentation. It should be mentioned at the outset that this is not a comprehensive lecture on the decision tree algorithm. You can easily find more in-depth discussions in books such as [An Introduction to Statistical Learning](https://www.statlearning.com/) and [The Elements of Statistical Learning](https://hastie.su.domains/ElemStatLearn/), or other online learning sources. The focus in this session is aspects of the decision tree algorithm that matter the most for the understanding of the ensemble methods and their applications in economics and business.
 
 The simplest way to think about a decision tree algorithm is to consider a flow-chart, especially one that is for diagnostic purposes. Instead of someone building a flow-chart from intuition or experience, we feed data into the computer and the decision tree algorithm would build a flow-chart to explain the data. For example, if we know some characteristics of the music store's past consumers, and want to know who is more likely to buy the soprano size instruments, a flow-chart built by the decision tree algorithm may look like this:
 * Is the customer under 30?
@@ -192,7 +192,7 @@ The algorithms we consider include:
 * Gradient boosting classifier
 * XGBoost
 
-Even though logistic regression is not covered in this chapter, I included it in the Python implementation for comparison purposes. Although not necessary, I also use a Python class in this implementation. Here is the full script:
+Even though logistic regression is not covered in this chapter, we included it in the Python implementation for comparison purposes. Although not necessary, we also use a Python class in this implementation. Here is the full script:
 
 ```python
 import random

@@ -2,13 +2,13 @@
 
 ## Introduction
 
-Randomized Controlled Trial (RCT) is the gold standard for establishing causality in experimental methods. It is used widely in clinical trials for new drugs or field experiments in social sciences and economics. In business, especially e-commerce, a related concept is A/B/N Testing. The main idea of RCT and A/B/N test is straightforward: individuals are randomly divided into groups to receive different treatments. Afterwards treatments, outcomes are being valuated and compared in order to find out which treatment works better/best. In RCT, a control group, where individuals receive a "placebo", is usually included. Note that placebo should be considered as a type of treatment too and individuals who receive a placebo are not getting "nothing". A placebo is something that has no therapeutic effect, i.e., it is not designed to cure a disease or an illness. But it can nevertheless positively impact the well-being of individuals who have received it, if due to nothing but psychological effects. As a result, it would be rather wrong to expect "no effect" from the the controlled group that receives the placebo in an RCT.
+Randomized Controlled Trial (RCT) is the gold standard for establishing causality in experimental methods. It is used widely in clinical trials for new drugs or field experiments in social sciences and economics. In business, especially e-commerce, a related concept is A/B/N Testing. The main idea of RCT and A/B/N test is straightforward: individuals are randomly divided into groups to receive different treatments. Afterwards treatments, outcomes are being evaluated and compared in order to find out which treatment works better/best. In RCT, a control group, where individuals receive a "placebo", is usually included. Note that placebo should be considered as a type of treatment too and individuals who receive a placebo are not getting "nothing". A placebo is something that has no therapeutic effect, i.e., it is not designed to cure a disease or an illness. But it can nevertheless positively impact the well-being of individuals who have received it, if due to nothing but psychological effects. As a result, it would be rather wrong to expect "no effect" from the controlled group that receives the placebo in an RCT.
 
-In the rest of this article, I will be using A/B/N test as the example because I want to stay away from the nitty-gritty details of RCT. I am using "A/B/N" to include tests with more than 2 versions. If you are only comparing two versions, it is an A/B test.
+In the rest of this article, we will refer to the problems we face as A/B/N test instead of RCT. This means we consider tests with 2 or more versions. If you are only comparing two versions, it is an A/B test.
 
-When I was interviewing for a data scientist job in 2022, the following was one of the interview questions: We are going to run an A/B test on a client's website. How long do we need to run the experiment for? Back then I knew about how to find minimum sample size based on hypothesis testing in Statistics, so I framed my answer that way. But I stopped in the middle while answering the question. Something I did not think seriously enough about popped into my head: how would I know the standard deviation, one of the required values to carry out the calculation for minimum sample size, before we even run the experiment? My interview went downhill from there. Needless to say, I did not get the job. However, the interviewer was nice enough to tell me that I should look into "power analysis".
+When conducting an A/B/N test, a minimum sample size needs to be determined. The statistical approach to determin the minimum sample size in an A/B/N test is called the "power analysis".
 
-I did. Suppose you have built an e-commerce website with two possible color pallettes, and you want to understand which color pallette would induce more purchases. You can randomly assign a visitor to the two versions of the website, and after a while, you will have a dataset with two columns: for each visitor, you recorded the version that the visitor was assigned to and the purchases that the visitor made. For $i\in(A,B)$, let's define the following values:
+Suppose you have built an e-commerce website with two possible color palettes, and you want to understand which color palette would induce more purchases. You can randomly assign a visitor to the two versions of the website, and after a while, you will have a dataset with two columns: for each visitor, you recorded the version that the visitor was assigned to and the purchases that the visitor made. For $i\in(A,B)$, let's define the following values:
 * $\bar{x}_i$: expected dollars spent by visitors of version $i$;
 * $n_i$: number of visitors who saw version $i$;
 * $s_i$: standard deviation of dollars spent by visitors who saw version $i$.
@@ -26,23 +26,23 @@ where $N$ is the total sample size ($n_A+n_B$). It is easy to see that you will 
 
 But here is the problem: you do not know the values of $\bar{x}_i$ and $s_i$ before the experiment. For $\bar{x}_i$, it may be less of an issue. Instead of the expected values, all you really need is the *expected difference*, which can be specified. For example, suppose your website is currently running Version A, and all you care about is that Version B can increase expected purchase amount by 15. In other words, $\bar{x}_B-\bar{x}_A=15$. But you still need to know the standard deviations. How? Some suggest that you can run a short trial to estimate the standard deviation. But then, isn't the A/B test already a trial itself?
 
-Here is another problem about classic A/B test design. After I became a data scientist, at another company, we actually ran an A/B test. The problem is that, according to the aforementioned power analysis, the experiment needed to be ran for at least 3 months, but we did not have that much time. After 1 month, our model (Version B) outperformed the existed model (Version A). Could we have declared our model to be the better one? According to classic A/B test design, the answer is "No" because we should not be "peeking" as the difference can be driven by random factors happened only in the first month of the experiment.
+Here is another problem about classic A/B test design. Suppose, according to the aforementioned power analysis, an A/B test needs to be ran for at least 3 months. But after 1 month, version B has already outperformed version A by a wide margin. Could we have declared version A is better then? According to classic A/B test design, the answer is "No" because we should not be "peeking" as the difference can be driven by random factors happened only in the first month of the experiment.
 
 Now think about clinical trials for a new drug, where the "no peeking" rule can raise serious concerns. If a drug has proved its effectiveness in the first 500 patients, yet the power analysis tells you that you need to test it on 50,000 patients, what would you do? Isn't it unethical to continue to give a placebo to individuals who may benefit from the actual drug?
 
-These two problems have bothered me for a while, until I learned about the approaches I will cover in this article. Here is a brief overview of how these algorithms work. Instead of having a predetermined sample size, the A/B test is deployed in real-time. Continued with our example of a website with two color pallettes, a visitor is randomly assigned to a version of the website on the first visit. An algorithm will then pick a version for a visitor. In general, the version that has received higher purchase values should get more visitors. But how do we know which one gives the higher payoff? Here, we face the Explore-Exploit Tradeoff.
+The approaches discussed in this chapter do not suffer from the above problems. Here is a brief overview of how these algorithms work. Instead of having a predetermined sample size, the A/B test is deployed in real-time. Continued with our example of a website with two color palettes, a visitor is randomly assigned to a version of the website on the first visit. An algorithm will then pick a version for a visitor. In general, the version that has received higher purchase values should get more visitors. But how do we know which one gives the higher payoff? Here, we face the Explore-Exploit Trade-off.
 
 ## The Explore-Exploit Tradeoff
 
 In a nutshell, the explore-exploit tradeoff shows the following paradox: in order to find the best version, you need to explore, which means that the outcome of exploration necessarily improves the more you different versions. However, to maximize total payoff, you want to stick with the best version once (you think) you have found it, which is to exploit. This means that the outcome of exploitation necessarily deteriorates the more you different versions since there is one and only one best version.
 
-How to handle the explore-exploit tradeoff constitutes the core difference among algorithms. Some algorithms, such as variants of the "greedy" family, really focuses on exploitation. The disadvantage is that such algorithm can easily "saddle" into the second-best as long as the second-best is "good enough", as I will show later when we discuss the `Epsilon Greedy` algorithm. Others, such as `Upper Confidence Bound`, put more emphasis on exploration, at least initially.
+How to handle the explore-exploit tradeoff constitutes the core difference among algorithms. Some algorithms, such as variants of the "greedy" family, really focuses on exploitation. The disadvantage is that such algorithm can easily "saddle" into the second-best as long as the second-best is "good enough", as we will show later when we discuss the `Epsilon Greedy` algorithm. Others, such as `Upper Confidence Bound`, put more emphasis on exploration, at least initially.
 
-If you are reading this article because you think it may help you with your research project(s), you are not a stranger to the explore-exploit tradeoff. I remember a conversation I had with a professor not long after I graduated. I asked him if I should have given up on projects that I do not think that would end up in good journals. His answer was: but how do you know before you try? He had a point: my professor never published his PhD dissertation. He was successful after he has explored a new area of research. However, about 15 years after his dissertation, a paper on a closely related topic was published in a top journal. In retrospect, he may have explored more than the optimum, which was probably why he suggested me to exploit more.
+If you are reading this article because you think it may help you with your research project(s), you are not a stranger to the explore-exploit trade-off. Have you moved on from a project because you did not think it was promising, only to discover later that someone else has published a paper in a top journal with a similar idea? In such case, you may have explored more than the optimum.
 
 ## Epsilon Greedy
 
-We will begin our in-depth discussion of algorithms with `Epsilon Greedy`. For each algorithm, I aim to provide:
+We will begin our in-depth discussion of algorithms with `Epsilon Greedy`. For each algorithm, we aim to provide:
 * intuition and description of theory
 * pseudocode
 * `Python` code
@@ -248,7 +248,7 @@ The following lines generate the *true* win rates:
             self.prob_true[i] = round(p_max - random.uniform(p_diff, p_max - p_min), 2)
 ```
 
-The last bandit always has the highest win rate, `p_max`, and the rest of them are randomized between `p_min` and `p_max - p_diff`. I used this approach to allow for flexibility in specifying the number of bandits using `N_bandits` (or `number_of_bandits` inside the `BayesianAB` class).
+The last bandit always has the highest win rate, `p_max`, and the rest of them are randomized between `p_min` and `p_max - p_diff`. we used this approach to allow for flexibility in specifying the number of bandits using `N_bandits` (or `number_of_bandits` inside the `BayesianAB` class).
 
 Next, we define two functions used by almost every algorithm:
 
@@ -437,7 +437,7 @@ From the visualization below, you can see that the best bandit jumped ahead afte
 
 ![Optimistic Initial Values (first 100)](images/oiv_100.png)
 
-Note that I set `init_val` to 0.99 since we are comparing win rates that can not exceed 1. The larger the initial value, the more the algorithm explores initially. Because the `Optimistic Initial Values` algorithm was specifically designed to explore in the beginning, it can "fall behind" in reaching the best version, if ever, compared to other algorithms such as `Epsilon Greedy`. Note that if the best bandit is discovered early, the expected win rates of other bandits never converge to their true win rates in `Optimistic Initial Values` (but would in `Epsilon Greedy`). This is a common feature of several of the algorithms discussed in this article.
+Note that we set `init_val` to 0.99 since we are comparing win rates that can not exceed 1. The larger the initial value, the more the algorithm explores initially. Because the `Optimistic Initial Values` algorithm was specifically designed to explore in the beginning, it can "fall behind" in reaching the best version, if ever, compared to other algorithms such as `Epsilon Greedy`. Note that if the best bandit is discovered early, the expected win rates of other bandits never converge to their true win rates in `Optimistic Initial Values` (but would in `Epsilon Greedy`). This is a common feature of several of the algorithms discussed in this article.
 
 ## Upper Confidence Bound (UCB)
 
@@ -489,7 +489,7 @@ Adding the following method into `BayesianAB` will implement `UCB1`:
         return self.history
 ```
 
-This is very similar to what we had before. One thing to note is that I give a very small initial value ($0.0001$) to `bandit_count` to avoid the division of zero in the beginning of the experiment. Later, I reversed the value to 0 with the `if` statement. An alternative approach is to run the first several iterations on all versions before implementing `UCB1` thereafter.
+This is very similar to what we had before. One thing to note is that we give a very small initial value ($0.0001$) to `bandit_count` to avoid the division of zero in the beginning of the experiment. Later, we reversed the value to 0 with the `if` statement. An alternative approach is to run the first several iterations on all versions before implementing `UCB1` thereafter.
 
 `UCB1` has a parameter, $c$, which controls the degree of exploration. Other things being equal, A larger value $c$ means a higher reward. The default value is set to 1 in the above script.
 
@@ -516,7 +516,7 @@ Number of times each bandit was played: [99470, 77, 103, 67, 282]
 
 ![UCB1](images/ucb1.png)
 
-This particular run shows that `UCB1` has also failed to identify the best version. Examining the first 100 visitors shows that the bandit with a .65 win rate jumped out early and never looked back. And I do not believe the algorithm can guarantee convergence even with infinite number of visitors:
+This particular run shows that `UCB1` has also failed to identify the best version. Examining the first 100 visitors shows that the bandit with a .65 win rate jumped out early and never looked back. And the algorithm is not guaranteed convergence even with infinite number of visitors:
 
 ![UCB1 (first 100)](images/ucb1_100.png)
 
@@ -703,7 +703,7 @@ There are several reasons why the `Gradient Bandit` algorithm is one of my favor
 
 To push these ideas further, and as the name `Thompson Sampling` has hinted, we ask if we could construct a probability distribution to describe the expected win rates of all the bandits. As it turns out, this is possible, as everything, including parameters, are considered random variables in Bayesian Statistics. For example, with Normal Distribution, we often speak about fixed values of mean and variance. But in Bayesian Statistics, the mean and variance of a Normal Distribution are two random variables and they can be described by probability distributions.
 
-The mathematical derivation of `Thompson Sampling` requires the use of [conjugate prior](https://en.wikipedia.org/wiki/Conjugate_prior), which I will discuss here briefly, before returning to the `Python` implementation of `Thompson Sampling`.
+The mathematical derivation of `Thompson Sampling` requires the use of [conjugate prior](https://en.wikipedia.org/wiki/Conjugate_prior), which we will discuss here briefly, before returning to the `Python` implementation of `Thompson Sampling`.
 
 ## Conjugate Prior
 Recall the Bayes Rule:
@@ -716,7 +716,7 @@ where the four parts are called, respectively
 
 In Bayesian Statistics, if the posterior distribution is in the same probability distribution family as the prior probability distribution, the prior and posterior are then called conjugate distributions, and the prior is called a **conjugate prior** for the likelihood function.
 
-With conjugate priors, the updating in a Bayesian approach reduces to the updates of hyperparameters that are used to describe both the prior and posterior distributions, since they are the same. I will leave the details to a Statistics textbook, but for our purpose, since our example concerns of binary outcomes (buy or not buy), our likelihood function is that of Bernoulli. As it turns out, the conjugate prior for a Bernoulli likelihood function is the Beta distribution, which has two hyperparameters: $\alpha$ and $\beta$.
+With conjugate priors, the updating in a Bayesian approach reduces to the updates of hyperparameters that are used to describe both the prior and posterior distributions, since they are the same. we will leave the details to a Statistics textbook, but for our purpose, since our example concerns of binary outcomes (buy or not buy), our likelihood function is that of Bernoulli. As it turns out, the conjugate prior for a Bernoulli likelihood function is the Beta distribution, which has two hyperparameters: $\alpha$ and $\beta$.
 
 Now that we have established that Beta distribution is the conjugate prior for Bernoulli, the problem of `Thompson Sampling` is reduced to
 1. sample from the Beta distribution
@@ -847,7 +847,7 @@ Two differences between `Thompson Sampling` and the other algorithms we have dis
 
 ## Comparing the Algorithms
 
-It is important to compare the five algorithms in various settings. Following Sutton and Barto (2020), I conduct a 5-armed testbed. The idea of the testbed is to run the algorithms many times, say 2,000, then calculates the success rate, which is the percentage that the best bandit was picked in each round. For example, suppose we run the `Epsilon Greedy` algorithm 2,000 times with different win rates. We look at the bandit picked on the 100th visitor and found that, out of the 2,000 runs the best bandit was picked 800 times. Then at the 100th round/visitor, the success rate was 0.4. When we developed the `BayesianAB` class, we were already anticipating the implementation of the testbed. Specifically, in the following functions/methods:
+It is important to compare the five algorithms in various settings. Following Sutton and Barto (2020), we conduct a 5-armed testbed. The idea of the testbed is to run the algorithms many times, say 2,000, then calculates the success rate, which is the percentage that the best bandit was picked in each round. For example, suppose we run the `Epsilon Greedy` algorithm 2,000 times with different win rates. We look at the bandit picked on the 100th visitor and found that, out of the 2,000 runs the best bandit was picked 800 times. Then at the 100th round/visitor, the success rate was 0.4. When we developed the `BayesianAB` class, we were already anticipating the implementation of the testbed. Specifically, in the following functions/methods:
 * `update()`
 * `gradient_bandit()`
 * `bayesian_bandits()`
@@ -988,7 +988,7 @@ if __name__ == "__main__":
     plot_monte_carlo(results_df, algorithms, 3, 4)
 ```
 
-Some explanations may be instructive. First, since we will be calling the same functions many times, I decided to use parallelization, which is through the `multiprocessing` library. In the script, the `worker()` function defines the task (or worker) for parallelization. The core function in the script, `monte_carlo()`, accepts six arguments:
+Some explanations may be instructive. First, since we will be calling the same functions many times, we should use parallelization, which is through the `multiprocessing` library. In the script, the `worker()` function defines the task (or worker) for parallelization. The core function in the script, `monte_carlo()`, accepts six arguments:
 1. `algos` contains a list of algorithms. The algorithms should match the names given as methods in the `BayesianAB` class. In our case, we have
 ```python
 algorithms = ['epsilon_greedy', 'optim_init_val', 'ucb1', 'gradient_bandit', 'bayesian_bandits']
@@ -1024,7 +1024,7 @@ Several results are worth mentioning:
 
 ## Summary and Extensions
 
-In this article, I have introduced five algorithms that can be used in *real-time* A/B Testing and Randomized Controlled Trials. Compared to traditional methods that often use Power Analysis to determine the minimum sample size, algorithms introduced in this article have one additional advantage: They can be easily extended to experiments with more than 2 choices/versions/bandits, as shown throughout the article.
+In this article, we have introduced five algorithms that can be used in *real-time* A/B Testing and Randomized Controlled Trials. Compared to traditional methods that often use Power Analysis to determine the minimum sample size, algorithms introduced in this article have one additional advantage: They can be easily extended to experiments with more than 2 choices/versions/bandits, as shown throughout the article.
 
 The algorithms introduced in this article are known as algorithms for the `Multi-Armed Bandit` problem, which is considered as the simplest form of **reinforcement learning**. We will come back to more reinforcement learning algorithms and problems in later articles.
 
