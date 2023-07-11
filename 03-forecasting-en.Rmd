@@ -148,8 +148,6 @@ where $J$ denotes the total number of layers, and $\hat{y}$ is the prediction. N
 
 While Sigmoid is a widely used function when probabilities are to be predicted, it suffers from the [vanishing gradient problem](https://en.wikipedia.org/wiki/Vanishing_gradient_problem) especially with deep (many layers) neural networks. Modern deep learning models often use `ReLU` or `tanh` as the activation function for inner layers. Again, see [this answer on stackexchange](https://stats.stackexchange.com/questions/115258/comprehensive-list-of-activation-functions-in-neural-networks-with-pros-cons) for the pros and cons of different activation functions in neural networks.
 
-## ANN in TensorFlow/Keras
-
 ## Recurrent Neural Network (RNN)
 
 There is a compelling reason why `Recurrent Neural Network` (RNN) models are often expected to perform well in time-series/forecasting tasks: it is the neural network version of the autoregressive (AR) process. in its simplest form, often referred to as `Simple RNN`, the output from the hidden layers of time $t-1$ is used as inputs for time $t$ in addition to $x$.
@@ -190,8 +188,6 @@ And the hidden state and cell state ($c_t$) are updated according to:
 
 Note that in Tensorflow, the activation function $\omega()$ and $\psi()$ can not be specified individually and are both defaulted to tanh.
 
-## RNN in TensorFlow/Keras
-
 ## Convolutional Neural Network (CNN)
 
 `Convolutional Neural Network` (CNN) is another deep learning algorithm that we can connect to traditional time-series/forecasting methods easily. Consider a typical ARIMA model, which has three parameters: $p$, $q$, and $d$. These parameters dictates the number of periods in, respectively, autoregressive, moving average, and differencing. An alternative way to look at the ARIMA model is that the original time series data is transformed based on the three parameters.
@@ -216,11 +212,11 @@ Repeating this process, we get a convolved version of $ts$:
 
 $$tsv = [26, 32, 23, 22, 25, 17, 22, 31]$$
 
-The resulted new vector is of size $T-K+1$, which is the `valid` mode of covolution. If we want the resulted vector to be the same size as the original, we are performing a `same` mode convolution and we need to add padding of size $K-1$. In our example, we can add two zeros to the original time series then do the convolution:
+The resulted new vector is of size $T-K+1$, which is the `valid` mode of convolution. If we want the resulted vector to be the same size as the original, we are performing a `same` mode convolution and we need to add padding of size $K-1$. In our example, we can add two zeros to the original time series then do the convolution:
 
 $$tsz = [0, 1, 4, 5, 3, 3, 4, 5, 6, 5, 3, 0]$$
 
-How is covolution pattern matching/finding? In the above example, it easy to see that the filter $c$ has the pattern [low, high low]. In the above example, at locations 2nd and 6th, we have
+How is convolution pattern matching/finding? In the above example, it easy to see that the filter $c$ has the pattern [low, high low]. In the above example, at locations 2nd and 6th, we have
 
 $$ts_2 = [4, 5, 3]; \ ts_6 = [4, 2, 3]$$
 
@@ -238,7 +234,7 @@ $$a \cdot b = ||a|| \times ||b|| \times \cos{\theta_{ab}}$$
 
 where $||a||$ and $||b||$ are the magnitude of the two products and $\theta_{ab}$ is the angle between $a$ and $b$. Since $\cos{(0)}=1$, $\cos{(\pi/2)} = 0$, and $\cos{(\pi)}=-1$, the dot product not only measures the magnitudes of the two vectors, but also their correlations. Take an extreme example: when the angle between them is $\pi$, they are orthogonal and the dot product is equal to zero no matter the magnitude.
 
-To summarize what we have discussed so far, we say that covolution is cross-correlation. When the segment of the data is highly correlates to the filter, it creates a spike in value and hence indicates a certain pattern.
+To summarize what we have discussed so far, we say that convolution is cross-correlation. When the segment of the data is highly correlates to the filter, it creates a spike in value and hence indicates a certain pattern.
 
 Second, convolution reduces the number of parameters of the model. Let's go back to the example above. Suppose you hypothesize that there is a 3-day pattern in the data, which actually prompted the use of a filter with size 3. If you want to look at all windows of size 3 in the data, you would be looking at 8 of such windows and a total of 24 parameters, 1 for each day in each window. By using convolution and the sliding filter, you only need 3 filters: the size of the filter. This is not much of a saving in our example, but imagine the case of images, and the difference is huge.
 
@@ -266,9 +262,84 @@ where the value 5 in $ts_5$ is the 7th value of $ts$. In other words, with pooli
 
 However, it is important to increase the number of filters after each pooling until the size of the feature map is large enough. A `feature map` is a collection of features. It has a pictorial name because CNN was first developed for computer vision. The reason for the increasing size of feature map is straightforward: as data goes through the convolution layers, the filters are search wider and wider due to pooling. Increasing the number of features/filters would allow the CNN to look deeper. This helps to preserve information while transformation is happening. For time-series data, instead of a long time series, we can think of the data output from the convolution layers as a stack of many moments.
 
-After going through the covolution (and pooling) layers, the output is fed into some `Dense` layers just like ANN. In a way, we can think of CNN as two-stage feature engineering: covolution layers and Dense layers.
+After going through the convolution (and pooling) layers, the output is fed into some `Dense` layers just like ANN. In a way, we can think of CNN as two-stage feature engineering: convolution layers and Dense layers.
 
-## CNN in TensorFlow/Keras
+## Deep Learning Models in TensorFlow/Keras
+
+The implementation of ANN, RNN, and CNN are very similar when using TensorFlow/Keras. As a result, we can implement them in a single script. The only caveat is that input and output data from these different models can be different, and hence we must pay attention to the shapes of the arrays or dataframes that we feed or receive. In the following script, you will see places where it performs such checks. Otherwise, the three functions in the beginning of the script outline the main differences in the implementation of these models using Keras:
+
+```{python, eval=F, file='https://raw.githubusercontent.com/DataHurdler/Econ-ML/main/Forecasting/ts_tensorflow.py'}
+```
+
+Once again, we continue to use a `class` in this script. And we also continue to the use stock prices as an example. Stock prices are the best example to be used in forecasting, as they resemble "random walks". The above script is quite straightforward. In the beginning are three functions that contain the different components of the three models. For ANN, it is just several `Dense` layers. In our script, there are two hidden layers, as shown in the `rnn()` function. For RNN, we need to specify which one of the three models we would like to implement and replace the `Dense` layer in ANN by the relevant RNN layers. In each case, we implement two RNN layers, which is why we need to set `return_sequences=True` in the first RNN layer. For CNN, we replace `Dense` with `Conv1D` since we have a time-series data. If you are using CNN on images, you would likely be using `Conv2D`. The "Conv" layer should followed by a Pooling layer. In this case, we use `GlobalMaxPooling1D`:
+
+```python
+def ann(T, num_layers=32):
+    """
+    Create a basic Artificial Neural Network (ANN) model.
+
+    Args:
+        T (int): Time steps or input size.
+        num_layers (int): Number of layers in the ANN.
+
+    Returns:
+        tuple: Input and output tensors of the ANN model.
+    """
+    i = Input(shape=(T,))
+    x = Dense(num_layers, activation='relu')(i)
+    x = Dense(num_layers, activation='relu')(x)
+
+    return i, x
+
+
+def rnn(T, D, num_layers=32, rnn_model="lstm"):
+    """
+    Create a Recurrent Neural Network (RNN) model.
+
+    Args:
+        T (int): Time steps or input size.
+        D (int): Dimensionality of the input.
+        num_layers (int): Number of layers in the RNN.
+        rnn_model (str): RNN model type ('lstm', 'gru', or 'simple_rnn').
+
+    Returns:
+        tuple: Input and output tensors of the RNN model.
+    """
+    i = Input(shape=(T, D))
+    if rnn_model == 'lstm':
+        x = LSTM(num_layers, return_sequences=True)(i)
+        x = LSTM(num_layers)(x)
+    elif rnn_model == 'gru':
+        x = GRU(num_layers, return_sequences=True)(i)
+        x = GRU(num_layers)(x)
+    else:
+        x = SimpleRNN(num_layers, return_sequences=True)(i)
+        x = SimpleRNN(num_layers)(x)
+
+    return i, x
+
+
+def cnn(T, D):
+    """
+    Create a Convolutional Neural Network (CNN) model.
+
+    Args:
+        T (int): Time steps or input size.
+        D (int): Dimensionality of the input.
+
+    Returns:
+        tuple: Input and output tensors of the CNN model.
+    """
+    i = Input(shape=(T, D))
+    x = Conv1D(16, 3, activation='relu', padding='same')(i)
+    x = MaxPooling1D(2)(x)
+    x = Conv1D(32, 3, activation='relu', padding='same')(x)
+    x = GlobalMaxPooling1D()(x)
+
+    return i, x
+```
+
+For the `StocksForecastDL` class, after the class is initialized, we have the following methods: `prepare_data()`, `make_predictions()`, `run_forecast()`, and finally `single_model_comparison()`. These methods are self-explanatory with their names. It is worth noting that the `run_forecast()` method accepts an input named `multistep` which is a Boolean value. If `multistep=True`, the script runs a multi-step forecast. For example, suppose our forecast horizon is 15 days. If we use a one-step model to forecast the next 15 days, the model would predict the first day, then use that prediction for the next day, and so on. However, if we set `multistep=True`, the model will predict all 15 days at once, given information available at the current point. The `single_model_comparison()` method can be called to compare these two (singl- versus multi-step) forecasts for a single deep learning model such as ANN or LSTM.
 
 ## Facebook Prophet
 
