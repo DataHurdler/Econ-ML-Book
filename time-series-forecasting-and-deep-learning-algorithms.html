@@ -209,6 +209,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="time-series-forecasting-and-deep-learning-algorithms" class="section level1 hasAnchor" number="3">
 <h1><span class="header-section-number">Chapter 3</span> Time Series, Forecasting, and Deep Learning Algorithms<a href="time-series-forecasting-and-deep-learning-algorithms.html#time-series-forecasting-and-deep-learning-algorithms" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>This chapter is an incomplete draft.</p>
 <div id="introduction-2" class="section level2 hasAnchor" number="3.1">
 <h2><span class="header-section-number">3.1</span> Introduction<a href="time-series-forecasting-and-deep-learning-algorithms.html#introduction-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>This chapter is structured differently from other chapters. We will begin with Python implementations for time-series/forecasting models that are not based on machine learning. This is accomplished primarily with the Python library <code>statsmodels</code>. The section serves as both a review of forecasting concepts and an introduction to the <code>statsmodels</code> library, another widely used Python library for statistical/data analysis.</p>
@@ -649,10 +650,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb48-23"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb48-23" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb48-24"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb48-24" aria-hidden="true" tabindex="-1"></a>        plot_fitted_forecast(df_all, col)</span></code></pre></div>
 <p>If you would like to run ARIMA from <code>statsmodels</code>, you can import <code>ARIMA</code> from <code>statsmodels.tsa.arima.model</code>. <code>statsmodels</code> also provides functions and APIs for other time-series/forecasting methods and models. For example, you can test for stationarity with the augmented Dickey-Fuller unit root test by importing <code>adfuller</code> from <code>statsmodels.tsa.stattools</code>, or run the Vector Autoregressive Moving Average with exogenous regressors by importing <code>VARMAX</code> from <code>statsmodels.tsa.statespace.varmax</code>. In addition, if you would like to do the Box-Cox transformation, you can import <code>boxcox</code> from <code>scipy.stats</code>.</p>
-<div class="figure">
-<img src="images/comparison_ts.png" alt="" />
-<p class="caption">statsmodels Comparison</p>
-</div>
+<p><img src="images/comparison_ts.png" /></p>
 </div>
 <div id="artificial-neural-network-ann" class="section level2 hasAnchor" number="3.3">
 <h2><span class="header-section-number">3.3</span> Artificial Neural Network (ANN)<a href="time-series-forecasting-and-deep-learning-algorithms.html#artificial-neural-network-ann" class="anchor-section" aria-label="Anchor link to header"></a></h2>

@@ -535,10 +535,7 @@ Step 2: Loop:
 <div id="confusion-matrix-and-other-performance-metrics" class="section level2 hasAnchor" number="2.10">
 <h2><span class="header-section-number">2.10</span> Confusion Matrix and other Performance Metrics<a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#confusion-matrix-and-other-performance-metrics" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><code>Confusion matrix</code> is the most important and common way to examine the performance of a classification algorithm. It is a matrix showing the numbers of individuals in each true-predicted label combination. In our simulated data, there are 5 classes, which results in a 5-by-5 confusion matrix. Below is the confusion matrix of the test data from the logistic regression when the simulation has included categorical features in generating the target groups:</p>
-<div class="figure">
-<img src="images/cm_logit_False.png" alt="" />
-<p class="caption">Comparison</p>
-</div>
+<p><img src="images/cm_logit_False.png" /></p>
 <p>In the confusion matrix, the rows show the “True label” whereas the columns show the “Predicted label”. All the cells on the diagonal are corrected predicted. Based on the confusion matrix, there are three basic performance metrics: <strong>accuracy</strong>, <strong>precision</strong>, and <strong>recall</strong>. There are also various metrics that are weighted averages. For example, the <strong>f1 score</strong> is the harmonic mean of precision and recall.</p>
 <p><code>Accuracy</code> is the proportion of individuals that the algorithm has predicted correctly. To calculate the accuracy score, we sum up the values on the diagonal then divide the total number of individuals in the data set. From the above example, we can calculate accuracy by:</p>
 <p><span class="math display">\[\frac{1884+2769+2945+1553+404}{15000}=0.6370\]</span></p>
@@ -554,10 +551,7 @@ Step 2: Loop:
 4. False negative (FN): those who are predicted to be”negative” but are actually “positive”.</p>
 <p>Type I error corresponds to false positive and Type II error corresponds to false negative.</p>
 <p>Before we move on to formally compare results from the 6 algorithms, it is worth noting that random forest, gradient boosting, and XGBoost performed much better than logistic regression in the above simulated data set with categorical features and <code>random seed = 123</code>. For example, below is the confusion matrix from XGBoost:</p>
-<div class="figure">
-<img src="images/cm_xgboost_False.png" alt="" />
-<p class="caption">Comparison</p>
-</div>
+<p><img src="images/cm_xgboost_False.png" /></p>
 </div>
 <div id="comparison-the-algorithms" class="section level2 hasAnchor" number="2.11">
 <h2><span class="header-section-number">2.11</span> Comparison the Algorithms<a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#comparison-the-algorithms" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -612,16 +606,10 @@ Step 2: Loop:
 <span id="cb43-48"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-48" aria-hidden="true" tabindex="-1"></a>              fontsize<span class="op">=</span><span class="dv">9</span>, markerscale<span class="op">=</span><span class="fl">1.5</span>, scatterpoints<span class="op">=</span><span class="dv">1</span>,</span>
 <span id="cb43-49"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-49" aria-hidden="true" tabindex="-1"></a>              fancybox<span class="op">=</span><span class="va">True</span>, framealpha<span class="op">=</span><span class="fl">0.5</span>)</span></code></pre></div>
 <p>The script intends to use parallel computing, but algorithms in <code>scikit-learn</code> already utilized parallel computing, so <code>Pool(1)</code> is set to run with a single thread. Two comparisons, with and without using the categorical features in generating the target groups, were run. The average score from 10-fold cross validations are recorded and plotted. Here is the result from when <code>KMeans</code> generated the target groups without using the categorical columns (but they are still present in the training data and used as features):</p>
-<div class="figure">
-<img src="images/comparison_true.png" alt="" />
-<p class="caption">Comparison</p>
-</div>
+<p><img src="images/comparison_true.png" /></p>
 <p>A single decision tree performed the worst, while, surprisingly, logistic regression performed the best. Keep in mind that the ups and downs at different sample sizes do not indicate that more data is worse. There is some random components in how the data was generated with the <code>KMeans</code> algorithm.</p>
 <p>When categorical columns are included in generating the target groups, there exists more variations among algorithms:</p>
-<div class="figure">
-<img src="images/comparison_false.png" alt="" />
-<p class="caption">Comparison</p>
-</div>
+<p><img src="images/comparison_false.png" /></p>
 <p>In here, <code>Adaboost</code> performed noticeably worse than all other algorithms. Logistic regression also fell, partly because its inability to deal with categorical features (even with one-hot encoding). Not surprisingly, the performances of <code>Random Forest</code>, <code>Gradient Boosting</code>, and <code>XGBoost</code> remain strong.</p>
 </div>
 <div id="summary" class="section level2 hasAnchor" number="2.12">

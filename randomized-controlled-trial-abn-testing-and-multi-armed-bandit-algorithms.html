@@ -490,16 +490,10 @@ Number of times each bandit was played: [10200, 9945, 60001, 9789, 10064]</code>
 <p>Then execute:</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb13-1"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb13-1" aria-hidden="true" tabindex="-1"></a>plot_history(history<span class="op">=</span>eg.history, prob_true<span class="op">=</span>eg.prob_true)</span></code></pre></div>
 <p>Here is the output from the above run:</p>
-<div class="figure">
-<img src="images/eg.png" alt="" />
-<p class="caption">Epsilon Greedy</p>
-</div>
+<p><img src="images/eg.png" /></p>
 <p>We can also get the visualization for the first 100 visitors, which shows that the third bandit, the a 0.67 win rate, jumped ahead early:</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb14-1"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb14-1" aria-hidden="true" tabindex="-1"></a>plot_history(history<span class="op">=</span>eg.history, prob_true<span class="op">=</span>eg.prob_true, k<span class="op">=</span><span class="dv">100</span>)</span></code></pre></div>
-<div class="figure">
-<img src="images/eg_100.png" alt="" />
-<p class="caption">Epsilon Greedy (first 100)</p>
-</div>
+<p><img src="images/eg_100.png" /></p>
 </div>
 <div id="optimistic-initial-values" class="section level2 hasAnchor" number="1.4">
 <h2><span class="header-section-number">1.4</span> Optimistic Initial Values<a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#optimistic-initial-values" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -540,15 +534,9 @@ loop:
 <pre><code>The true win rates: [0.6, 0.54, 0.62, 0.14, 0.75]
 The observed win rates: [0.6633, 0.7493, 0.7491, 0.7493, 0.7521]
 Number of times each bandit was played: [2, 168, 285, 65, 99479]</code></pre>
-<div class="figure">
-<img src="images/oiv.png" alt="" />
-<p class="caption">Optimistic Initial Values</p>
-</div>
+<p><img src="images/oiv.png" /></p>
 <p>From the visualization below, you can see that the best bandit jumped ahead after about merely 15 visitors:</p>
-<div class="figure">
-<img src="images/oiv_100.png" alt="" />
-<p class="caption">Optimistic Initial Values (first 100)</p>
-</div>
+<p><img src="images/oiv_100.png" /></p>
 <p>Note that we set <code>init_val</code> to 0.99 since we are comparing win rates that can not exceed 1. The larger the initial value, the more the algorithm explores initially. Because the <code>Optimistic Initial Values</code> algorithm was specifically designed to explore in the beginning, it can “fall behind” in reaching the best version, if ever, compared to other algorithms such as <code>Epsilon Greedy</code>. Note that if the best bandit is discovered early, the expected win rates of other bandits never converge to their true win rates in <code>Optimistic Initial Values</code> (but would in <code>Epsilon Greedy</code>). This is a common feature of several of the algorithms discussed in this article.</p>
 </div>
 <div id="upper-confidence-bound-ucb" class="section level2 hasAnchor" number="1.5">
@@ -602,15 +590,9 @@ Number of times each bandit was played: [2, 168, 285, 65, 99479]</code></pre>
 <pre><code>The true win rates: [0.65, 0.12, 0.63, 0.33, 0.75]
 The observed win rates: [0.6505, 0.1165, 0.1928, 0.0774, 0.3794]
 Number of times each bandit was played: [99470, 77, 103, 67, 282]</code></pre>
-<div class="figure">
-<img src="images/ucb1.png" alt="" />
-<p class="caption">UCB1</p>
-</div>
+<p><img src="images/ucb1.png" /></p>
 <p>This particular run shows that <code>UCB1</code> has also failed to identify the best version. Examining the first 100 visitors shows that the bandit with a .65 win rate jumped out early and never looked back. And the algorithm is not guaranteed convergence even with infinite number of visitors:</p>
-<div class="figure">
-<img src="images/ucb1_100.png" alt="" />
-<p class="caption">UCB1 (first 100)</p>
-</div>
+<p><img src="images/ucb1_100.png" /></p>
 </div>
 <div id="gradient-bandit-algorithm" class="section level2 hasAnchor" number="1.6">
 <h2><span class="header-section-number">1.6</span> Gradient Bandit Algorithm<a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#gradient-bandit-algorithm" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -724,29 +706,17 @@ loop:
 <pre><code>The true win rates: [0.17, 0.56, 0.17, 0.7, 0.75]
 The observed win rates: [0.2564, 0.5514, 0.0105, 0.6636, 0.7498]
 Number of times each bandit was played: [35, 67, 22, 196, 99679]</code></pre>
-<div class="figure">
-<img src="images/gb.png" alt="" />
-<p class="caption">Gradient Bandit</p>
-</div>
+<p><img src="images/gb.png" /></p>
 <p>As usual, we can examine what happened after 100 customers. Interestingly, the bandit with the highest win rate did not lead after only 100 customers:</p>
-<div class="figure">
-<img src="images/gb_100.png" alt="" />
-<p class="caption">Gradient Bandit (first 100)</p>
-</div>
+<p><img src="images/gb_100.png" /></p>
 <p>We can plot the evolution of the <code>preference</code> with the following:</p>
 <div class="sourceCode" id="cb29"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb29-1"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot preference</span></span>
 <span id="cb29-2"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb29-2" aria-hidden="true" tabindex="-1"></a>plot_history(history<span class="op">=</span>gb.history, prob_true<span class="op">=</span>gb.prob_true, col<span class="op">=</span><span class="dv">1</span>)</span></code></pre></div>
-<div class="figure">
-<img src="images/gb_pref.png" alt="" />
-<p class="caption">Gradient Bandit (preference)</p>
-</div>
+<p><img src="images/gb_pref.png" /></p>
 <p>And plot the soft-max function with the following:</p>
 <div class="sourceCode" id="cb30"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb30-1"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot pi</span></span>
 <span id="cb30-2"><a href="randomized-controlled-trial-abn-testing-and-multi-armed-bandit-algorithms.html#cb30-2" aria-hidden="true" tabindex="-1"></a>plot_history(history<span class="op">=</span>gb.history, prob_true<span class="op">=</span>gb.prob_true, col<span class="op">=</span><span class="dv">0</span>)</span></code></pre></div>
-<div class="figure">
-<img src="images/gb_pi.png" alt="" />
-<p class="caption">Gradient Bandit (pi)</p>
-</div>
+<p><img src="images/gb_pi.png" /></p>
 <p>There are several reasons why the <code>Gradient Bandit</code> algorithm is one of my favorites:
 1. Economists are familiar with the idea of using <code>preference</code> to model choices;
 2. Economists are familiar with <code>logistic</code> function, used in logistic regression, which is the special case of <code>soft-max</code> with only two bandits;
@@ -866,15 +836,9 @@ where the four parts are called, respectively
 <pre><code>The true win rates: [0.15, 0.67, 0.11, 0.47, 0.75]
 The observed win rates: [0.1, 0.6563, 0.1667, 0.4545, 0.7500]
 Number of times each bandit was played: [10, 355, 12, 44, 99578]</code></pre>
-<div class="figure">
-<img src="images/bb.png" alt="" />
-<p class="caption">Bayesian Bandits</p>
-</div>
+<p><img src="images/bb.png" /></p>
 <p>It is also interesting to look at what happened after only 100 visitors:</p>
-<div class="figure">
-<img src="images/bb_100.png" alt="" />
-<p class="caption">Bayesian Bandits (first 100)</p>
-</div>
+<p><img src="images/bb_100.png" /></p>
 <p>Two differences between <code>Thompson Sampling</code> and the other algorithms we have discussed should be noted. First, as already mentioned, <code>Thompson Sampling</code> attempts to build a distribution for the bandits. Comparing the two visuals from 100 visitors and all visitors shows that, although the best version has jumped out early, the distribution is much tighter/narrower at the end of the experiment, indicating greater “confidence” for the estimated expected win rate. Second, and importantly, the <code>Thompson Sampling</code> algorithm has no problem distinguishing between a bandit with a 0.67 win rate and the best version with a win rate of 0.75.</p>
 </div>
 <div id="comparing-the-algorithms" class="section level2 hasAnchor" number="1.10">
@@ -1030,10 +994,7 @@ Number of times each bandit was played: [10, 355, 12, 44, 99578]</code></pre>
 <p>The <code>run_monte_carlo()</code> function calls the <code>monte_carlo()</code> function, then processes the results and calculate success rate in each round. The results are stored in a <code>dictionary</code> named <code>df_all</code>.</p>
 <p>The <code>plot_monte_carlo()</code> function, as the name suggests, plots the results in a 4-by-3 grid. Each subplot corresponds to a certain combination of <code>[p_max, p_diff, p_min]</code> which is the titles of the subplots.</p>
 <p>Here is the resulted plot with 2,000 simulations, each with 10,000 rounds/visitors:</p>
-<div class="figure">
-<img src="images/comparison.png" alt="" />
-<p class="caption">Comparison</p>
-</div>
+<p><img src="images/comparison.png" /></p>
 <p>Several results are worth mentioning:
 1. <code>Thompson Sampling</code> and <code>Gradient Bandit</code> both do consistently well. <code>Thompson Sampling</code> has the best overall performance, picking the best bandit in over 90% of the simulations at the end of 10,000 rounds. It also edged out <code>Gradient Bandit</code> when <code>p_diff</code> is 0.01, which means there can be a close second-best bandit;
 2. The <code>Epsilon Greedy</code> algorithm performs consistently regardless of win rate settings, but at a poor 20% success rate at picking the best bandit. This may be partly due to a relatively high value of epsilon at 0.5;

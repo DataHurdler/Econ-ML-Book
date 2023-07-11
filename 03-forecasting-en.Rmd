@@ -1,5 +1,7 @@
 # Time Series, Forecasting, and Deep Learning Algorithms
 
+This chapter is an incomplete draft.
+
 ## Introduction
 
 This chapter is structured differently from other chapters. We will begin with Python implementations for time-series/forecasting models that are not based on machine learning. This is accomplished primarily with the Python library `statsmodels`. The section serves as both a review of forecasting concepts and an introduction to the `statsmodels` library, another widely used Python library for statistical/data analysis.

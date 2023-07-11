@@ -397,7 +397,7 @@ The rest of the `TreeModels` class performs the train-test split and adds a meth
 
 `Confusion matrix` is the most important and common way to examine the performance of a classification algorithm. It is a matrix showing the numbers of individuals in each true-predicted label combination. In our simulated data, there are 5 classes, which results in a 5-by-5 confusion matrix. Below is the confusion matrix of the test data from the logistic regression when the simulation has included categorical features in generating the target groups:
 
-![Comparison](images/cm_logit_False.png)
+![](images/cm_logit_False.png)
 
 In the confusion matrix, the rows show the "True label" whereas the columns show the "Predicted label". All the cells on the diagonal are corrected predicted. Based on the confusion matrix, there are three basic performance metrics: **accuracy**, **precision**, and **recall**. There are also various metrics that are weighted averages. For example, the **f1 score** is the harmonic mean of precision and recall.
 
@@ -425,7 +425,7 @@ Type I error corresponds to false positive and Type II error corresponds to fals
 
 Before we move on to formally compare results from the 6 algorithms, it is worth noting that random forest, gradient boosting, and XGBoost performed much better than logistic regression in the above simulated data set with categorical features and `random seed = 123`. For example, below is the confusion matrix from XGBoost:
 
-![Comparison](images/cm_xgboost_False.png)
+![](images/cm_xgboost_False.png)
 
 ## Comparison the Algorithms
 
@@ -485,13 +485,13 @@ def plot_monte_carlo(data: list):
 
 The script intends to use parallel computing, but algorithms in `scikit-learn` already utilized parallel computing, so `Pool(1)` is set to run with a single thread. Two comparisons, with and without using the categorical features in generating the target groups, were run. The average score from 10-fold cross validations are recorded and plotted. Here is the result from when `KMeans` generated the target groups without using the categorical columns (but they are still present in the training data and used as features):
 
-![Comparison](images/comparison_true.png)
+![](images/comparison_true.png)
 
 A single decision tree performed the worst, while, surprisingly, logistic regression performed the best. Keep in mind that the ups and downs at different sample sizes do not indicate that more data is worse. There is some random components in how the data was generated with the `KMeans` algorithm.
 
 When categorical columns are included in generating the target groups, there exists more variations among algorithms:
 
-![Comparison](images/comparison_false.png)
+![](images/comparison_false.png)
 
 In here, `Adaboost` performed noticeably worse than all other algorithms. Logistic regression also fell, partly because its inability to deal with categorical features (even with one-hot encoding). Not surprisingly, the performances of `Random Forest`, `Gradient Boosting`, and `XGBoost` remain strong.
 
