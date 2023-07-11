@@ -122,6 +122,8 @@ Last but not least, the `run_arima()` method runs the Auto ARIMA from the `pdmar
 
 If you would like to run ARIMA from `statsmodels`, you can import `ARIMA` from `statsmodels.tsa.arima.model`. `statsmodels` also provides functions and APIs for other time-series/forecasting methods and models. For example, you can test for stationarity with the augmented Dickey-Fuller unit root test by importing `adfuller` from `statsmodels.tsa.stattools`, or run the Vector Autoregressive Moving Average with exogenous regressors by importing `VARMAX` from `statsmodels.tsa.statespace.varmax`. In addition, if you would like to do the Box-Cox transformation, you can import `boxcox` from `scipy.stats`.
 
+![](images/comparison_ts.png)
+
 ## Artificial Neural Network (ANN)
 
 Similar to other chapters, we assume that readers have some idea about what a neural network is and what it can do. Our goal is not to give an in-depth introduction to neural networks. Rather, we will only cover elements of neural networks that matter most in their applications in economics and business assuming readers already have some quantitative training. An excellent place that you can "play" with a neural network model is the [Tensorflow Playground](https://playground.tensorflow.org/).
@@ -345,6 +347,8 @@ For the `StocksForecastDL` class, after the class is initialized, we have the fo
 
 ```{python, eval=F, file='https://raw.githubusercontent.com/DataHurdler/Econ-ML/main/Forecasting/ts_prophet.py'}
 ```
+
+![](images/comparison_dl.png)
 
 ## Summary
 
