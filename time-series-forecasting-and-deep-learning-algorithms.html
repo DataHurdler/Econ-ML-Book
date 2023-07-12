@@ -23,7 +23,7 @@
 <meta name="author" content="Zijun Luo" />
 
 
-<meta name="date" content="2023-07-10" />
+<meta name="date" content="2023-07-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -49,6 +49,7 @@
 
 
 
+<link href="libs/codefolding-lua-1.1/codefolding-lua.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
@@ -219,7 +220,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="time-series-implementation-in-statsmodels" class="section level2 hasAnchor" number="3.2">
 <h2><span class="header-section-number">3.2</span> Time Series Implementation in <code>statsmodels</code><a href="time-series-forecasting-and-deep-learning-algorithms.html#time-series-implementation-in-statsmodels" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>In this section, we will implement three forecasting models: <code>Exponential Smoothing (ETS)</code>, <code>Vector Autoregression (VAR)</code>, and <code>Autoregressive Integrated Moving Average (ARIMA)</code>. ETS and ARIMA are run with a single time series, whereas VAR uses several. The data set we will use is U.S. stock exchange (close) prices from the Python library <code>yfinance</code>. For ETS, we will also implement a walk-forward validation, which is the correct form of validation for time series data, analogue to cross validation seen in the last chapters. To show the power of Auto Machine Learning, we will implement auto ARIMA from the Python library <code>pmdarima</code>. Here is the full Python script:</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb44-1"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> yfinance <span class="im">as</span> yf</span>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb44"><pre class="sourceCode python fold-hide"><code class="sourceCode python"><span id="cb44-1"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> yfinance <span class="im">as</span> yf</span>
 <span id="cb44-2"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb44-3"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb44-4"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -559,12 +561,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb44-338"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-338" aria-hidden="true" tabindex="-1"></a><span class="co"># Test for stationarity: from statsmodels.tsa.stattools import adfuller</span></span>
 <span id="cb44-339"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-339" aria-hidden="true" tabindex="-1"></a><span class="co"># VARMAX: from statsmodels.tsa.statespace.varmax import VARMAX</span></span>
 <span id="cb44-340"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-340" aria-hidden="true" tabindex="-1"></a><span class="co"># ARIMA: from statsmodels.tsa.arima.model import ARIMA</span></span></code></pre></div>
+</details>
 <p>As in other chapters, a <code>class</code>, named <code>StocksForecast</code>, is written. In the beginning of the script, we have two static methods/functions outside of the class for data preparation and plotting. For <code>StockForecast</code>, we initiate the class with:</p>
 <ol style="list-style-type: decimal">
 <li>download the data</li>
 <li>store data into a <code>dictionary</code> with each stock in a different key</li>
 <li>calculate the log and first-differenced values of <code>close price</code>.</li>
 </ol>
+<details class=chunk-details open><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
 <div class="sourceCode" id="cb45"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb45-1"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb45-1" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, stock_name_list<span class="op">=</span>(<span class="st">&#39;UAL&#39;</span>, <span class="st">&#39;WMT&#39;</span>, <span class="st">&#39;PFE&#39;</span>), start_date<span class="op">=</span><span class="st">&#39;2018-01-01&#39;</span>, end_date<span class="op">=</span><span class="st">&#39;2022-12-31&#39;</span>):</span>
 <span id="cb45-2"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb45-2" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;&quot;&quot;</span></span>
 <span id="cb45-3"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="co">        Initialize the StocksForecast class.</span></span>
@@ -579,6 +583,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb45-12"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb45-12" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.dfs[name] <span class="op">=</span> yf.download(name, start<span class="op">=</span>start_date, end<span class="op">=</span>end_date)</span>
 <span id="cb45-13"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb45-13" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.dfs[name][<span class="st">&#39;Diff&#39;</span>] <span class="op">=</span> <span class="va">self</span>.dfs[name][<span class="st">&#39;Close&#39;</span>].diff(<span class="dv">1</span>)</span>
 <span id="cb45-14"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb45-14" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.dfs[name][<span class="st">&#39;Log&#39;</span>] <span class="op">=</span> np.log(<span class="va">self</span>.dfs[name][<span class="st">&#39;Close&#39;</span>])</span></code></pre></div>
+</details>
 <p>Each model is implemented inside a wrapper function. For example, the ETS implementation is in <code>run_ets()</code>, which does the following:</p>
 <ol style="list-style-type: decimal">
 <li>call the <code>prepare_data()</code> function</li>
@@ -587,6 +592,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>get forecast columns and prepare the data for plotting</li>
 <li>call the <code>plot_fitted_forecast()</code> function to plot</li>
 </ol>
+<details class=chunk-details open><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
 <div class="sourceCode" id="cb46"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb46-1"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb46-1" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> run_ets(<span class="va">self</span>, stock_name<span class="op">=</span><span class="st">&#39;UAL&#39;</span>, col<span class="op">=</span><span class="st">&#39;Close&#39;</span>):</span>
 <span id="cb46-2"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb46-2" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;&quot;&quot;</span></span>
 <span id="cb46-3"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="co">        Run the Exponential Smoothing (ETS) model on the specified stock.</span></span>
@@ -605,6 +611,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb46-16"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb46-16" aria-hidden="true" tabindex="-1"></a>        df_all.loc[test_idx, <span class="st">&#39;forecast&#39;</span>] <span class="op">=</span> np.array(result.forecast(N_TEST))</span>
 <span id="cb46-17"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb46-17" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb46-18"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb46-18" aria-hidden="true" tabindex="-1"></a>        plot_fitted_forecast(df_all, col)</span></code></pre></div>
+</details>
 <p>A walk-forward validation for ETS is implemented by the method <code>run_walkforward()</code> (largely from the Lazy Programmer) which is a wrapper function of <code>warlkforward_ets()</code>. For time series data, we can not perform cross-validation by selecting a random subset of observations, as this can result in using future values to predict past value. Instead, a n-step walk-forward validation should be used. Suppose we have data from 1/1/2018 to 12/31/2022, a 1-step walk-forward validation using data from December 2022 would involve the following steps:</p>
 <ol style="list-style-type: decimal">
 <li>train the model with data from 1/1/2018 to 11/30/2022</li>
@@ -614,6 +621,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>continue until data from 1/1/2018 to 12/30/2022 is used for training and 12/31/2022 is predicted</li>
 </ol>
 <p>We should try several different hyperparameter combinations since the purpose of the walk-forward validation is to choose the “best” hyperparameters. The following lines inside <code>if __name__ == "__main__":</code> calls the <code>run_walkforward()</code> method to try a combination of hyperparameters, which also prints out the “best” values for <code>trend</code> and <code>seasonal</code>:</p>
+<details class=chunk-details open><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
 <div class="sourceCode" id="cb47"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb47-1"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb47-1" aria-hidden="true" tabindex="-1"></a>    H <span class="op">=</span> <span class="dv">20</span>  <span class="co"># 4 weeks</span></span>
 <span id="cb47-2"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb47-2" aria-hidden="true" tabindex="-1"></a>    STEPS <span class="op">=</span> <span class="dv">10</span></span>
 <span id="cb47-3"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb47-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -623,8 +631,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb47-7"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb47-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb47-8"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb47-8" aria-hidden="true" tabindex="-1"></a>    tuple_of_option_lists <span class="op">=</span> (trend_type_list, seasonal_type_list,)</span>
 <span id="cb47-9"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb47-9" aria-hidden="true" tabindex="-1"></a>    ts.run_walkforward(H, STEPS, STOCK, COL, tuple_of_option_lists)</span></code></pre></div>
+</details>
 <p>The method <code>run_var()</code> runs the VAR model. Since we run VAR with several stocks, standardized/normalized should be performed. This is accomplished in the <code>prepare_data_var()</code> method with <code>StandardScaler()</code> from scikit-learn.</p>
 <p>Last but not least, the <code>run_arima()</code> method runs the Auto ARIMA from the <code>pdmarima</code> library. Here, we also call <code>plot_acf()</code> and <code>plot_pacf()</code> from scikit-learn to examine the autocorrelation and partial autocorrelation functions. Normally, they are important for the ARIMA model. However, with Auto ARIMA, we are spared of the task of manually determine the values of AR() and MA(). Similar to <code>run_ets()</code>, there are only a few lines of code:</p>
+<details class=chunk-details open><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
 <div class="sourceCode" id="cb48"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb48-1"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb48-1" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> run_arima(<span class="va">self</span>, stock_name<span class="op">=</span><span class="st">&#39;UAL&#39;</span>, col<span class="op">=</span><span class="st">&#39;Close&#39;</span>, seasonal<span class="op">=</span><span class="va">True</span>, m<span class="op">=</span><span class="dv">12</span>):</span>
 <span id="cb48-2"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb48-2" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;&quot;&quot;</span></span>
 <span id="cb48-3"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb48-3" aria-hidden="true" tabindex="-1"></a><span class="co">        Run the Auto Autoregressive Integrated Moving Average (ARIMA) model on the specified stock.</span></span>
@@ -649,6 +659,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb48-22"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb48-22" aria-hidden="true" tabindex="-1"></a>        df_all.loc[test_idx, <span class="st">&#39;forecast&#39;</span>] <span class="op">=</span> np.array(model.predict(n_periods<span class="op">=</span>N_TEST, return_conf_int<span class="op">=</span><span class="va">False</span>))</span>
 <span id="cb48-23"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb48-23" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb48-24"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb48-24" aria-hidden="true" tabindex="-1"></a>        plot_fitted_forecast(df_all, col)</span></code></pre></div>
+</details>
 <p>If you would like to run ARIMA from <code>statsmodels</code>, you can import <code>ARIMA</code> from <code>statsmodels.tsa.arima.model</code>. <code>statsmodels</code> also provides functions and APIs for other time-series/forecasting methods and models. For example, you can test for stationarity with the augmented Dickey-Fuller unit root test by importing <code>adfuller</code> from <code>statsmodels.tsa.stattools</code>, or run the Vector Autoregressive Moving Average with exogenous regressors by importing <code>VARMAX</code> from <code>statsmodels.tsa.statespace.varmax</code>. In addition, if you would like to do the Box-Cox transformation, you can import <code>boxcox</code> from <code>scipy.stats</code>.</p>
 <p><img src="images/comparison_ts.png" /></p>
 </div>
@@ -743,6 +754,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="deep-learning-models-in-tensorflowkeras" class="section level2 hasAnchor" number="3.6">
 <h2><span class="header-section-number">3.6</span> Deep Learning Models in TensorFlow/Keras<a href="time-series-forecasting-and-deep-learning-algorithms.html#deep-learning-models-in-tensorflowkeras" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The implementation of ANN, RNN, and CNN are very similar when using TensorFlow/Keras. As a result, we can implement them in a single script. The only caveat is that input and output data from these different models can be different, and hence we must pay attention to the shapes of the arrays or dataframes that we feed or receive. In the following script, you will see places where it performs such checks. Otherwise, the three functions in the beginning of the script outline the main differences in the implementation of these models using Keras:</p>
+<details class=chunk-details open><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
 <div class="sourceCode" id="cb49"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb49-1"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb49-2"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> yfinance <span class="im">as</span> yf</span>
 <span id="cb49-3"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb49-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -1117,7 +1129,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb49-372"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb49-372" aria-hidden="true" tabindex="-1"></a>    ts.single_model_comparison(model<span class="op">=</span><span class="st">&quot;ann&quot;</span>, diff<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb49-373"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb49-373" aria-hidden="true" tabindex="-1"></a>    ts.single_model_comparison(model<span class="op">=</span><span class="st">&quot;cnn&quot;</span>, diff<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb49-374"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb49-374" aria-hidden="true" tabindex="-1"></a>    ts.single_model_comparison(model<span class="op">=</span><span class="st">&quot;rnn&quot;</span>, rnn_model<span class="op">=</span><span class="st">&quot;lstm&quot;</span>, diff<span class="op">=</span><span class="va">True</span>)</span></code></pre></div>
+</details>
 <p>Once again, we continue to use a <code>class</code> in this script. And we also continue to the use stock prices as an example. Stock prices are the best example to be used in forecasting, as they resemble “random walks”. The above script is quite straightforward. In the beginning are three functions that contain the different components of the three models. For ANN, it is just several <code>Dense</code> layers. In our script, there are two hidden layers, as shown in the <code>rnn()</code> function. For RNN, we need to specify which one of the three models we would like to implement and replace the <code>Dense</code> layer in ANN by the relevant RNN layers. In each case, we implement two RNN layers, which is why we need to set <code>return_sequences=True</code> in the first RNN layer. For CNN, we replace <code>Dense</code> with <code>Conv1D</code> since we have a time-series data. If you are using CNN on images, you would likely be using <code>Conv2D</code>. The “Conv” layer should followed by a Pooling layer. In this case, we use <code>GlobalMaxPooling1D</code>:</p>
+<details class=chunk-details open><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
 <div class="sourceCode" id="cb50"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb50-1"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> ann(T, num_layers<span class="op">=</span><span class="dv">32</span>):</span>
 <span id="cb50-2"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb50-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;</span></span>
 <span id="cb50-3"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb50-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Create a basic Artificial Neural Network (ANN) model.</span></span>
@@ -1181,10 +1195,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb50-61"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb50-61" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> GlobalMaxPooling1D()(x)</span>
 <span id="cb50-62"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb50-62" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb50-63"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb50-63" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> i, x</span></code></pre></div>
+</details>
 <p>For the <code>StocksForecastDL</code> class, after the class is initialized, we have the following methods: <code>prepare_data()</code>, <code>make_predictions()</code>, <code>run_forecast()</code>, and finally <code>single_model_comparison()</code>. These methods are self-explanatory with their names. It is worth noting that the <code>run_forecast()</code> method accepts an input named <code>multistep</code> which is a Boolean value. If <code>multistep=True</code>, the script runs a multi-step forecast. For example, suppose our forecast horizon is 15 days. If we use a one-step model to forecast the next 15 days, the model would predict the first day, then use that prediction for the next day, and so on. However, if we set <code>multistep=True</code>, the model will predict all 15 days at once, given information available at the current point. The <code>single_model_comparison()</code> method can be called to compare these two (singl- versus multi-step) forecasts for a single deep learning model such as ANN or LSTM.</p>
 </div>
 <div id="facebook-prophet" class="section level2 hasAnchor" number="3.7">
 <h2><span class="header-section-number">3.7</span> Facebook Prophet<a href="time-series-forecasting-and-deep-learning-algorithms.html#facebook-prophet" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<details class=chunk-details open><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
 <div class="sourceCode" id="cb51"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb51-1"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb51-2"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> yfinance <span class="im">as</span> yf</span>
 <span id="cb51-3"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -1277,6 +1293,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb51-90"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb51-90" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb51-91"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb51-91" aria-hidden="true" tabindex="-1"></a><span class="co"># Making Prophet to work with Python 3.9 in MacBook Pro:</span></span>
 <span id="cb51-92"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb51-92" aria-hidden="true" tabindex="-1"></a><span class="co"># https://www.google.com/search?client=firefox-b-1-d&amp;q=mac+how+to+open+usr%2Flocal+in+finder</span></span></code></pre></div>
+</details>
 <p><img src="images/comparison_dl.png" /></p>
 </div>
 <div id="summary-1" class="section level2 hasAnchor" number="3.8">
