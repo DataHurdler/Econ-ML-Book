@@ -4,7 +4,7 @@ This chapter is an incomplete draft.
 
 ## Introduction
 
-This chapter is structured differently from other chapters. We will begin with Python implementations for time-series/forecasting models that are not based on machine learning. This is accomplished primarily with the Python library `statsmodels`. The section serves as both a review of forecasting concepts and an introduction to the `statsmodels` library, another widely used Python library for statistical/data analysis.
+This chapter is structured differently from other chapters. We will begin with Python implementations for time-series/forecasting models that are not machine learning based. This is accomplished primarily with the Python library `statsmodels`. The section serves as both a review of forecasting concepts and an introduction to the `statsmodels` library, another widely used Python library for statistical/data analysis.
 
 The main emphasis of this chapter, however, is the use of `deep learning` models for forecasting tasks. We will introduce three neural network models: `Artificial Neural Networks` (ANN), `Reccurent Neural Networks` (RNN), and `Convolutional Neural Networks` (CNN). We will implement these models in Python using `Keras` from TensorFlow`. The chapter ends with the introduction to `Facebook`'s `Prophet` library, which is a widely-used library for forecasting in the industry.
 
@@ -12,7 +12,7 @@ The main emphasis of this chapter, however, is the use of `deep learning` models
 
 ## Time Series Implementation in `statsmodels`
 
-In this section, we will implement three forecasting models: `Exponential Smoothing (ETS)`, `Vector Autoregression (VAR)`, and `Autoregressive Integrated Moving Average (ARIMA)`. ETS and ARIMA are run with a single time series, whereas VAR uses several. The data set we will use is U.S. stock exchange (close) prices from the Python library `yfinance`. For ETS, we will also implement a walk-forward validation, which is the correct form of validation for time series data, analogue to cross validation seen in the last chapters. To show the power of Auto Machine Learning, we will implement auto ARIMA from the Python library `pmdarima`. Here is the full Python script:
+In this section, we will implement three forecasting models: `Exponential Smoothing (ETS)`, `Vector Autoregression (VAR)`, and `Autoregressive Integrated Moving Average (ARIMA)`. ETS and ARIMA are run with a single time series, whereas VAR uses several. The data set we will use is U.S. stock exchange (close) prices from the Python library `yfinance`. For ETS, we will also implement a walk-forward validation, which is the correct form of validation for time series data, analogue to cross validation seen in the last chapter. To show the power of Auto Machine Learning, we will implement auto ARIMA from the Python library `pmdarima`. Here is the full Python script:
 
 ```{python class.source = 'fold-hide', eval=F, file="https://raw.githubusercontent.com/DataHurdler/Econ-ML/main/Forecasting/ts_statsmodels.py"}
 ```
@@ -122,13 +122,20 @@ Last but not least, the `run_arima()` method runs the Auto ARIMA from the `pdmar
         plot_fitted_forecast(df_all, col)
 ```
 
+The plots of ACF and PACF are as follow:
+
+![](images/acf.png)
+![](images/pacf.png)
+
 If you would like to run ARIMA from `statsmodels`, you can import `ARIMA` from `statsmodels.tsa.arima.model`. `statsmodels` also provides functions and APIs for other time-series/forecasting methods and models. For example, you can test for stationarity with the augmented Dickey-Fuller unit root test by importing `adfuller` from `statsmodels.tsa.stattools`, or run the Vector Autoregressive Moving Average with exogenous regressors by importing `VARMAX` from `statsmodels.tsa.statespace.varmax`. In addition, if you would like to do the Box-Cox transformation, you can import `boxcox` from `scipy.stats`.
+
+The last method in the `StocksForecast` class produces the following comparison plot. None of the models along performed particularly good. Surprisingly, and now shown in this plot, the average of the three models would predict quite well. This, once again, shows the power of ensemble or meta-learning.
 
 ![](images/comparison_ts.png)
 
 ## Artificial Neural Network (ANN)
 
-Similar to other chapters, we assume that readers have some idea about what a neural network is and what it can do. Our goal is not to give an in-depth introduction to neural networks. Rather, we will only cover elements of neural networks that matter most in their applications in economics and business assuming readers already have some quantitative training. An excellent place that you can "play" with a neural network model is the [Tensorflow Playground](https://playground.tensorflow.org/).
+Similar to other chapters, this chapter assumes that readers have some idea about what a neural network is and what it can do. Our goal is not to give an in-depth introduction to neural networks. Rather, we will only cover elements of neural networks that matter most in their applications in economics and business assuming readers already have some quantitative training. An excellent place that you can "play" with a neural network model is the [Tensorflow Playground](https://playground.tensorflow.org/).
 
 Neural networks can be used on both regression and classification problems. Our focus in this chapter is to use neural networks on regression since the emphasis is forecasting. Keep in mind that we can always reshape a regression problem into a classification problem. For example, instead of forecasting the actual price or return of a stock, we can predict the likelihood of a stock trending up or down, which is a binary classification problem. The difference between applying neural networks on regression or classification problems is minor: for regression problems, the final activation function is an identify function (returns itself) whereas for classification problems it is Sigmoid or other functions that return values between 0 and 1. A really good summary of activation functions is [this answer on stackexchange](https://stats.stackexchange.com/questions/115258/comprehensive-list-of-activation-functions-in-neural-networks-with-pros-cons).
 
@@ -275,7 +282,7 @@ The implementation of ANN, RNN, and CNN are very similar when using TensorFlow/K
 ```{python, eval=F, file='https://raw.githubusercontent.com/DataHurdler/Econ-ML/main/Forecasting/ts_tensorflow.py'}
 ```
 
-Once again, we continue to use a `class` in this script. And we also continue to the use stock prices as an example. Stock prices are the best example to be used in forecasting, as they resemble "random walks". The above script is quite straightforward. In the beginning are three functions that contain the different components of the three models. For ANN, it is just several `Dense` layers. In our script, there are two hidden layers, as shown in the `rnn()` function. For RNN, we need to specify which one of the three models we would like to implement and replace the `Dense` layer in ANN by the relevant RNN layers. In each case, we implement two RNN layers, which is why we need to set `return_sequences=True` in the first RNN layer. For CNN, we replace `Dense` with `Conv1D` since we have a time-series data. If you are using CNN on images, you would likely be using `Conv2D`. The "Conv" layer should followed by a Pooling layer. In this case, we use `GlobalMaxPooling1D`:
+Once again, we create a `class` in this script. We also continue to the use stock prices as an example. Stock prices are the best example to be used in forecasting, as they resemble "random walks". The above script is quite straightforward. In the beginning are three functions that contain the different components of the three models. For ANN, it is just several `Dense` layers. In our script, there are two hidden layers, as shown in the `rnn()` function. For RNN, we need to specify which one of the three models we would like to implement and replace the `Dense` layer in ANN by the relevant RNN layers. In each case, we implement two RNN layers, which is why we need to set `return_sequences=True` in the first RNN layer. For CNN, we replace `Dense` with `Conv1D` since we have a time-series data. If you are using CNN on images, you would likely be using `Conv2D`. The "Conv" layer should followed by a Pooling layer. In this case, we use `GlobalMaxPooling1D`:
 
 ```python
 def ann(T, num_layers=32):
@@ -343,14 +350,34 @@ def cnn(T, D):
     return i, x
 ```
 
-For the `StocksForecastDL` class, after the class is initialized, we have the following methods: `prepare_data()`, `make_predictions()`, `run_forecast()`, and finally `single_model_comparison()`. These methods are self-explanatory with their names. It is worth noting that the `run_forecast()` method accepts an input named `multistep` which is a Boolean value. If `multistep=True`, the script runs a multi-step forecast. For example, suppose our forecast horizon is 15 days. If we use a one-step model to forecast the next 15 days, the model would predict the first day, then use that prediction for the next day, and so on. However, if we set `multistep=True`, the model will predict all 15 days at once, given information available at the current point. The `single_model_comparison()` method can be called to compare these two (singl- versus multi-step) forecasts for a single deep learning model such as ANN or LSTM.
+For the `StocksForecastDL` class, after the class is initialized, we have the following methods: `prepare_data()`, `make_predictions()`, `run_forecast()`, and finally `single_model_comparison()`. These methods are self-explanatory with their names. It is worth noting that the `run_forecast()` method accepts an input named `multistep` which is a Boolean value. If `multistep=True`, the script runs a multi-step forecast. For example, suppose our forecast horizon is 15 days. If we use a one-step model to forecast the next 15 days, the model would predict the first day, then use that prediction for the next day, and so on. However, if we set `multistep=True`, the model will predict all 15 days at once, given information available at the current point. The `single_model_comparison()` method can be called to compare these two (single- versus multi-step) forecasts for a single deep learning model such as ANN or LSTM.
+
+The number of epochs is an important hyperparameter when it comes to deep learning models. Practitioners often plot the losses from training and validation/test data sets to examine if the algorithm has "converged" or overfitting has happened. Below are such plots from ANN and LSTM for the single-step forecast models with 1500 epochs. Both show some evidence of overfitting, especially the one for ANN, as the validation loss is increasing while the train loss stays flat:
+
+![](images/ann_single_hist.png)
+
+![](images/rnn_lstm_single_hist.png)
+
+However, for the LSTM multi-step model, 1500 epochs seems to be ideal:
+
+![](images/rnn_lstm_multi_hist.png)
+
+We conduct two types of comparisons for deep learning models. First, as already mentioned we compare forecasts from single-step and multi-step models. Here is the comparison for CNN:
+
+![](images/cnn_comparison.png)
+
+In the graph, "Log" is original data, "1step_test" is one-step forecast from the single-step model, i.e., predicting only 1 day ahead with all historical data known, "multistep" is multi-period forecast from the single-step model, and multioutput is from the multi-step CNN model, i.e., all 20 days are predicted at the same time. The one-step forecastis expected to do well, as it forecasts with more information. However, we can also visually see, at least for CNN, that the multi-period ("multistep" on the graph) forecast from the single-step model performs better than the multi-step model.
+
+For a more formal comparison, we run these models with 10 stocks and for 6 different forecast horizon: 5, 10, 20, 50, 100, and 200 days. We calculate the **mean absolute percentage error** (MAPE). Below is the result. Note that `Prophet`, which we will formally introduce in the next section, is also included:
+
+![](images/comparison_dl.png)
+
+A smaller value of MAPE indicates better model fit. Not surprisingly, the single-period models outperform the multi-step models when the time horizon is short, but for 50 days and above, the multi-step models are significantly better.
 
 ## Facebook Prophet
 
 ```{python, eval=F, file='https://raw.githubusercontent.com/DataHurdler/Econ-ML/main/Forecasting/ts_prophet.py'}
 ```
-
-![](images/comparison_dl.png)
 
 ## Summary
 
