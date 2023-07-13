@@ -845,6 +845,11 @@ It is also interesting to look at what happened after only 100 visitors:
 
 Two differences between `Thompson Sampling` and the other algorithms we have discussed should be noted. First, as already mentioned, `Thompson Sampling` attempts to build a distribution for the bandits. Comparing the two visuals from 100 visitors and all visitors shows that, although the best version has jumped out early, the distribution is much tighter/narrower at the end of the experiment, indicating greater "confidence" for the estimated expected win rate. Second, and importantly, the `Thompson Sampling` algorithm has no problem distinguishing between a bandit with a 0.67 win rate and the best version with a win rate of 0.75.
 
+You can see the full script with all the methods by unhiding the following code block:
+
+```{python class.source = 'fold-hide', eval=F, file="https://raw.githubusercontent.com/DataHurdler/Econ-ML/main/Multi-Armed-Bandits/bayesianab_mc.py"}
+```
+
 ## Comparing the Algorithms
 
 It is important to compare the five algorithms in various settings. Following Sutton and Barto (2020), we conduct a 5-armed testbed. The idea of the testbed is to run the algorithms many times, say 2,000, then calculates the success rate, which is the percentage that the best bandit was picked in each round. For example, suppose we run the `Epsilon Greedy` algorithm 2,000 times with different win rates. We look at the bandit picked on the 100th visitor and found that, out of the 2,000 runs the best bandit was picked 800 times. Then at the 100th round/visitor, the success rate was 0.4. When we developed the `BayesianAB` class, we were already anticipating the implementation of the testbed. Specifically, in the following functions/methods:
