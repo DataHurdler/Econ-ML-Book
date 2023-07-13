@@ -422,37 +422,12 @@ For the actual implementation of the `Bayesian Bandits` in the `bayesian_bandits
 
 Due to these changes, we also need a new function for visualizing the `history` returned by `bayesian_bandits()`:
 
-```python
-def bb_plot_history(
-        history: list,
-        prob_true: list,
-        k=-1,
-):
-    x = np.linspace(0, 1, 100)
-    legend_str = [[]] * len(prob_true)
-    plt.figure(figsize=(20, 5))
-
-    for i in range(len(prob_true)):
-        a = history[0][k][i]
-        b = history[1][k][i]
-        y = beta.pdf(x, a, b)
-        legend_str[i] = f'{prob_true[i]}, alpha: {a}, beta: {b}'
-        plt.plot(x, y)
-
-    plt.legend(legend_str)
+```{python 'def bb_plot_history', eval=F, code = readLines("https://raw.githubusercontent.com/DataHurdler/Econ-ML/main/Multi-Armed-Bandits/bayesianab.py")[334:362]}
 ```
 
 We can now run a simulate for `Thompson Sampling` by executing the following:
 
-```python
-bb = BayesianAB(N_bandits)
-print(f'The true win rates: {bb.prob_true}')
-bb_history = bb.bayesian_bandits(sample_size=10)
-print(f'The observed win rates: {np.divide(bb.history[0][-1], bb.count)}')
-print(f'Number of times each bandit was played: {bb.count}')
-
-# plot the entire experiment history
-bb_plot_history(history=bb.history, prob_true=bb.prob_true)
+```{python 'run bb_plot_history()', eval=F, code = readLines("https://raw.githubusercontent.com/DataHurdler/Econ-ML/main/Multi-Armed-Bandits/bayesianab.py")[429:439]}
 ```
 
 Outcomes from a typical run look like the following:
@@ -496,9 +471,9 @@ which records the which bandit was picked at each round. The parameters `p_max`,
 
 Some explanations may be instructive. First, since we will be calling the same functions many times, we should use parallelization, which is through the `multiprocessing` library. In the script, the `worker()` function defines the task (or worker) for parallelization. The core function in the script, `monte_carlo()`, accepts six arguments:
 1. `algos` contains a list of algorithms. The algorithms should match the names given as methods in the `BayesianAB` class. In our case, we have
-```python
-algorithms = ['epsilon_greedy', 'optim_init_val', 'ucb1', 'gradient_bandit', 'bayesian_bandits']
+```{python 'algorithm list', eval=F, code = readLines("https://raw.githubusercontent.com/DataHurdler/Econ-ML/main/Multi-Armed-Bandits/bayesianab_mc.py")[174]}
 ```
+
 2. `m` is the number of simulations/trials to run. The default value is 500. We will actually be running 2000 simulations;
 3. `n` is the number of rounds/visitors in each simulation. A default value of 10001 means it will have 10000 visitors;
 4. `p_max` is the highest win rate;
@@ -506,13 +481,7 @@ algorithms = ['epsilon_greedy', 'optim_init_val', 'ucb1', 'gradient_bandit', 'ba
 6. `p_min` is the lowest possible win rate.
 
 We will run simulations with 12 different combinations of `p_max`, `p_diff`, and `p_min`, given in the following list:
-
-```
-    prob_list = [[.35, .1, .1], [.35, .05, .1], [.35, .01, .1],
-                 [.75, .1, .1], [.75, .05, .1], [.75, .01, .1],
-                 [.75, .1, .62], [.75, .05, .62], [.75, .01, .62],
-                 [.95, .1, .82], [.95, .05, .82], [.95, .01, .82],
-                 ]
+```{python 'probability list', eval=F, code = readLines("https://raw.githubusercontent.com/DataHurdler/Econ-ML/main/Multi-Armed-Bandits/bayesianab_mc.py")[175:179]}
 ```
 
 The `run_monte_carlo()` function calls the `monte_carlo()` function, then processes the results and calculate success rate in each round. The results are stored in a `dictionary` named `df_all`.
