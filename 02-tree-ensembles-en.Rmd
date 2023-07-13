@@ -249,7 +249,7 @@ Before we move on to formally compare results from the 6 algorithms, it is worth
 
 The following `Python` script runs the comparison between different algorithms for between 6000 and 50000 individuals (sample size):
 
-```{python, eval=F, file="https://raw.githubusercontent.com/DataHurdler/Econ-ML/main/Tree-Ensembles/tree_ensembles_mc.py"}
+```{python tree_ensembles_mc.py, eval=F, file="https://raw.githubusercontent.com/DataHurdler/Econ-ML/main/Tree-Ensembles/tree_ensembles_mc.py"}
 ```
 
 The script intends to use parallel computing, but algorithms in `scikit-learn` already utilized parallel computing, so `Pool(1)` is set to run with a single thread. Two comparisons, with and without using the categorical features in generating the target groups, were run. The average score from 10-fold cross validations are recorded and plotted. Here is the result from when `KMeans` generated the target groups without using the categorical columns (but they are still present in the training data and used as features):
