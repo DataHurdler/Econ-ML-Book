@@ -151,12 +151,7 @@ The `epsilon_greedy()` method returns the list `history`, which stores the compl
 
 To call `epsilon_greedy()` and examine the results, we execute the following:
 
-```python
-eg = BayesianAB(N_bandits)
-print(f'The true win rates: {eg.prob_true}')
-eg_history = eg.epsilon_greedy()
-print(f'The observed win rates: {eg.prob_win}')
-print(f'Number of times each bandit was played: {eg.count}')
+```{python 'call epsilon_greedy()', eval=F, code = readLines("https://raw.githubusercontent.com/DataHurdler/Econ-ML/main/Multi-Armed-Bandits/bayesianab.py")[369:373]}
 ```
 
 Here, we call `epsilon_greedy()` with the default value for `epsilon`. This means the algorithm will explore half of the time. We also print out the true win rates, the expected win rates, and the number of times that each bandit was played. Here is the printed output from a particular run:
@@ -173,37 +168,12 @@ Also note that the expected win rates have not converged to the true win rates e
 
 We can visualize the outcome from the experiment with the following code:
 
-```python
-import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
-
-
-def plot_history(
-        history: list,
-        prob_true: list,
-        k=N,
-):
-    df_history = pd.DataFrame(history[:k])
-
-    plt.figure(figsize=(20, 5))
-
-    # Define the color palette
-    colors = sns.color_palette("Set2", len(prob_true))
-
-    for i in range(len(prob_true)):
-        sns.lineplot(x=df_history.index, y=df_history[i], color=colors[i])
-
-    # Create custom legend using prob_true and colors
-    custom_legend = [plt.Line2D([], [], color=colors[i], label=prob_true[i]) for i in range(len(prob_true))]
-    plt.legend(handles=custom_legend)
-
+```{python 'def plot_history', eval=F, code = readLines("https://raw.githubusercontent.com/DataHurdler/Econ-ML/main/Multi-Armed-Bandits/bayesianab.py")[295:331]}
 ```
 
 Then execute:
 
-```python
-plot_history(history=eg.history, prob_true=eg.prob_true)
+```{python 'eg plot_history', eval=F, code = readLines("https://raw.githubusercontent.com/DataHurdler/Econ-ML/main/Multi-Armed-Bandits/bayesianab.py")[404]}
 ```
 
 Here is the output from the above run:
@@ -212,8 +182,7 @@ Here is the output from the above run:
 
 We can also get the visualization for the first 100 visitors, which shows that the third bandit, the a 0.67 win rate, jumped ahead early:
 
-```python
-plot_history(history=eg.history, prob_true=eg.prob_true, k=100)
+```{python 'eg plot_history 100', eval=F, code = readLines("https://raw.githubusercontent.com/DataHurdler/Econ-ML/main/Multi-Armed-Bandits/bayesianab.py")[407]}
 ```
 
 ![](images/eg_100.png)
@@ -233,36 +202,12 @@ loop:
 
 Assuming you already have the code from the `Epsilon Greedy` section, you can add the following method inside the `BayesianAB` class to run the `Optimistic Initial Values` algorithm:
 
-```python
-    ####################
-    # optimistic initial values
-    def optim_init_val(
-            self,
-            init_val: float = 0.99,
-    ):
-
-        self.prob_win = [init_val] * len(self.prob_win)
-        self.history.append(self.prob_win.copy())
-
-        for k in range(1, self.N):
-            i = np.argmax(self.prob_win)
-
-            self.update(i, k)
-
-        return self.history
+```{python 'def optim_init_val', eval=F, code = readLines("https://raw.githubusercontent.com/DataHurdler/Econ-ML/main/Multi-Armed-Bandits/bayesianab.py")[132:153]}
 ```
 
 The only thing new here is the line that assigns `init_val` to `prob_win` in the beginning. We can execute the following to get results and visualization:
 
-```python
-oiv = BayesianAB(N_bandits)
-print(f'The true win rates: {oiv.prob_true}')
-oiv_history = oiv.optim_init_val(init_val=0.99)
-print(f'The observed win rates: {oiv.prob_win}')
-print(f'Number of times each bandit was played: {oiv.count}')
-
-# plot the entire experiment history
-plot_history(history=oiv.history, prob_true=oiv.prob_true)
+```{python 'call optim_init_val()', eval=F, code = readLines("https://raw.githubusercontent.com/DataHurdler/Econ-ML/main/Multi-Armed-Bandits/bayesianab.py")[384:394]}
 ```
 
 And following are outcomes from a typical run:
