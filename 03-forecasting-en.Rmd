@@ -23,7 +23,7 @@ As in other chapters, a `class`, named `StocksForecast`, is written. In the begi
 2. store data into a `dictionary` with each stock in a different key
 3. calculate the log and first-differenced values of `close price`.
 
-```{python, eval=F}
+```python
     def __init__(self, stock_name_list=('UAL', 'WMT', 'PFE'), start_date='2018-01-01', end_date='2022-12-31'):
         """
         Initialize the StocksForecast class.
