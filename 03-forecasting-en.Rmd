@@ -275,17 +275,17 @@ However, it is important to increase the number of filters after each pooling un
 
 After going through the convolution (and pooling) layers, the output is fed into some `Dense` layers just like ANN. In a way, we can think of CNN as two-stage feature engineering: convolution layers and Dense layers.
 
-## Deep Learning Models in TensorFlow/Keras
+## Deep Learning Algorithms in TensorFlow/Keras
 
-The implementation of ANN, RNN, and CNN are very similar when using TensorFlow/Keras. As a result, we can implement them in a single script. The only caveat is that input and output data from these different models can be different, and hence we must pay attention to the shapes of the arrays or dataframes that we feed or receive. In the following script, you will see places where it performs such checks. Otherwise, the three functions in the beginning of the script outline the main differences in the implementation of these models using Keras:
+The implementation of ANN, RNN, and CNN are similar when using TensorFlow/Keras. The main difference is in how the hidden layers are constructed, with the minor caveat that the dimensions of input and output data from different models (notably ANN) can be different. As a result, it is important pay attention to the shapes of the arrays or dataframes that we feed or receive. In the following script, you will see places where it performs such checks. Otherwise, the three functions in the beginning of the script are the only differences in how these models are constructed in Keras:
 
 ```{python, eval=F, file='https://raw.githubusercontent.com/DataHurdler/Econ-ML/main/Forecasting/ts_tensorflow.py'}
 ```
 
-Once again, we create a `class` in this script. We also continue to the use stock prices as an example. Stock prices are the best example to be used in forecasting, as they resemble "random walks". The above script is quite straightforward. In the beginning are three functions that contain the different components of the three models. For ANN, it is just several `Dense` layers. In our script, there are two hidden layers, as shown in the `rnn()` function. For RNN, we need to specify which one of the three models we would like to implement and replace the `Dense` layer in ANN by the relevant RNN layers. In each case, we implement two RNN layers, which is why we need to set `return_sequences=True` in the first RNN layer. For CNN, we replace `Dense` with `Conv1D` since we have a time-series data. If you are using CNN on images, you would likely be using `Conv2D`. The "Conv" layer should followed by a Pooling layer. In this case, we use `GlobalMaxPooling1D`:
+The class we create in this script is named `StocksForecastDL`, as we continue to the use stock prices as an example. Stock prices are not the best example to be used in forecasting, as they resemble "random walks", but they are important in financial engineering and other related topics. As already mentioned, in the beginning of the script are three functions that provide the different constructs of the three models. For ANN, there are only `Dense` layers. In our example, we use two hidden layers each with 32 hidden units by default. For RNN, we need to specify which one of the three models we would like to implement and replace the `Dense` layers in the ANN by the relevant RNN layers. In each case, we implement two RNN layers with 32 hidden units, which is why `return_sequences` is set to `True` in the first RNN layer. For CNN, we replace `Dense` with `Conv1D` since we have a time-series data. If you are using CNN on images, you would likely be using `Conv2D`. The "Conv" layer should be followed by a Pooling layer. In this case, we use `GlobalMaxPooling1D`. As was discussed in the theory section, the size of feature map should increased from one lay to another. In our example, the first CNN layer has 16 features whereas that of the second layer is increased to 32:
 
 ```python
-def ann(T, num_layers=32):
+def ann(T, num_units=32):
     """
     Create a basic Artificial Neural Network (ANN) model.
 
@@ -297,8 +297,8 @@ def ann(T, num_layers=32):
         tuple: Input and output tensors of the ANN model.
     """
     i = Input(shape=(T,))
-    x = Dense(num_layers, activation='relu')(i)
-    x = Dense(num_layers, activation='relu')(x)
+    x = Dense(num_units, activation='relu')(i)
+    x = Dense(num_units, activation='relu')(x)
 
     return i, x
 
@@ -318,14 +318,14 @@ def rnn(T, D, num_layers=32, rnn_model="lstm"):
     """
     i = Input(shape=(T, D))
     if rnn_model == 'lstm':
-        x = LSTM(num_layers, return_sequences=True)(i)
-        x = LSTM(num_layers)(x)
+        x = LSTM(num_units, return_sequences=True)(i)
+        x = LSTM(num_units)(x)
     elif rnn_model == 'gru':
-        x = GRU(num_layers, return_sequences=True)(i)
-        x = GRU(num_layers)(x)
+        x = GRU(num_units, return_sequences=True)(i)
+        x = GRU(num_units)(x)
     else:
-        x = SimpleRNN(num_layers, return_sequences=True)(i)
-        x = SimpleRNN(num_layers)(x)
+        x = SimpleRNN(num_units, return_sequences=True)(i)
+        x = SimpleRNN(num_units)(x)
 
     return i, x
 
@@ -350,31 +350,39 @@ def cnn(T, D):
     return i, x
 ```
 
-For the `StocksForecastDL` class, after the class is initialized, we have the following methods: `prepare_data()`, `make_predictions()`, `run_forecast()`, and finally `single_model_comparison()`. These methods are self-explanatory with their names. It is worth noting that the `run_forecast()` method accepts an input named `multistep` which is a Boolean value. If `multistep=True`, the script runs a multi-step forecast. For example, suppose our forecast horizon is 15 days. If we use a one-step model to forecast the next 15 days, the model would predict the first day, then use that prediction for the next day, and so on. However, if we set `multistep=True`, the model will predict all 15 days at once, given information available at the current point. The `single_model_comparison()` method can be called to compare these two (single- versus multi-step) forecasts for a single deep learning model such as ANN or LSTM.
+In the `StocksForecastDL` class, we have the following methods after the class is initialized: `prepare_data()`, `make_predictions()`, `run_forecast()`, and, finally, `single_model_comparison()`. These methods are self-explanatory by their names. It is worth noting that the `run_forecast()` method accepts an input named `multistep` which is a Boolean value. Suppose our forecast horizon is 15 days. When `multioutput=False`, we use a single-step model to forecast the next 15 days. That is, the model predicts the first day, then use that prediction in the prediction of the second day, and so on. If we set `multioutput=True`, the model will predict all 15 days at once, given information available on the day before. The `single_model_comparison()` method can be called to compare these two (single- versus multi-output) forecasts for a deep learning model such as ANN or LSTM.
 
-The number of epochs is an important hyperparameter when it comes to deep learning models. Practitioners often plot the losses from training and validation/test data sets to examine if the algorithm has "converged" or overfitting has happened. Below are such plots from ANN and LSTM for the single-step forecast models with 1500 epochs. Both show some evidence of overfitting, especially the one for ANN, as the validation loss is increasing while the train loss stays flat:
+The number of epochs is an important hyperparameter when it comes to deep learning models. Practitioners often plot the losses from training and validation/test data sets to examine if the algorithm has "converged" or if over-fitting has happened. Below are such plots from ANN and LSTM for the single-step forecast models with 1500 epochs. Both show some evidence of over-fitting, especially ANN, as the test/validation loss continues to increase while the train loss stays flat after about 600 epochs:
 
-![](images/ann_single_hist.png)
+![Plot of Losses from ANN](images/ann_single_hist.png)
 
-![](images/rnn_lstm_single_hist.png)
+![Plot of Losses from LSTM](images/rnn_lstm_single_hist.png)
 
-However, for the LSTM multi-step model, 1500 epochs seems to be ideal:
+Comparatively, for the multi-output model using LSTM, 1500 epochs seems to be ideal, as train loss continues to lower and the test/validation loss stays flat:
 
-![](images/rnn_lstm_multi_hist.png)
+![Plot of Losses from LSTM for the Multi-output Model](images/rnn_lstm_multi_hist.png)
 
-We conduct two types of comparisons for deep learning models. First, as already mentioned we compare forecasts from single-step and multi-step models. Here is the comparison for CNN:
+Another important hyperparameter in our script is value of `t`, which is given a default value of 10 when the `StockForecastDL` class is initiated. This is the size of the training data set for these deep learning models. Or equivalently, you can think that the number of features is 10. Suppose the algorithm is attempting to predict the stock price for February 20, 2023, which is a Monday, it uses stock prices from February 6 (Monday) to February 17 (Friday) as its inputs. Increasing the number `t` has two opposite effect on model training and prediction. On the one hand, it makes the data set wider, which allows the model to be trained with more features. On the other hand, it makes the data set shorter, as more days in the beginning of the data set need to be reserved for training. Imagine you have the time series for 360 days. If `t=10`, then your data set has 11 columns (10 features and 1 outcome) and 350 rows. But if `t=180`, then your data set has 181 columns (180 features and 1 output) but only 180 rows. In general, time series models favor longer rather than wider data. In our example, I have increased the value of `t` to 20 and the results are quite similar.
 
-![](images/cnn_comparison.png)
+For the deep learning models, we conduct two types of comparisons. First, as already mentioned, we compare multi-step forecasts from the single-step and the multi-output models. Here is the comparison for CNN:
 
-In the graph, "Log" is original data, "1step_test" is one-step forecast from the single-step model, i.e., predicting only 1 day ahead with all historical data known, "multistep" is multi-period forecast from the single-step model, and multioutput is from the multi-step CNN model, i.e., all 20 days are predicted at the same time. The one-step forecastis expected to do well, as it forecasts with more information. However, we can also visually see, at least for CNN, that the multi-period ("multistep" on the graph) forecast from the single-step model performs better than the multi-step model.
+![Single-step vs. Multi-output Comparison for CNN](images/cnn_comparison.png)
 
-For a more formal comparison, we run these models with 10 stocks and for 6 different forecast horizon: 5, 10, 20, 50, 100, and 200 days. We calculate the **mean absolute percentage error** (MAPE). Below is the result. Note that `Prophet`, which we will formally introduce in the next section, is also included:
+In the graph, "Log" is original data series, "1step_test" is one-step forecast from the single-step model, i.e., each prediction uses the true historical data, "multistep" is multi-period forecast from the single-step model as described earlier, and multioutput is from the multi-output CNN model by setting `multioutput=True`, i.e., all 20 days are predicted at the same time. The one-step forecast is expected to do well, as it forecasts with true information. However, we can also visually see that, at least for CNN, the multi-period ("multistep" on the graph) forecast from the single-step model outputperforms the multi-output model.
+
+For a more formal comparison, we run these models with 10 stocks and for 6 different forecast horizons: 5, 10, 20, 50, 100, and 200 days. We calculate the report the averages **mean absolute percentage error** (MAPE) from the 10 stocks. Below is the result. Note that `Prophet`, which we will formally introduce in the next section, is also included:
 
 ![](images/comparison_dl.png)
 
 A smaller value of MAPE indicates better model fit. Not surprisingly, the single-period models outperform the multi-step models when the time horizon is short, but for 50 days and above, the multi-step models are significantly better.
 
-## Facebook Prophet
+## Facebook's Prophet
+
+Facebook's [Prophet](https://facebook.github.io/prophet/) is a Bayesian model rather than a deep learning model. The is built on top of standard regression techniques and utilizes a decomposable time series model with multiple seasonalities using a Fourier series. It also accepts user-defined holidays making it highly customizable for applications in different regions.
+
+A new model, named [NeuralProphet](https://neuralprophet.com/), has combined Prophet and deep learning. Since it is based on `PyTorch` instead of `TensorFlow`/`Keras`, we will not look at it in this chapter.
+
+Here is the script that we use to implement Prophet on the stock prices. It should be noted that the true power of `Prophet` is in other common business applications rather than stock prices. We continue to use stock prices here just for illustrative purposes:
 
 ```{python, eval=F, file='https://raw.githubusercontent.com/DataHurdler/Econ-ML/main/Forecasting/ts_prophet.py'}
 ```
