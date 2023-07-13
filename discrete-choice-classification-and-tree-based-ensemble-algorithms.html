@@ -23,7 +23,7 @@
 <meta name="author" content="Zijun Luo" />
 
 
-<meta name="date" content="2023-07-11" />
+<meta name="date" content="2023-07-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -360,7 +360,7 @@ Step 2: Loop:
 <span id="cb41-15"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-15" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> xgboost</span>
 <span id="cb41-16"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb41-17"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-17" aria-hidden="true" tabindex="-1"></a>N_GROUP <span class="op">=</span> <span class="dv">5</span></span>
-<span id="cb41-18"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-18" aria-hidden="true" tabindex="-1"></a>N_IND <span class="op">=</span> <span class="dv">50000</span></span>
+<span id="cb41-18"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-18" aria-hidden="true" tabindex="-1"></a>N_IND <span class="op">=</span> <span class="dv">20000</span></span>
 <span id="cb41-19"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-19" aria-hidden="true" tabindex="-1"></a>N_FEATURES <span class="op">=</span> <span class="dv">10</span></span>
 <span id="cb41-20"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-20" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb41-21"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-21" aria-hidden="true" tabindex="-1"></a></span>
@@ -520,7 +520,14 @@ Step 2: Loop:
 <span id="cb41-175"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-175" aria-hidden="true" tabindex="-1"></a>        xgb <span class="op">=</span> xgboost.XGBClassifier()</span>
 <span id="cb41-176"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-176" aria-hidden="true" tabindex="-1"></a>        tree.show_results(xgb, <span class="st">&#39;xgboost&#39;</span>, print_flag, plot_flag)</span>
 <span id="cb41-177"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-177" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-178"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-178" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> {n_individuals: tree.results}</span></code></pre></div>
+<span id="cb41-178"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-178" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> {n_individuals: tree.results}</span>
+<span id="cb41-179"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-180"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-181"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-181" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">&quot;__main__&quot;</span>:</span>
+<span id="cb41-182"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-182" aria-hidden="true" tabindex="-1"></a>    <span class="co"># No interruption by plt.show()</span></span>
+<span id="cb41-183"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-183" aria-hidden="true" tabindex="-1"></a>    plt.ion()</span>
+<span id="cb41-184"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-184" aria-hidden="true" tabindex="-1"></a>    random.seed(<span class="dv">123</span>)</span>
+<span id="cb41-185"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb41-185" aria-hidden="true" tabindex="-1"></a>    run_tree_ensembles()</span></code></pre></div>
 </details>
 <p>Here are some remarks about the script. First, the number of numerical features in the generated data set is given by <code>n_num_features</code>. Two additional columns of numerical features and six columns of string/categorical features are also included to add randomness and complexity to the generated data. The numerical features are stored in the <code>numpy</code> array <code>num_features</code> while the categorical features are stored in <code>cat_features</code>. These features are then properly processed and stored in the <code>pandas</code> dataframe <code>df</code>:</p>
 <ul>
@@ -610,7 +617,21 @@ Step 2: Loop:
 <span id="cb43-46"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-46" aria-hidden="true" tabindex="-1"></a>    ax.legend([<span class="st">&#39;Logit&#39;</span>, <span class="st">&#39;Decision Tree&#39;</span>, <span class="st">&#39;Random Forest&#39;</span>, <span class="st">&#39;Adaboost&#39;</span>, <span class="st">&#39;GBM&#39;</span>, <span class="st">&#39;XGBoost&#39;</span>],</span>
 <span id="cb43-47"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-47" aria-hidden="true" tabindex="-1"></a>              loc<span class="op">=</span><span class="st">&#39;lower right&#39;</span>,</span>
 <span id="cb43-48"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-48" aria-hidden="true" tabindex="-1"></a>              fontsize<span class="op">=</span><span class="dv">9</span>, markerscale<span class="op">=</span><span class="fl">1.5</span>, scatterpoints<span class="op">=</span><span class="dv">1</span>,</span>
-<span id="cb43-49"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-49" aria-hidden="true" tabindex="-1"></a>              fancybox<span class="op">=</span><span class="va">True</span>, framealpha<span class="op">=</span><span class="fl">0.5</span>)</span></code></pre></div>
+<span id="cb43-49"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-49" aria-hidden="true" tabindex="-1"></a>              fancybox<span class="op">=</span><span class="va">True</span>, framealpha<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb43-50"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-51"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-51" aria-hidden="true" tabindex="-1"></a>    <span class="co"># plt.show()</span></span>
+<span id="cb43-52"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-53"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-54"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-54" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">&quot;__main__&quot;</span>:</span>
+<span id="cb43-55"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-55" aria-hidden="true" tabindex="-1"></a>    random.seed(<span class="dv">42</span>)</span>
+<span id="cb43-56"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-57"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-57" aria-hidden="true" tabindex="-1"></a>    mc_output <span class="op">=</span> run_monte_carlo(n_individuals_range, [<span class="va">False</span>])</span>
+<span id="cb43-58"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-58" aria-hidden="true" tabindex="-1"></a>    plot_monte_carlo(mc_output)</span>
+<span id="cb43-59"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-59" aria-hidden="true" tabindex="-1"></a>    plt.savefig(<span class="ss">f&quot;comparison_false.png&quot;</span>, dpi<span class="op">=</span><span class="dv">300</span>)</span>
+<span id="cb43-60"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-61"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-61" aria-hidden="true" tabindex="-1"></a>    mc_output_true <span class="op">=</span> run_monte_carlo(n_individuals_range, [<span class="va">True</span>])</span>
+<span id="cb43-62"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-62" aria-hidden="true" tabindex="-1"></a>    plot_monte_carlo(mc_output_true)</span>
+<span id="cb43-63"><a href="discrete-choice-classification-and-tree-based-ensemble-algorithms.html#cb43-63" aria-hidden="true" tabindex="-1"></a>    plt.savefig(<span class="ss">f&quot;comparison_true.png&quot;</span>, dpi<span class="op">=</span><span class="dv">300</span>)</span></code></pre></div>
 </details>
 <p>The script intends to use parallel computing, but algorithms in <code>scikit-learn</code> already utilized parallel computing, so <code>Pool(1)</code> is set to run with a single thread. Two comparisons, with and without using the categorical features in generating the target groups, were run. The average score from 10-fold cross validations are recorded and plotted. Here is the result from when <code>KMeans</code> generated the target groups without using the categorical columns (but they are still present in the training data and used as features):</p>
 <p><img src="images/comparison_true.png" /></p>

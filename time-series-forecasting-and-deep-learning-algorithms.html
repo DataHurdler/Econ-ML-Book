@@ -23,7 +23,7 @@
 <meta name="author" content="Zijun Luo" />
 
 
-<meta name="date" content="2023-07-11" />
+<meta name="date" content="2023-07-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -220,8 +220,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="time-series-implementation-in-statsmodels" class="section level2 hasAnchor" number="3.2">
 <h2><span class="header-section-number">3.2</span> Time Series Implementation in <code>statsmodels</code><a href="time-series-forecasting-and-deep-learning-algorithms.html#time-series-implementation-in-statsmodels" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>In this section, we will implement three forecasting models: <code>Exponential Smoothing (ETS)</code>, <code>Vector Autoregression (VAR)</code>, and <code>Autoregressive Integrated Moving Average (ARIMA)</code>. ETS and ARIMA are run with a single time series, whereas VAR uses several. The data set we will use is U.S. stock exchange (close) prices from the Python library <code>yfinance</code>. For ETS, we will also implement a walk-forward validation, which is the correct form of validation for time series data, analogue to cross validation seen in the last chapter. To show the power of Auto Machine Learning, we will implement auto ARIMA from the Python library <code>pmdarima</code>. Here is the full Python script:</p>
-<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
-<div class="sourceCode" id="cb44"><pre class="sourceCode python fold-hide"><code class="sourceCode python"><span id="cb44-1"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> yfinance <span class="im">as</span> yf</span>
+<details class=chunk-details open><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb44"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb44-1"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> yfinance <span class="im">as</span> yf</span>
 <span id="cb44-2"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb44-3"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb44-4"><a href="time-series-forecasting-and-deep-learning-algorithms.html#cb44-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>

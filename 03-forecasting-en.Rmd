@@ -14,7 +14,7 @@ The main emphasis of this chapter, however, is the use of `deep learning` models
 
 In this section, we will implement three forecasting models: `Exponential Smoothing (ETS)`, `Vector Autoregression (VAR)`, and `Autoregressive Integrated Moving Average (ARIMA)`. ETS and ARIMA are run with a single time series, whereas VAR uses several. The data set we will use is U.S. stock exchange (close) prices from the Python library `yfinance`. For ETS, we will also implement a walk-forward validation, which is the correct form of validation for time series data, analogue to cross validation seen in the last chapter. To show the power of Auto Machine Learning, we will implement auto ARIMA from the Python library `pmdarima`. Here is the full Python script:
 
-```{python class.source = 'fold-hide', eval=F, file="https://raw.githubusercontent.com/DataHurdler/Econ-ML/main/Forecasting/ts_statsmodels.py"}
+```{python, eval=F, file="https://raw.githubusercontent.com/DataHurdler/Econ-ML/main/Forecasting/ts_statsmodels.py"}
 ```
 
 As in other chapters, a `class`, named `StocksForecast`, is written. In the beginning of the script, we have two static methods/functions outside of the class for data preparation and plotting. For `StockForecast`, we initiate the class with:
