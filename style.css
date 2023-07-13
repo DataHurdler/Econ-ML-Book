@@ -11,4 +11,8 @@ pre {
 }
 pre code {
   white-space: inherit;
+}B
+
+.navigation-title {
+  white-space: normal;
 }
