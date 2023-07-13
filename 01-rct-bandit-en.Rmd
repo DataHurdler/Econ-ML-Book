@@ -912,8 +912,6 @@ Two extensions of the `Multi-Armed Bandit` problem should be mentioned: `Non-sta
 
 As the name suggested, `Contextual Bandit` means that there exists contextual information to be used when making a decision. In a simple example, a casino may have slot machines in different colors, and the colors are not random: the green machines have higher win rates than the red ones. A new player would not know that information at first, but as time goes on and if the player has explored enough, it is possible to figure out the *association* between color and win rate, and hence decisions are made accordingly. This is also why `Contextual Bandit` is also known as `Associative Search`. We will come back to this in another article, since `Contextual Bandit` algorithms can be used in regression problems.
 
-(Visit my GitHub for the latest Python scripts: https://github.com/DataHurdler/Econ-ML/tree/main/Multi-Arm%20Bandits)
-
 ## References
 
 * https://www.udemy.com/course/bayesian-machine-learning-in-python-ab-testing/
