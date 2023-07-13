@@ -252,28 +252,7 @@ loop:
 
 Adding the following method into `BayesianAB` will implement `UCB1`:
 
-```python
-    ####################
-    # upper confidence bound (UCB1)
-    def ucb1(
-            self,
-            c=1,
-    ):
-
-        self.history.append(self.prob_win.copy())
-        bandit_count = [0.0001] * len(self.prob_win)
-
-        for k in range(1, self.N):
-            bound = self.prob_win + c * np.sqrt(np.divide(2 * np.log(k), bandit_count))
-            i = np.argmax(bound)
-
-            self.update(i, k)
-
-            if bandit_count[i] < 1:
-                bandit_count[i] = 0
-            bandit_count[i] += 1
-
-        return self.history
+```{python 'def ucb1', eval=F, code = readLines("https://raw.githubusercontent.com/DataHurdler/Econ-ML/main/Multi-Armed-Bandits/bayesianab.py")[155:181]}
 ```
 
 This is very similar to what we had before. One thing to note is that we give a very small initial value ($0.0001$) to `bandit_count` to avoid the division of zero in the beginning of the experiment. Later, we reversed the value to 0 with the `if` statement. An alternative approach is to run the first several iterations on all versions before implementing `UCB1` thereafter.
@@ -282,15 +261,7 @@ This is very similar to what we had before. One thing to note is that we give a 
 
 Executing the following will give us results and visualization for `UCB1`:
 
-```python
-ucb = BayesianAB(N_bandits)
-print(f'The true win rates: {ucb.prob_true}')
-ucb_history = ucb.ucb1()
-print(f'The observed win rates: {ucb.prob_win}')
-print(f'Number of times each bandit was played: {ucb.count}')
-
-# plot the entire experiment history
-plot_history(history=ucb.history, prob_true=ucb.prob_true)
+```{python 'call ucb1()', eval=F, code = readLines("https://raw.githubusercontent.com/DataHurdler/Econ-ML/main/Multi-Armed-Bandits/bayesianab.py")[397:407]}
 ```
 
 A typical run gives the following:
@@ -342,50 +313,7 @@ where `H.update()` updates the values of $H(i)$ (the bandit that was chosen) and
 
 Here is the `Python` implementation for `Gradient Bandit`:
 
-```python
-    ####################
-    # gradient_bandit update
-    def gb_update(
-            self,
-            i,
-            k,
-            a,
-    ):
-
-        outcome = self.pull(i)
-        for z in range(len(self.pref)):
-            if z == i:
-                self.pref[z] = self.pref[z] + a * (outcome - self.prob_win[z]) * (1 - self.pi[z])
-            else:
-                self.pref[z] = self.pref[z] - a * (outcome - self.prob_win[z]) * self.pi[z]
-
-        self.prob_win[i] = (self.prob_win[i] * k + outcome) / (k + 1)
-
-        return self.pref
-
-    # gradient bandit algorithm
-    def gradient_bandit(
-            self,
-            a=0.2,
-    ):
-
-        self.history.append([self.pi.copy(),
-                             self.pref.copy(),
-                             self.prob_win.copy()])
-
-        for k in range(1, self.N):
-            self.pi = np.exp(self.pref) / sum(np.exp(self.pref))
-            pick = random.choices(np.arange(len(self.pref)), weights=self.pi)
-            i = pick[0]
-            self.pref = self.gb_update(i, k, a)
-
-            self.count[i] += 1
-            self.history.append([self.pi.copy(),
-                                 self.pref.copy(),
-                                 self.prob_win.copy()])
-            self.history_bandit.append(i)  # for Monte Carlo
-
-        return self.history
+```{python 'def gb_update/gradient_bandit', eval=F, code = readLines("https://raw.githubusercontent.com/DataHurdler/Econ-ML/main/Multi-Armed-Bandits/bayesianab.py")[183:236]}
 ```
 
 Here are some notes on the `Python` implementation of the `Gradient Bandit` algorithm:
@@ -395,56 +323,16 @@ Here are some notes on the `Python` implementation of the `Gradient Bandit` algo
 4. `gradient_bandit()` saves `history` differently: each row in `history` is an array of 3 lists. In order to examine the performance of the `Gradient Bandit` algorithm, we not only save the expected win rates, but also preferences and the values from the soft-max distribution, $\pi(i)$;
 5. The function `choices()` from the `random` library picks a value from a list based on `weights`. In this case, the weights is given by the soft-max distribution;
 
-Because `gradient_bandit()` saves arrays in `history`, we also need to update the `plot_history()` function:
+Because `gradient_bandit()` saves arrays in `history`, we have accommodated that in the `plot_history()` function:
 
-```python
-def plot_history(
-        history: list,
-        prob_true: list,
-        col=2,
-        k=N,
-):
-    if type(history[0][0]) == list:  # To accommodate gradient bandit
-        df_history = pd.DataFrame([arr[col] for arr in history][:k])
-    else:
-        df_history = pd.DataFrame(history[:k])
-
-    plt.figure(figsize=(20, 5))
-
-    # Define the color palette
-    colors = sns.color_palette("Set2", len(prob_true))
-
-    for i in range(len(prob_true)):
-        sns.lineplot(x=df_history.index, y=df_history[i], color=colors[i])
-
-    # Create custom legend using prob_true and colors
-    custom_legend = [plt.Line2D([], [], color=colors[i], label=prob_true[i]) for i in range(len(prob_true))]
-    plt.legend(handles=custom_legend)
+```{python 'plot_history accomodates gb', eval=F, code = readLines("https://raw.githubusercontent.com/DataHurdler/Econ-ML/main/Multi-Armed-Bandits/bayesianab.py")[314:317]}
 ```
 
-The updates occurred in
-
-```python
-    if type(history[0][0]) == list:  # To accommodate gradient bandit
-        df_history = pd.DataFrame([arr[col] for arr in history][:k])
-    else:
-        df_history = pd.DataFrame(history[:k])
-```
-
-with the added parameter `col`. This is to accommodate the arrays saved in history by `gradient_bandit()`. The `if` statement checks whether the first element in `history` is a `list`. If it is, then `history` was saved from `gradient_bandit()` and we would need to extract the specific column, given by `col`, for plotting. The default value of `col` is 2, which is to plot the history of the win rates.
+With the parameter `col`, `plot_history()` is able to accommodate the arrays saved in history by `gradient_bandit()`. The `if` statement checks whether the first element in `history` is a `list`. If it is, then `history` was saved from `gradient_bandit()` and we would need to extract the specific column, given by `col`, for plotting. The default value of `col` is 2, which is to plot the history of the win rates.
 
 Executing the following will run the `Gradient Bandit` algorithm:
 
-```python
-# Gradient bandit
-gb = BayesianAB(N_bandits)
-print(f'The true win rates: {gb.prob_true}')
-gb_history = gb.gradient_bandit()
-print(f'The observed win rates: {gb.prob_win}')
-print(f'Number of times each bandit was played: {gb.count}')
-
-# plot the entire experiment history
-plot_history(history=gb.history, prob_true=gb.prob_true)
+```{python 'run gradient_bandit()', eval=F, code = readLines("https://raw.githubusercontent.com/DataHurdler/Econ-ML/main/Multi-Armed-Bandits/bayesianab.py")[410:420]}
 ```
 
 Here are results from a typical run:
@@ -463,18 +351,14 @@ As usual, we can examine what happened after 100 customers. Interestingly, the b
 
 We can plot the evolution of the `preference` with the following:
 
-```python
-# plot preference
-plot_history(history=gb.history, prob_true=gb.prob_true, col=1)
+```{python 'plot gb preference', eval=F, code = readLines("https://raw.githubusercontent.com/DataHurdler/Econ-ML/main/Multi-Armed-Bandits/bayesianab.py")[423]}
 ```
 
 ![](images/gb_pref.png)
 
 And plot the soft-max function with the following:
 
-```python
-# plot pi
-plot_history(history=gb.history, prob_true=gb.prob_true, col=0)
+```{python 'plot gb pi', eval=F, code = readLines("https://raw.githubusercontent.com/DataHurdler/Econ-ML/main/Multi-Armed-Bandits/bayesianab.py")[426]}
 ```
 
 ![](images/gb_pi.png)
@@ -523,52 +407,7 @@ loop:
 
 The function that needs to be added is `bb_update()`. Here is the full `Python` implementation:
 
-```python
-from scipy.stats import beta
-
-    ####################
-    # bayesian_bandits update
-    def bb_update(
-            self,
-            a,
-            b,
-            i,
-    ):
-
-        outcome = self.pull(i)
-        a[i] += outcome
-        b[i] += 1 - outcome
-        self.count[i] += 1
-
-        return a, b
-
-    # Bayesian bandits
-    # For Bernoulli distribution, the conjugate prior is Beta distribution
-    def bayesian_bandits(
-            self,
-            sample_size: int = 10,
-    ):
-
-        a_hist, b_hist = [], []
-        a_hist.append(self.alpha.copy())
-        b_hist.append(self.beta.copy())
-
-        for k in range(1, self.N):
-            sample_max = []
-
-            for m in range(len(self.prob_true)):
-                m_max = np.max(np.random.beta(self.alpha[m], self.beta[m], sample_size))
-                sample_max.append(m_max.copy())
-
-            i = np.argmax(sample_max)
-
-            self.alpha, self.beta = self.bb_update(self.alpha, self.beta, i)
-            a_hist.append(self.alpha.copy())
-            b_hist.append(self.beta.copy())
-            self.history_bandit.append(i)  # for Monte Carlo
-
-        self.history = [a_hist, b_hist]
-        return self.history
+```{python 'def bb_update/bayesian_bandits', eval=F, code = readLines("https://raw.githubusercontent.com/DataHurdler/Econ-ML/main/Multi-Armed-Bandits/bayesianab.py")[238:292]}
 ```
 
 Let's walk through this script:
