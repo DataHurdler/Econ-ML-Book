@@ -194,7 +194,7 @@ The algorithms we consider include:
 
 Even though logistic regression is not covered in this chapter, we included it in the Python implementation for comparison purposes. Although not necessary, we also use a Python class in this implementation. Here is the full script:
 
-```{python, eval=F, file="https://raw.githubusercontent.com/DataHurdler/Econ-ML/main/Tree-Ensembles/tree_ensembles.py"}
+```{python 'tree_ensembles.py', eval=F, file="https://raw.githubusercontent.com/DataHurdler/Econ-ML/main/Tree-Ensembles/tree_ensembles.py"}
 ```
 
 Here are some remarks about the script. First, the number of numerical features in the generated data set is given by `n_num_features`. Two additional columns of numerical features and six columns of string/categorical features are also included to add randomness and complexity to the generated data. The numerical features are stored in the `numpy` array `num_features` while the categorical features are stored in `cat_features`. These features are then properly processed and stored in the `pandas` dataframe `df`:
@@ -206,11 +206,7 @@ In the `if` statement that followed, the `KMeans` algorithm is called to generat
 
 Additional randomness is added to the numerical features by the following:
 
-```python
-        # Add some random noise to the numerical features
-        numerical_columns = [str(i) for i in range(n_num_features)]
-        for column in numerical_columns:
-            self.df[column] = self.df[column] + random.gauss(mu=0, sigma=3)
+```{python 'add random noise', eval=F, code = readLines("https://raw.githubusercontent.com/DataHurdler/Econ-ML/main/Tree-Ensembles/tree_ensembles.py")[71:74]}
 ```
 
 The rest of the `TreeModels` class performs the train-test split and adds a method named `show_results()` to run the selected algorithm followed by printing out (based on the value of `print_flag`) several performance metrics.

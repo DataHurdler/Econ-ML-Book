@@ -847,7 +847,7 @@ Two differences between `Thompson Sampling` and the other algorithms we have dis
 
 You can see the full script with all the methods by unhiding the following code block:
 
-```{python class.source = 'fold-hide', eval=F, file="https://raw.githubusercontent.com/DataHurdler/Econ-ML/main/Multi-Armed-Bandits/bayesianab.py"}
+```{python 'bayesianab.py', class.source = 'fold-hide', eval=F, file="https://raw.githubusercontent.com/DataHurdler/Econ-ML/main/Multi-Armed-Bandits/bayesianab.py"}
 ```
 
 ## Comparing the Algorithms
@@ -865,7 +865,7 @@ self.history_bandit.append(i)
 
 which records the which bandit was picked at each round. The parameters `p_max`, `p_diff`, and `p_min` also allow the `BayesianAB` class to generate different win rates. We will now develop a script to implement the testbed where the `BayesianAB` class is imported and called:
 
-```{python, eval=F, file="https://raw.githubusercontent.com/DataHurdler/Econ-ML/main/Multi-Armed-Bandits/bayesianab_mc.py"}
+```{python 'bayesianab_mc.py', eval=F, file="https://raw.githubusercontent.com/DataHurdler/Econ-ML/main/Multi-Armed-Bandits/bayesianab_mc.py"}
 ```
 
 Some explanations may be instructive. First, since we will be calling the same functions many times, we should use parallelization, which is through the `multiprocessing` library. In the script, the `worker()` function defines the task (or worker) for parallelization. The core function in the script, `monte_carlo()`, accepts six arguments:

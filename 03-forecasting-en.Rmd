@@ -14,7 +14,7 @@ The main emphasis of this chapter, however, is the use of `deep learning` models
 
 In this section, we will implement three forecasting models: `Exponential Smoothing (ETS)`, `Vector Autoregression (VAR)`, and `Autoregressive Integrated Moving Average (ARIMA)`. ETS and ARIMA are run with a single time series, whereas VAR uses several. The data set we will use is U.S. stock exchange (close) prices from the Python library `yfinance`. For ETS, we will also implement a walk-forward validation, which is the correct form of validation for time series data, analogue to cross validation seen in the last chapter. To show the power of Auto Machine Learning, we will implement auto ARIMA from the Python library `pmdarima`. Here is the full Python script:
 
-```{python, eval=F, file="https://raw.githubusercontent.com/DataHurdler/Econ-ML/main/Forecasting/ts_statsmodels.py"}
+```{python 'ts_statsmodels.py', eval=F, file="https://raw.githubusercontent.com/DataHurdler/Econ-ML/main/Forecasting/ts_statsmodels.py"}
 ```
 
 As in other chapters, a `class`, named `StocksForecast`, is written. In the beginning of the script, we have two static methods/functions outside of the class for data preparation and plotting. For `StockForecast`, we initiate the class with:
@@ -23,21 +23,7 @@ As in other chapters, a `class`, named `StocksForecast`, is written. In the begi
 2. store data into a `dictionary` with each stock in a different key
 3. calculate the log and first-differenced values of `close price`.
 
-```python
-    def __init__(self, stock_name_list=('UAL', 'WMT', 'PFE'), start_date='2018-01-01', end_date='2022-12-31'):
-        """
-        Initialize the StocksForecast class.
-
-        Args:
-            stock_name_list (list[str]): List of stock names. Default is ('UAL', 'WMT', 'PFE').
-            start_date (str): Start date of the data. Default is '2018-01-01'.
-            end_date (str): End date of the data. Default is '2022-12-31'.
-        """
-        self.dfs = dict()
-        for name in stock_name_list:
-            self.dfs[name] = yf.download(name, start=start_date, end=end_date)
-            self.dfs[name]['Diff'] = self.dfs[name]['Close'].diff(1)
-            self.dfs[name]['Log'] = np.log(self.dfs[name]['Close'])
+```{python 'def __init__', eval=F, code = readLines("https://raw.githubusercontent.com/DataHurdler/Econ-ML/main/Forecasting/ts_statsmodels.py")[59:74]}
 ```
 
 Each model is implemented inside a wrapper function. For example, the ETS implementation is in `run_ets()`, which does the following:
@@ -48,25 +34,7 @@ Each model is implemented inside a wrapper function. For example, the ETS implem
 4. get forecast columns and prepare the data for plotting
 5. call the `plot_fitted_forecast()` function to plot
 
-```python
-    def run_ets(self, stock_name='UAL', col='Close'):
-        """
-        Run the Exponential Smoothing (ETS) model on the specified stock.
-
-        Args:
-            stock_name (str): The name of the stock. Default is 'UAL'.
-            col (str): The column name to use for the model. Default is 'Close'.
-        """
-        df_all = self.dfs[stock_name]
-        train, test, train_idx, test_idx = prepare_data(df_all)
-
-        model = ExponentialSmoothing(train[col].dropna(), trend='mul', seasonal='mul', seasonal_periods=252)
-        result = model.fit()
-
-        df_all.loc[train_idx, 'fitted'] = result.fittedvalues
-        df_all.loc[test_idx, 'forecast'] = np.array(result.forecast(N_TEST))
-
-        plot_fitted_forecast(df_all, col)
+```{python 'def run_ets', eval=F, code = readLines("https://raw.githubusercontent.com/DataHurdler/Econ-ML/main/Forecasting/ts_statsmodels.py")[76:99]}
 ```
 
 A walk-forward validation for ETS is implemented by the method `run_walkforward()` (largely from the Lazy Programmer) which is a wrapper function of `warlkforward_ets()`. For time series data, we can not perform cross-validation by selecting a random subset of observations, as this can result in using future values to predict past value. Instead, a n-step walk-forward validation should be used. Suppose we have data from 1/1/2018 to 12/31/2022, a 1-step walk-forward validation using data from December 2022 would involve the following steps:
@@ -79,47 +47,14 @@ A walk-forward validation for ETS is implemented by the method `run_walkforward(
 
 We should try several different hyperparameter combinations since the purpose of the walk-forward validation is to choose the "best" hyperparameters. The following lines inside `if __name__ == "__main__":` calls the `run_walkforward()` method to try a combination of hyperparameters, which also prints out the "best" values for `trend` and `seasonal`:
 
-```python
-    H = 20  # 4 weeks
-    STEPS = 10
-
-    # Hyperparameters to try in ETS walk-forward validation
-    trend_type_list = ['add', 'mul']
-    seasonal_type_list = ['add', 'mul']
-
-    tuple_of_option_lists = (trend_type_list, seasonal_type_list,)
-    ts.run_walkforward(H, STEPS, STOCK, COL, tuple_of_option_lists)
+```{python 'walkforward val', eval=F, code = readLines("https://raw.githubusercontent.com/DataHurdler/Econ-ML/main/Forecasting/ts_statsmodels.py")[327:334]}
 ```
 
 The method `run_var()` runs the VAR model. Since we run VAR with several stocks, standardized/normalized should be performed. This is accomplished in the `prepare_data_var()` method with `StandardScaler()` from scikit-learn. 
 
 Last but not least, the `run_arima()` method runs the Auto ARIMA from the `pdmarima` library. Here, we also call `plot_acf()` and `plot_pacf()` from scikit-learn to examine the autocorrelation and partial autocorrelation functions. Normally, they are important for the ARIMA model. However, with Auto ARIMA, we are spared of the task of manually determine the values of AR() and MA(). Similar to `run_ets()`, there are only a few lines of code:
 
-```python
-    def run_arima(self, stock_name='UAL', col='Close', seasonal=True, m=12):
-        """
-        Run the Auto Autoregressive Integrated Moving Average (ARIMA) model on the specified stock.
-
-        Args:
-            stock_name (str): The name of the stock. Default is 'UAL'.
-            col (str): The column name to use for the model. Default is 'Close'.
-            seasonal (bool): Whether to include seasonal components. Default is True.
-            m (int): The number of periods in each seasonal cycle. Default is 12.
-        """
-        df_all = self.dfs[stock_name]
-        train, test, train_idx, test_idx = prepare_data(df_all)
-
-        plot_acf(train[col])
-        plot_pacf(train[col])
-
-        model = pm.auto_arima(train[col], trace=True, suppress_warnings=True, seasonal=seasonal, m=m)
-
-        print(model.summary())
-
-        df_all.loc[train_idx, 'fitted'] = model.predict_in_sample(end=-1)
-        df_all.loc[test_idx, 'forecast'] = np.array(model.predict(n_periods=N_TEST, return_conf_int=False))
-
-        plot_fitted_forecast(df_all, col)
+```{python 'def run_arima', eval=F, code = readLines("https://raw.githubusercontent.com/DataHurdler/Econ-ML/main/Forecasting/ts_statsmodels.py")[261:291]}
 ```
 
 The plots of ACF and PACF are as follow:
@@ -279,75 +214,12 @@ After going through the convolution (and pooling) layers, the output is fed into
 
 The implementation of ANN, RNN, and CNN are similar when using TensorFlow/Keras. The main difference is in how the hidden layers are constructed, with the minor caveat that the dimensions of input and output data from different models (notably ANN) can be different. As a result, it is important pay attention to the shapes of the arrays or dataframes that we feed or receive. In the following script, you will see places where it performs such checks. Otherwise, the three functions in the beginning of the script are the only differences in how these models are constructed in Keras:
 
-```{python, eval=F, file='https://raw.githubusercontent.com/DataHurdler/Econ-ML/main/Forecasting/ts_tensorflow.py'}
+```{python 'ts_tensorflow.py', eval=F, file='https://raw.githubusercontent.com/DataHurdler/Econ-ML/main/Forecasting/ts_tensorflow.py'}
 ```
 
 The class we create in this script is named `StocksForecastDL`, as we continue to the use stock prices as an example. Stock prices are not the best example to be used in forecasting, as they resemble "random walks", but they are important in financial engineering and other related topics. As already mentioned, in the beginning of the script are three functions that provide the different constructs of the three models. For ANN, there are only `Dense` layers. In our example, we use two hidden layers each with 32 hidden units by default. For RNN, we need to specify which one of the three models we would like to implement and replace the `Dense` layers in the ANN by the relevant RNN layers. In each case, we implement two RNN layers with 32 hidden units, which is why `return_sequences` is set to `True` in the first RNN layer. For CNN, we replace `Dense` with `Conv1D` since we have a time-series data. If you are using CNN on images, you would likely be using `Conv2D`. The "Conv" layer should be followed by a Pooling layer. In this case, we use `GlobalMaxPooling1D`. As was discussed in the theory section, the size of feature map should increased from one lay to another. In our example, the first CNN layer has 16 features whereas that of the second layer is increased to 32:
 
-```python
-def ann(T, num_units=32):
-    """
-    Create a basic Artificial Neural Network (ANN) model.
-
-    Args:
-        T (int): Time steps or input size.
-        num_layers (int): Number of layers in the ANN.
-
-    Returns:
-        tuple: Input and output tensors of the ANN model.
-    """
-    i = Input(shape=(T,))
-    x = Dense(num_units, activation='relu')(i)
-    x = Dense(num_units, activation='relu')(x)
-
-    return i, x
-
-
-def rnn(T, D, num_layers=32, rnn_model="lstm"):
-    """
-    Create a Recurrent Neural Network (RNN) model.
-
-    Args:
-        T (int): Time steps or input size.
-        D (int): Dimensionality of the input.
-        num_layers (int): Number of layers in the RNN.
-        rnn_model (str): RNN model type ('lstm', 'gru', or 'simple_rnn').
-
-    Returns:
-        tuple: Input and output tensors of the RNN model.
-    """
-    i = Input(shape=(T, D))
-    if rnn_model == 'lstm':
-        x = LSTM(num_units, return_sequences=True)(i)
-        x = LSTM(num_units)(x)
-    elif rnn_model == 'gru':
-        x = GRU(num_units, return_sequences=True)(i)
-        x = GRU(num_units)(x)
-    else:
-        x = SimpleRNN(num_units, return_sequences=True)(i)
-        x = SimpleRNN(num_units)(x)
-
-    return i, x
-
-
-def cnn(T, D):
-    """
-    Create a Convolutional Neural Network (CNN) model.
-
-    Args:
-        T (int): Time steps or input size.
-        D (int): Dimensionality of the input.
-
-    Returns:
-        tuple: Input and output tensors of the CNN model.
-    """
-    i = Input(shape=(T, D))
-    x = Conv1D(16, 3, activation='relu', padding='same')(i)
-    x = MaxPooling1D(2)(x)
-    x = Conv1D(32, 3, activation='relu', padding='same')(x)
-    x = GlobalMaxPooling1D()(x)
-
-    return i, x
+```{python 'def ann/rnn/cnn', eval=F, code = readLines("https://raw.githubusercontent.com/DataHurdler/Econ-ML/main/Forecasting/ts_tensorflow.py")[15:77]}
 ```
 
 In the `StocksForecastDL` class, we have the following methods after the class is initialized: `prepare_data()`, `make_predictions()`, `run_forecast()`, and, finally, `single_model_comparison()`. These methods are self-explanatory by their names. It is worth noting that the `run_forecast()` method accepts an input named `multistep` which is a Boolean value. Suppose our forecast horizon is 15 days. When `multioutput=False`, we use a single-step model to forecast the next 15 days. That is, the model predicts the first day, then use that prediction in the prediction of the second day, and so on. If we set `multioutput=True`, the model will predict all 15 days at once, given information available on the day before. The `single_model_comparison()` method can be called to compare these two (single- versus multi-output) forecasts for a deep learning model such as ANN or LSTM.
@@ -368,7 +240,7 @@ For the deep learning models, we conduct two types of comparisons. First, as alr
 
 ![Single-step vs. Multi-output Comparison for CNN](images/cnn_comparison.png)
 
-In the graph, "Log" is original data series, "1step_test" is one-step forecast from the single-step model, i.e., each prediction uses the true historical data, "multistep" is multi-period forecast from the single-step model as described earlier, and multioutput is from the multi-output CNN model by setting `multioutput=True`, i.e., all 20 days are predicted at the same time. The one-step forecast is expected to do well, as it forecasts with true information. However, we can also visually see that, at least for CNN, the multi-period ("multistep" on the graph) forecast from the single-step model outputperforms the multi-output model.
+In the graph, "Log" is original data series, "1step_test" is one-step forecast from the single-step model, i.e., each prediction uses the true historical data, "multistep" is multi-period forecast from the single-step model as described earlier, and "multioutput" is from the multi-output CNN model by setting `multioutput=True`, i.e., all 20 days are predicted at the same time. The one-step forecast is expected to do well, as it forecasts with true information. However, we can also visually see that, at least for CNN, the multi-period ("multistep" on the graph) forecast from the single-step model outperforms the multi-output model.
 
 For a more formal comparison, we run these models with 10 stocks and for 6 different forecast horizons: 5, 10, 20, 50, 100, and 200 days. We calculate the report the averages **mean absolute percentage error** (MAPE) from the 10 stocks. Below is the result. Note that `Prophet`, which we will formally introduce in the next section, is also included:
 
@@ -378,14 +250,28 @@ A smaller value of MAPE indicates better model fit. Not surprisingly, the single
 
 ## Facebook's Prophet
 
-Facebook's [Prophet](https://facebook.github.io/prophet/) is a Bayesian model rather than a deep learning model. The is built on top of standard regression techniques and utilizes a decomposable time series model with multiple seasonalities using a Fourier series. It also accepts user-defined holidays making it highly customizable for applications in different regions.
+Facebook's [Prophet](https://facebook.github.io/prophet/) is a Bayesian model rather than a deep learning model. But it is purposedly built for forecasting. The Prophet is built on top of standard regression techniques and utilizes a decomposable time series model with multiple seasonalities using a Fourier series. It also accepts user-defined holidays making it highly customizable for applications in different regions.
 
 A new model, named [NeuralProphet](https://neuralprophet.com/), has combined Prophet and deep learning. Since it is based on `PyTorch` instead of `TensorFlow`/`Keras`, we will not look at it in this chapter.
 
 Here is the script that we use to implement Prophet on the stock prices. It should be noted that the true power of `Prophet` is in other common business applications rather than stock prices. We continue to use stock prices here just for illustrative purposes:
 
-```{python, eval=F, file='https://raw.githubusercontent.com/DataHurdler/Econ-ML/main/Forecasting/ts_prophet.py'}
+```{python 'ts_prophet.py', eval=F, file='https://raw.githubusercontent.com/DataHurdler/Econ-ML/main/Forecasting/ts_prophet.py'}
 ```
+
+In the above script, the stock we used is United Airlines (UAL). Three figures were produced. The first figure shows the several seasonality components considered by the model, which include the overall trend and weekly and yearly seasonality. At least two of th peaks in annual seasonality can be easily explained: one in summer around late June, and another in winter around Thanksgiving.
+
+![](images/prophet_components.png)
+
+The second figure shows several change points based on Prophet's algorithm:
+
+![](images/prophet_with_changepoints.png)
+
+The change points made sense as the market for airlines and other travel related stocks has been versatile since spring of 2020 due to COVID-19.
+
+Lastly, we have the figure that shows the value of MAPE for different cross-validation forecast horizons:
+
+![](images/prophet_cv_mape.png)
 
 ## Summary
 
