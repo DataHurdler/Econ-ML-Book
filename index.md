@@ -1,10 +1,11 @@
 --- 
-title: "Machine Learning for Economics and Business"
-author: "Zijun Luo"
+title: |
+  ![](images/cover.jpg){width=1in}  
+  Machine Learning for Economics and Business
+# author: "Zijun Luo"
 date: "2023-07-14"
 site: bookdown::bookdown_site
 cover-image: images/cover.jpg
-before_chapter_script: "rmarkdown::html_fragment('<div style=\"text-align:center;\"><img src=\"images/cover.jpg\"></div>')"
 documentclass: book
 # bibliography: [book.bib, packages.bib]
 url: https://datahurdler.github.io/Econ-ML-Book/
@@ -16,10 +17,6 @@ url: https://datahurdler.github.io/Econ-ML-Book/
 # link-citations: yes
 github-repo: DataHurdler/Econ-ML
 ---
-
-<!-- # Book Cover {-} -->
-
-<!-- ![book cover](images/cover.jpg) -->
 
 # Preface {-}
 
