@@ -285,6 +285,9 @@ Traditionally, machine learning algorithms are broadly divided into three catego
 
 Using deep learning models in forecasting is a bit of a overkill, although some of these models, such as LSTM, naturally sounded like they would do a good job in time-series tasks. Deep learning models can really shine in computer vision, voice recognition, and natural language processing (NLP) tasks. Later chapters will have brief coverage of these topics.
 
-## References (incomplete)
+## References
 
+* https://www.statsmodels.org/stable/tsa.html
 * https://www.udemy.com/course/time-series-analysis/
+* https://neptune.ai/blog/self-supervised-learning
+* https://en.wikipedia.org/wiki/Long_short-term_memory
