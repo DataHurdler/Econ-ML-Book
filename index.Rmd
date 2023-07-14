@@ -33,4 +33,8 @@ With few exceptions, each chapter starts with applications and examples, followe
 
 If you find the scripts to be distracting, you can also hide them, although most of them are set to "show" by default.
 
+## A Note on References {-}
+
+The references provided in these chapters have not met the high standard I usually hold against them. They truly are just lists of whatever materials that have helped me understanding the topics and hence have contributed to the writing of this book, be it academic papers, YouTube videos, Coursera/Udemy courses, or blog posts. The print version of this book, if ever, may have different references.
+
 <!-- If you need PDF output, uncomment bookdown::pdf_book above in YAML. You will need a LaTeX installation, e.g., https://yihui.name/tinytex/ -->
