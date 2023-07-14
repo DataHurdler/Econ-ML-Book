@@ -1,7 +1,7 @@
 --- 
 title: "Machine Learning for Economics and Business"
 author: "Zijun Luo"
-date: "`r Sys.Date()`"
+date: "2023-07-14"
 site: bookdown::bookdown_site
 cover-image: images/cover.jpg
 before_chapter_script: "rmarkdown::html_fragment('<div style=\"text-align:center;\"><img src=\"images/cover.jpg\"></div>')"
