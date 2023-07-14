@@ -1,7 +1,5 @@
 # Time Series, Forecasting, and Deep Learning Algorithms
 
-This chapter is an incomplete draft.
-
 ## Introduction
 
 This chapter is structured differently from other chapters. We will begin with Python implementations for time-series/forecasting models that are not machine learning based. This is accomplished primarily with the Python library `statsmodels`. The section serves as both a review of forecasting concepts and an introduction to the `statsmodels` library, another widely used Python library for statistical/data analysis.
@@ -284,6 +282,8 @@ The biggest appeal of using neural networks for forecasting tasks is the their a
 One important aspect of using neural networks for forecasting tasks is the construction of the training data set. We have emphasized the importance of the parameter `t` when we discussed the scripts. This parameter directly affects the width of the training data set, i.e., the number of features, but also indirectly affects the length of the training data set as a bigger `t` value requires more data to be reserved for training in the beginning of the time series.
 
 Traditionally, machine learning algorithms are broadly divided into three categories: supervised learning, unsupervised learning, and reinforcement learning. When we were constructing the training data set in this chapter, we were actually getting started with the fourth type of machine learning: **self-supervised learning**. As its name suggests, self-supervised learning is a kind of supervised learning, but the target and training data set were constructed and optimized by the algorithm itself. In the context of forecasting, a true self-supervised learning algorithm could be one to pick the value `t`, the number of periods to look back, in order to make the best forecasts given other hyperparameters. This simple task may be done by grid search. A more complicated, and likely more real example for self-supervised learning in forecasting is for the algorithm to find the best "look-back" strategy. For example, may be it is best to only look at prices of the past three Fridays'.
+
+Using deep learning models in forecasting is a bit of a overkill, although some of these models, such as LSTM, naturally sounded like they would do a good job in time-series tasks. Deep learning models can really shine in computer vision, voice recognition, and natural language processing (NLP) tasks. Later chapters will have brief coverage of these topics.
 
 ## References (incomplete)
 
