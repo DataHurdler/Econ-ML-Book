@@ -1,3 +1,13 @@
 # Regression Reconsidered
 
-Coming soon!
+<!-- ## Roadmap -->
+
+<!-- * Review popular Python packages for regression: `scikit-learn`, `statsmodels`, `H2O`(?) -->
+<!-- * Regularization -->
+<!--   - Ridge -->
+<!--   - Lasso -->
+<!-- * Tree-based regressors (Link to Chapter 2) -->
+<!-- * Support Vector Machine -->
+<!-- * Reinforcement Learning (Link to Chapter 1) -->
+
+<!-- ## References -->

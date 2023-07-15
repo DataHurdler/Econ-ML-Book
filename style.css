@@ -11,8 +11,8 @@ pre {
 }
 pre code {
   white-space: inherit;
-}B
+}
 
-.navigation-title {
+.book .book-summary ul.summary li a {
   white-space: normal;
 }

@@ -1,3 +1,12 @@
 # Causal Inference Reconsidered
 
-Coming soon!
+<!-- ## Roadmap -->
+
+<!-- * Review quasi-experimental design for causal inference -->
+<!-- * Causal Tree -->
+<!-- * Other ML-based causal inference techniques/models -->
+
+<!-- ## References: -->
+
+<!-- - https://mixtape.scunning.com/ -->
+<!-- - https://github.com/susanathey/causalTree -->
