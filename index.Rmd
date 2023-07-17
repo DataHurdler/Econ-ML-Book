@@ -2,7 +2,7 @@
 title: "Machine Learning for Economics and Business"
 author: "Zijun Luo, PhD"
 date: |
-  `r Sys.Date()`  
+  `r Sys.Date()`
   <br />
   ![](images/cover.jpg){width="50%"}  
 site: bookdown::bookdown_site
