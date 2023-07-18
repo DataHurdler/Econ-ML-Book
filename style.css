@@ -13,6 +13,10 @@ pre code {
   white-space: inherit;
 }
 
+.book .book-summary {
+    width: 400px !important;
+}
+
 .book .book-summary ul.summary li a {
   white-space: normal;
 }
