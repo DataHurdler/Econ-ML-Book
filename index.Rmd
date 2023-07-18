@@ -4,6 +4,7 @@ author: "Zijun Luo, PhD"
 date: |
   `r Sys.Date()`
   <br />
+  <hr>
   ![](images/cover.jpg){width="50%"}  
 site: bookdown::bookdown_site
 cover-image: images/cover.jpg
