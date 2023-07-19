@@ -5,7 +5,9 @@ date: |
   `r Sys.Date()`
   <br />
   <hr>
-  ![](images/cover.jpg){width="50%"}  
+  <center>
+  ![](images/cover.jpg){width="50%"}
+  </center>  
 site: bookdown::bookdown_site
 cover-image: images/cover.jpg
 documentclass: book
